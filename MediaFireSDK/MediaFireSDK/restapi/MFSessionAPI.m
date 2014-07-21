@@ -44,6 +44,10 @@
 
 //------------------------------------------------------------------------------
 - (void)getSessionToken:(NSDictionary*)credentials callbacks:(NSDictionary*)callbacks {
+    [self getSessionToken:@{} query:credentials callbacks:callbacks];
+}
+
+- (void)getSessionToken:(NSDictionary*)options query:(NSDictionary*)credentials callbacks:(NSDictionary*)callbacks {
     // bail out if credentials are empty
     if (!credentials) {
         if (callbacks.onerror) {
