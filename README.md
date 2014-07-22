@@ -17,23 +17,23 @@ See the steps below on how to quickly add MediaFire SDK to your project. There i
 6. Add "Other Link Flag" `-all_load` under "Linking" in your Target's "Build Settings".
 7. Import `MediaFireSDK.h` in `AppDelegate.m`
 
-```obj-c
-#import "MediaFireSDK/MediaFireSDK.h"
-```
+  ```obj-c
+  #import "MediaFireSDK/MediaFireSDK.h"
+  ```
 
 8. Add the following configuration code to your `AppDelegate.m` within `didFinishLaunchingWithOptions` 
 
-```obj-c
-[MediaFireSDK createWithConfig:@{@"app_id" : @"<your app id>", @"api_key" : @"<your api key>"}];
-```
+  ```obj-c
+  [MediaFireSDK createWithConfig:@{@"app_id" : @"<your app id>", @"api_key" : @"<your api key>"}];
+  ```
 
 9. Add the following log capture function to `AppDelegate.m`:
 
-```obj-c
-extern void MFCaptureLogMessage(NSString* message) {
-    // Use this method to capture log messages from MediaFire SDK.
-}
-```
+  ```obj-c
+  extern void MFCaptureLogMessage(NSString* message) {
+      // Use this method to capture log messages from MediaFire SDK.
+  }
+  ```
 
 Build and run project. If errors occur, clean build folder (⌥⇧⌘K) and try again. 
 
