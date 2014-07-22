@@ -283,7 +283,7 @@ static id instance = nil;
     
     //sanity check
     if (tokenPacket == nil || (![tokenPacket[@"session_token"] isKindOfClass:[NSString class]])) {
-        // TODO : EMIT ERROR MESSAGE
+        mflog(@"Unable to find new token in response.");
         return;
     }
     // "tokenHash" is only the string value of the token, ie the hash.
@@ -552,7 +552,7 @@ static id instance = nil;
     // get next available token.
     NSMutableDictionary* tokenPacket = self.sessions[[self.available dequeueObject]];
     // replace following with error log if token nil or locked
-    assert(![tokenPacket[@"locked"] isEqualToNumber: @YES]); // TODO : ERRORMESSAGE
+    assert(![tokenPacket[@"locked"] isEqualToNumber: @YES]);
     tokenPacket[@"locked"] =@YES;
     [self.sessionLock unlock];
     

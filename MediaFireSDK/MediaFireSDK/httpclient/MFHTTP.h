@@ -12,7 +12,7 @@
  The endpoint for all http requests.
  */
 
-typedef void (^ReferenceCallback) (NSURLSessionTask* connection); // TODO : may need to change this if delegates don't get fired so we can clear out the stored callbacks.
+typedef void (^ReferenceCallback) (NSURLSessionTask* connection);
 // Success and Failure callbacks use this prototype
 typedef void (^OperationBlock)(id response, NSInteger status, NSDictionary * downloaded);
 // Progress Callback prototype
