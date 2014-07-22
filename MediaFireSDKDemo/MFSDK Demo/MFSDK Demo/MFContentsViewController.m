@@ -13,6 +13,7 @@
 @interface MFContentsViewController ()
 
 @property (nonatomic, strong) NSMutableArray* contentResults;
+@property (nonatomic, strong) UIRefreshControl* refreshControl;
 
 @end
 
@@ -22,6 +23,10 @@
 //------------------------------------------------------------------------------
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:self.refreshControl];
     
     self.contentResults = [[NSMutableArray alloc] init];
     [self requestFolders];
@@ -41,6 +46,11 @@
             NSArray* folders = folderContent[@"folders"];
             
             [self.contentResults addObjectsFromArray:folders];
+            
+            if ([folders count] == 100) {
+                [self.contentResults addObject:@{@"text" : @"More folders in cloud", @"detailText" : @"Only loading first 100"}];
+            }
+            
             [self.tableView reloadData];
             
             [self requestFiles];
@@ -68,6 +78,11 @@
             NSArray* files = folderContent[@"files"];
             
             [self.contentResults addObjectsFromArray:files];
+            
+            if ([files count] == 100) {
+                [self.contentResults addObject:@{@"text" : @"More files in cloud", @"detailText" : @"Only loading first 100"}];
+            }
+            
             [self.tableView reloadData];
         });
     }};
@@ -78,6 +93,18 @@
                                              @"chunk" : @1}
                                  callbacks:contentCallbacks];
     });
+}
+
+//------------------------------------------------------------------------------
+- (void)refresh:(UIRefreshControl *)senderRefreshControl {
+    [senderRefreshControl beginRefreshing];
+    
+    [self.contentResults removeAllObjects];
+    [self.tableView reloadData];
+    
+    [senderRefreshControl endRefreshing];
+    
+    [self requestFolders];
 }
 
 //------------------------------------------------------------------------------
@@ -105,7 +132,7 @@
     
     NSDictionary *content = [self.contentResults objectAtIndex:indexPath.row];
     
-    if ([content valueForKey:@"folderkey"] != nil) {
+    if (content[@"folderkey"] != nil) {
         UIImage* icon = [UIImage imageNamed:@"FolderIcon.png"];
         [cell.imageView setImage:icon];
         
@@ -123,6 +150,10 @@
                                        [[content valueForKey:@"privacy"] capitalizedString],
                                        [content valueForKey:@"created"]]];
 
+    } else {
+        [cell.imageView setImage:nil];
+        [cell.textLabel setText:content[@"text"]];
+        [cell.detailTextLabel setText:content[@"detailText"]];
     }
     
     return cell;
