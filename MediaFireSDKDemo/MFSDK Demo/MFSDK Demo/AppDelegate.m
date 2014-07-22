@@ -16,7 +16,7 @@
     // Enter your MediaFire app id and api key. Visit https://www.mediafire.com/developers to create a
     // developer profile and generate your api key and app id.
     NSString* appID = @"<your app id>";
-    NSString* apiKey = @"<your api key>";
+    NSString* apiKey = @"<your api key>"; // May be blank if "Require Secret Key" is disabled.
     
     [MediaFireSDK createWithConfig:@{@"app_id"  : appID,
                                      @"api_key" : apiKey}];
