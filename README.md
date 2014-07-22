@@ -14,7 +14,7 @@ See the steps below on how to quickly add MediaFire SDK to your project. There i
 3. Drag the MediaFireSDK Xcode Project file `MediaFireSDK.xcodeproj` into your Xcode Project Navigator. Or add it using File > Add Files to 'Your Project'.
 4. Add `MediaFireSDK` under "Target Dependencies" in your Target's "Build Phases".
 5. Add `libMediaFireSDK.a` under "Link Binary With Libraries" in your Target's "Build Phases".
-6. Add Other Link Flag `-all_load` under "Linking" in your Target's "Build Settings".
+6. Add "Other Link Flag" `-all_load` under "Linking" in your Target's "Build Settings".
 7. Import `MediaFireSDK.h` in `AppDelegate.m`
 
 ```obj-c
