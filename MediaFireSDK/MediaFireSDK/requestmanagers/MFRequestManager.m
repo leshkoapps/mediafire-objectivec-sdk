@@ -79,7 +79,6 @@ static MFRequestManager* instance = nil;
     // sanity check
     if (cb == nil) {
         mflog(@"Cannot create parallel request with nil callbacks.");
-        // TODO : emit error message
         return;
     }
     if (config == nil) {
