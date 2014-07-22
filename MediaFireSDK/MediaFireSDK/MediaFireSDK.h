@@ -72,11 +72,5 @@
 - (MFMediaAPI*)MediaAPI;
 + (MFMediaAPI*)MediaAPI;
 
-//- (MFUploadTransaction*)createNewUpload:(NSString*)filePath;
-//+ (MFUploadTransaction*)createNewUpload:(NSString*)filePath;
-
-//- (void)startUpload:(NSString*)filePath callbacks:(NSDictionary*)callbacks;
-//+ (void)startUpload:(NSString*)filePath callbacks:(NSDictionary*)callbacks;
-
 
 @end

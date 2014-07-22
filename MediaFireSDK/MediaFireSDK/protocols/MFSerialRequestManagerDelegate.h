@@ -20,5 +20,5 @@
 + (void)releaseToken:(NSString*)token forResponse:(NSDictionary*) response;
 + (void)createRequest:(MFAPIURLRequestConfig*)config callbacks:(NSDictionary *)callbacks;
 + (BOOL)hasSession;
-
++ (void)abandonToken:(NSString*)token;
 @end

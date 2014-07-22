@@ -47,5 +47,6 @@
 - (void)addRequest:(MFAPIURLRequestConfig*)config callbacks:(NSDictionary*)callbacks; 
 
 + (void)createRequest:(MFAPIURLRequestConfig*)config callbacks:(NSDictionary *)callbacks;
++ (void)abandonToken:(NSString*)token;
 
 @end
