@@ -1,4 +1,5 @@
-# ![MediaFire](http://www.mediafire.com/images/brand-assets/mf-flame-blue.png) MediaFire's Objective-C SDK 
+![MediaFire](http://www.mediafire.com/images/brand-assets/mf-logo.png) 
+# MediaFire's Objective-C SDK 
 
 Leverage the MediaFire Platform to connect with millions of MediaFire users around the world and add powerful features to your Objective-C app.
 
