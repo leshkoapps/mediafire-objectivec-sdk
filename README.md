@@ -1,11 +1,9 @@
 ![MediaFire](http://www.mediafire.com/images/brand-assets/mf-logo.png) 
 # MediaFire's Objective-C SDK 
 
-Leverage the MediaFire Platform to connect with millions of MediaFire users around the world and add powerful features to your Objective-C app.
+Leverage the MediaFire Platform to connect with millions of MediaFire users around the world and add powerful features to your iOS or Mac OSX app.
 
 Full documentation available here: [MediaFire Developers](http://www.mediafire.com/developers/sdks_and_tools/) (Coming Soon)
-
-See the steps below on how to quickly add MediaFire SDK to your project. There is also a simple demo app for example usage.
 
 ## Adding to your project
 
@@ -21,7 +19,7 @@ See the steps below on how to quickly add MediaFire SDK to your project. There i
   #import "MediaFireSDK/MediaFireSDK.h"
   ```
 
-8. Add the following configuration code to your `AppDelegate.m` within `didFinishLaunchingWithOptions` 
+8. Add the following configuration code to your `AppDelegate.m` within `didFinishLaunchingWithOptions` or `applicationDidFinishLaunching`
 
   ```obj-c
   [MediaFireSDK createWithConfig:@{@"app_id" : @"<your app id>", @"api_key" : @"<your api key>"}];
@@ -37,6 +35,20 @@ See the steps below on how to quickly add MediaFire SDK to your project. There i
 
 Build and run project. If errors occur, clean build folder (⌥⇧⌘K) and try again. 
 
+## Demo Projects
+
+Two demo projects are included for example usage.
+
+### iOS Demo
+In `AppDelegate.m`, replace `<your app id>` with your app id. And replace `<your api key>` with your generated api key or a blank
+string if "Require Secret Key" is disabled in your developer profile. Visit https://www.mediafire.com/developers for more information. 
+
+### OSX Demo
+In `AppDelegate.m`, replace `<your app id>` with your app id. And replace `<your api key>` with your generated api key or a blank
+string if "Require Secret Key" is disabled in your developer profile. Visit https://www.mediafire.com/developers for more information. 
+
+In the MediafireSDK Project under "Build Settings" change "Base SDK" to `OS X 10.9` or later.
+
 ## Usage
 
-Works on iOS 7.0+
+Developed for use with iOS 7.0+ and OSX 10.9+
