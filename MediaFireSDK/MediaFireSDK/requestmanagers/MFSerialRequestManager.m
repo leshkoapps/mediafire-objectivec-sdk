@@ -378,12 +378,7 @@ static id instance = nil;
  * consider using a similar daisy-chain approach (if additional tokens are not
  * still needed when the next token arrives, maybe they weren't really needed,
  * anyway).
- *
- * @param baseUrl The API call URL without the host and parameters (e.g., \@"/api/folder/get_content.php")
- * @param params An NSDictionary whose keys are the parameter names and values
- * are the parameter values for the API call.
- * @param callbacks NSDictionary with onload and onerror keys whose values are
- * CallbackWithDictionary blocks (see CallbackDictionary in util). */
+ */
 
 //------------------------------------------------------------------------------
 - (void)addRequest:(MFAPIURLRequestConfig*)config callbacks:(NSDictionary*)callbacks {
