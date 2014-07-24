@@ -8,6 +8,9 @@
 
 #import "MFAPI.h"
 
+/**
+ @brief The interface for getting information about the API system.
+ */
 @interface MFSystemAPI : MFAPI
 
 /**

@@ -8,6 +8,9 @@
 
 #import "MFAPI.h"
 
+/**
+ @brief The interface for conducting device operations.
+ */
 @interface MFDeviceAPI : MFAPI
 
 /**

@@ -8,6 +8,9 @@
 
 #import "MFAPI.h"
 
+/**
+ @brief The interface for conducting folder operations.
+ */
 @interface MFFolderAPI : MFAPI
 
 /**
