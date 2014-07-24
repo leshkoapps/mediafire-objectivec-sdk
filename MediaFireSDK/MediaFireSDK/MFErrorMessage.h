@@ -77,7 +77,7 @@
  */
 + (NSDictionary*)sessionClosed;
 /**
- @brief
+ @brief Returns an error message dictionary for a request that is missing parameters or has incorrectly specified parameters.
  */
 + (NSDictionary*)badRequestFormat;
 /**
@@ -93,11 +93,11 @@
  */
 + (NSDictionary*)invalidField:(NSString*)fieldName;
 /**
- @brief
+ @brief Returns an error message dictionary for a mismatch on resumable upload bitmaps.
  */
 + (NSDictionary*)bitmapError;
 /**
- @brief
+ @brief Returns an error message dictionary for a token in an undefined or unexpected state.
  */
 + (NSDictionary*)badTokenState;
 /**
