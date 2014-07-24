@@ -11,11 +11,18 @@
 typedef void (^MFCallback)(NSDictionary * response);
 typedef void (^MFProgressCallback)(double progress);
 
+/** @brief The dictionary key for a success callback. */
 extern const NSString* ONLOAD;
+/** @brief The dictionary key for an error callback. */
 extern const NSString* ONERROR;
+/** @brief The dictionary key for a progress callback. */
 extern const NSString* ONPROGRESS;
+/** @brief The dictionary key for an upate callback.  */
 extern const NSString* ONUPDATE;
 
+/**
+ @brief The standard container for callbacks used throughout the MediaFire SDK.  Nearly all asynchronous functions in the SDK will expect an object of this type for callbacks.
+ */
 @interface NSDictionary (Callbacks)
 
 /**
@@ -24,7 +31,7 @@ extern const NSString* ONUPDATE;
 @property (nonatomic, readonly) MFCallback onload;
 
 /**
- @brief A failure callback.
+ @brief An error callback.
  */
 @property (nonatomic, readonly) MFCallback onerror;
 

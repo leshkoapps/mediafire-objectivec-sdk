@@ -87,7 +87,7 @@ static bool validCreds = false;
 }
 
 //------------------------------------------------------------------------------
-+ (BOOL)setTwitter:(NSString*)token withSecret: (NSString*)secret {
++ (BOOL)setTwitter:(NSString*)token withSecret:(NSString*)secret {
     // sanity check
     if ( token == nil || secret == nil ) {
         return false;
