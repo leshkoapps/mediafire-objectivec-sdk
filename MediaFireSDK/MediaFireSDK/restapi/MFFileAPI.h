@@ -26,7 +26,7 @@
  download link.
  
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#configure_one_time_download)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#configure_one_time_download)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -41,7 +41,7 @@
  @param options Dictionary with HTTP client options.  See MFHTTPOptions.h for list of valid parameters.
  
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#configure_one_time_download)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#configure_one_time_download)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -54,7 +54,7 @@
  @brief Copy a file to a specified folder.
  
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#copy)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#copy)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -68,7 +68,7 @@
  @param options Dictionary with HTTP client options.  See MFHTTPOptions.h for list of valid parameters.
 
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#copy)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#copy)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -81,7 +81,7 @@
  @brief Creates a file.
  
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#create)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#create)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -95,7 +95,7 @@
  @param options Dictionary with HTTP client options.  See MFHTTPOptions.h for list of valid parameters.
 
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#create)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#create)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -108,7 +108,7 @@
  @brief Creates a duplicate of a file as a new revision.
  
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#create_snapshot)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#create_snapshot)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -122,7 +122,7 @@
  @param options Dictionary with HTTP client options.  See MFHTTPOptions.h for list of valid parameters.
 
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#create_snapshot)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#create_snapshot)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -135,7 +135,7 @@
  @brief Delete a user's file. The file is moved to the Trash Can.
  
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#delete)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#delete)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -149,7 +149,7 @@
  @param options Dictionary with HTTP client options.  See MFHTTPOptions.h for list of valid parameters.
 
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#delete)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#delete)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -161,7 +161,7 @@
  @brief Returns a bitmask value of special information about a file.
  
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#get_flags)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#get_flags)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -175,7 +175,7 @@
  @param options Dictionary with HTTP client options.  See MFHTTPOptions.h for list of valid parameters.
 
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#get_flags)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#get_flags)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -188,7 +188,7 @@
  @brief Returns a list of the a file's details.
  
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#get_info)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#get_info)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -202,7 +202,7 @@
  @param options Dictionary with HTTP client options.  See MFHTTPOptions.h for list of valid parameters.
 
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#get_info)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#get_info)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -215,7 +215,7 @@
  direct download link of a file.
  
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#links)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#links)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -230,7 +230,7 @@
  @param options Dictionary with HTTP client options.  See MFHTTPOptions.h for list of valid parameters.
 
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#links)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#links)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -242,7 +242,7 @@
  @brief Returns the status of a document or an image.
  
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#get_status)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#get_status)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -256,7 +256,7 @@
  @param options Dictionary with HTTP client options.  See MFHTTPOptions.h for list of valid parameters.
 
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#get_status)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#get_status)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -269,7 +269,7 @@
  @brief Returns a list of all file versions.
  
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#get_versions)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#get_versions)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -283,7 +283,7 @@
  @param options Dictionary with HTTP client options.  See MFHTTPOptions.h for list of valid parameters.
 
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#get_versions)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#get_versions)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -296,7 +296,7 @@
  @brief Move a file, or list of files, to a folder.
  
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#move)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#move)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -310,7 +310,7 @@
  @param options Dictionary with HTTP client options.  See MFHTTPOptions.h for list of valid parameters.
 
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#move)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#move)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -323,7 +323,7 @@
  @brief Creates a one-time download link.
  
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#one_time_download)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#one_time_download)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -337,7 +337,7 @@
  @param options Dictionary with HTTP client options.  See MFHTTPOptions.h for list of valid parameters.
 
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#one_time_download)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#one_time_download)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -350,7 +350,7 @@
  @brief Permanently delete a user's file.
  
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#purge)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#purge)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -364,7 +364,7 @@
  @param options Dictionary with HTTP client options.  See MFHTTPOptions.h for list of valid parameters.
 
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#purge)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#purge)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -377,7 +377,7 @@
  @brief Returns a list of quickkeys of the recently modified files.
  
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#recently_modified)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#recently_modified)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -391,7 +391,7 @@
  @param options Dictionary with HTTP client options.  See MFHTTPOptions.h for list of valid parameters.
 
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#recently_modified)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#recently_modified)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -404,7 +404,7 @@
  @brief Restores an old file revision and makes it the current head.
  
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#restore)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#restore)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -418,7 +418,7 @@
  @param options Dictionary with HTTP client options.  See MFHTTPOptions.h for list of valid parameters.
 
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#restore)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#restore)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -431,7 +431,7 @@
  @brief Sets the bits in the file's flags.
  
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#set_flags)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#set_flags)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -445,7 +445,7 @@
  @param options Dictionary with HTTP client options.  See MFHTTPOptions.h for list of valid parameters.
 
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#set_flags)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#set_flags)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -457,7 +457,7 @@
  @brief Update a file's information.
  
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#update)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#update)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -471,7 +471,7 @@
  @param options Dictionary with HTTP client options.  See MFHTTPOptions.h for list of valid parameters.
 
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#update)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#update)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -484,7 +484,7 @@
  @brief Update a file's quickkey with another file's quickkey.
  
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#update_file)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#update_file)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -498,7 +498,7 @@
  @param options Dictionary with HTTP client options.  See MFHTTPOptions.h for list of valid parameters.
 
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#update_file)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#update_file)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -511,7 +511,7 @@
  @brief Update a file's password.
  
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#update_password)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#update_password)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -525,7 +525,7 @@
  @param options Dictionary with HTTP client options.  See MFHTTPOptions.h for list of valid parameters.
 
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#update_password)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#update_password)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -538,7 +538,7 @@
  @brief Bulk-download multiple files and folders into one single zip file.
  
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#zip)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#zip)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
@@ -552,7 +552,7 @@
  @param options Dictionary with HTTP client options.  See MFHTTPOptions.h for list of valid parameters.
 
  @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/file.php#zip)
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#zip)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
