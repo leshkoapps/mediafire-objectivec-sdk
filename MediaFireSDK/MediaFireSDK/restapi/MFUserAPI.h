@@ -8,6 +8,9 @@
 
 #import "MFAPI.h"
 
+/**
+ @brief The interface for conducting user operations.
+ */
 @interface MFUserAPI : MFAPI
 
 /**
