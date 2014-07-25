@@ -74,7 +74,7 @@ extern NSString* const MFCRD_TYPE_EKEY;
 + (BOOL)purgeCredentials;
 
 /**
- @brief Gets whatever credentials are stored, does not care which type.
+ @brief Gets whatever credentials are stored, does not care which type.  All credentials dictionaries will contain a @"type" value, and one or more type-specific values.  In the case of MFCRD_TYPE_MF, the credential vaules are email and password.  Type MFCRD_TYPE_FB will include only a token value. Type MFCRD_TYPE_EKEY will include an ekey and password.  And type MFCRD_TYPE_TW will include a token and a secret.
  */
 + (NSDictionary*)getCredentials;
 
