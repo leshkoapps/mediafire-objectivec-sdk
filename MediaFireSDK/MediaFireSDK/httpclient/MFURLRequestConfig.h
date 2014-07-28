@@ -8,13 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^ReferenceCallback) (NSURLSessionTask* connection);
+typedef void (^ReferenceCallback)(NSURLSessionTask* connection);
 // Success and Failure callbacks use this prototype
 typedef void (^OperationBlock)(id response, NSInteger status, NSDictionary * downloaded);
 // Progress Callback prototype
 typedef void (^ProgressBlock)(double progress);
-
-@class MFURLQuery;
 
 /**
  @brief The HTTP URL request configuration object for all requests in the MediaFire SDK.
