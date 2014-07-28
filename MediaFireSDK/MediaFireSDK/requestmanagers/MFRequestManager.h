@@ -45,7 +45,7 @@
 + (void)startSession:(NSString*)email withPassword:(NSString*)password andCallbacks:(NSDictionary*)callbacks;
 
 /**
- @brief Established a session with the MediaFire API via stored credentials.
+ @brief Establishes a session with the MediaFire API via stored credentials.
 
  @param callbacks A dictionary containing an onload callback and onerror
  callback. See NSDictionary(Callbacks).
