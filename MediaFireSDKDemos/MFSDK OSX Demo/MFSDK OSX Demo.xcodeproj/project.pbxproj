@@ -1,0 +1,563 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		18B21796197F21FB00F13903 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B21795197F21FB00F13903 /* Cocoa.framework */; };
+		18B217A0197F21FB00F13903 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18B2179E197F21FB00F13903 /* InfoPlist.strings */; };
+		18B217A2197F21FB00F13903 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B217A1197F21FB00F13903 /* main.m */; };
+		18B217A6197F21FB00F13903 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 18B217A4197F21FB00F13903 /* Credits.rtf */; };
+		18B217A9197F21FB00F13903 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B217A8197F21FB00F13903 /* AppDelegate.m */; };
+		18B217AC197F21FC00F13903 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18B217AA197F21FC00F13903 /* MainMenu.xib */; };
+		18B217AE197F21FC00F13903 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18B217AD197F21FC00F13903 /* Images.xcassets */; };
+		18B217B5197F21FC00F13903 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B217B4197F21FC00F13903 /* XCTest.framework */; };
+		18B217B6197F21FC00F13903 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B21795197F21FB00F13903 /* Cocoa.framework */; };
+		18B217BE197F21FC00F13903 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18B217BC197F21FC00F13903 /* InfoPlist.strings */; };
+		18B217C0197F21FC00F13903 /* MFSDK_OSX_DemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B217BF197F21FC00F13903 /* MFSDK_OSX_DemoTests.m */; };
+		18B217CD197F258900F13903 /* MFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B217CB197F258900F13903 /* MFLoginViewController.m */; };
+		18B217CE197F258900F13903 /* MFLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18B217CC197F258900F13903 /* MFLoginViewController.xib */; };
+		18B217D7197F2D0A00F13903 /* libMediaFireSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B217D4197F2CF300F13903 /* libMediaFireSDK.a */; };
+		18B217E0197F4B0C00F13903 /* MFDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B217DE197F4B0C00F13903 /* MFDemoViewController.m */; };
+		18B217E1197F4B0C00F13903 /* MFDemoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18B217DF197F4B0C00F13903 /* MFDemoViewController.xib */; };
+		18D38FED19803388001F2784 /* MFMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D38FEB19803388001F2784 /* MFMainViewController.m */; };
+		18D38FEE19803388001F2784 /* MFMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18D38FEC19803388001F2784 /* MFMainViewController.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		18B217B7197F21FC00F13903 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18B2178A197F21FB00F13903 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 18B21791197F21FB00F13903;
+			remoteInfo = "MFSDK OSX Demo";
+		};
+		18B217D3197F2CF300F13903 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18B217CF197F2CF300F13903 /* MediaFireSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 651424C418AD6CE000995866;
+			remoteInfo = MediaFireSDK;
+		};
+		18B217D5197F2D0500F13903 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18B217CF197F2CF300F13903 /* MediaFireSDK.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 651424C318AD6CE000995866;
+			remoteInfo = MediaFireSDK;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		18B21792197F21FB00F13903 /* MFSDK OSX Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MFSDK OSX Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		18B21795197F21FB00F13903 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		18B21798197F21FB00F13903 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		18B21799197F21FB00F13903 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		18B2179A197F21FB00F13903 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		18B2179D197F21FB00F13903 /* MFSDK OSX Demo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MFSDK OSX Demo-Info.plist"; sourceTree = "<group>"; };
+		18B2179F197F21FB00F13903 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		18B217A1197F21FB00F13903 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		18B217A3197F21FB00F13903 /* MFSDK OSX Demo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MFSDK OSX Demo-Prefix.pch"; sourceTree = "<group>"; };
+		18B217A5197F21FB00F13903 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		18B217A7197F21FB00F13903 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		18B217A8197F21FB00F13903 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		18B217AB197F21FC00F13903 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		18B217AD197F21FC00F13903 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		18B217B3197F21FC00F13903 /* MFSDK OSX DemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MFSDK OSX DemoTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		18B217B4197F21FC00F13903 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		18B217BB197F21FC00F13903 /* MFSDK OSX DemoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MFSDK OSX DemoTests-Info.plist"; sourceTree = "<group>"; };
+		18B217BD197F21FC00F13903 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		18B217BF197F21FC00F13903 /* MFSDK_OSX_DemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MFSDK_OSX_DemoTests.m; sourceTree = "<group>"; };
+		18B217CA197F258900F13903 /* MFLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFLoginViewController.h; sourceTree = "<group>"; };
+		18B217CB197F258900F13903 /* MFLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFLoginViewController.m; sourceTree = "<group>"; };
+		18B217CC197F258900F13903 /* MFLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MFLoginViewController.xib; sourceTree = "<group>"; };
+		18B217CF197F2CF300F13903 /* MediaFireSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MediaFireSDK.xcodeproj; path = ../../MediaFireSDK/MediaFireSDK.xcodeproj; sourceTree = "<group>"; };
+		18B217DD197F4B0C00F13903 /* MFDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFDemoViewController.h; sourceTree = "<group>"; };
+		18B217DE197F4B0C00F13903 /* MFDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFDemoViewController.m; sourceTree = "<group>"; };
+		18B217DF197F4B0C00F13903 /* MFDemoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MFDemoViewController.xib; sourceTree = "<group>"; };
+		18D38FEA19803388001F2784 /* MFMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFMainViewController.h; sourceTree = "<group>"; };
+		18D38FEB19803388001F2784 /* MFMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFMainViewController.m; sourceTree = "<group>"; };
+		18D38FEC19803388001F2784 /* MFMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MFMainViewController.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		18B2178F197F21FB00F13903 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18B217D7197F2D0A00F13903 /* libMediaFireSDK.a in Frameworks */,
+				18B21796197F21FB00F13903 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18B217B0197F21FC00F13903 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18B217B6197F21FC00F13903 /* Cocoa.framework in Frameworks */,
+				18B217B5197F21FC00F13903 /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		18B21789197F21FB00F13903 = {
+			isa = PBXGroup;
+			children = (
+				18B2179B197F21FB00F13903 /* MFSDK OSX Demo */,
+				18B217B9197F21FC00F13903 /* MFSDK OSX DemoTests */,
+				18B21794197F21FB00F13903 /* Frameworks */,
+				18B21793197F21FB00F13903 /* Products */,
+				18B217CF197F2CF300F13903 /* MediaFireSDK.xcodeproj */,
+			);
+			sourceTree = "<group>";
+		};
+		18B21793197F21FB00F13903 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				18B21792197F21FB00F13903 /* MFSDK OSX Demo.app */,
+				18B217B3197F21FC00F13903 /* MFSDK OSX DemoTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		18B21794197F21FB00F13903 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				18B21795197F21FB00F13903 /* Cocoa.framework */,
+				18B217B4197F21FC00F13903 /* XCTest.framework */,
+				18B21797197F21FB00F13903 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		18B21797197F21FB00F13903 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				18B21798197F21FB00F13903 /* AppKit.framework */,
+				18B21799197F21FB00F13903 /* CoreData.framework */,
+				18B2179A197F21FB00F13903 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		18B2179B197F21FB00F13903 /* MFSDK OSX Demo */ = {
+			isa = PBXGroup;
+			children = (
+				18B217A7197F21FB00F13903 /* AppDelegate.h */,
+				18B217A8197F21FB00F13903 /* AppDelegate.m */,
+				18B217AA197F21FC00F13903 /* MainMenu.xib */,
+				18D38FEA19803388001F2784 /* MFMainViewController.h */,
+				18D38FEB19803388001F2784 /* MFMainViewController.m */,
+				18D38FEC19803388001F2784 /* MFMainViewController.xib */,
+				18B217CA197F258900F13903 /* MFLoginViewController.h */,
+				18B217CB197F258900F13903 /* MFLoginViewController.m */,
+				18B217CC197F258900F13903 /* MFLoginViewController.xib */,
+				18B217DD197F4B0C00F13903 /* MFDemoViewController.h */,
+				18B217DE197F4B0C00F13903 /* MFDemoViewController.m */,
+				18B217DF197F4B0C00F13903 /* MFDemoViewController.xib */,
+				18B217AD197F21FC00F13903 /* Images.xcassets */,
+				18B2179C197F21FB00F13903 /* Supporting Files */,
+			);
+			path = "MFSDK OSX Demo";
+			sourceTree = "<group>";
+		};
+		18B2179C197F21FB00F13903 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				18B2179D197F21FB00F13903 /* MFSDK OSX Demo-Info.plist */,
+				18B2179E197F21FB00F13903 /* InfoPlist.strings */,
+				18B217A1197F21FB00F13903 /* main.m */,
+				18B217A3197F21FB00F13903 /* MFSDK OSX Demo-Prefix.pch */,
+				18B217A4197F21FB00F13903 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		18B217B9197F21FC00F13903 /* MFSDK OSX DemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				18B217BF197F21FC00F13903 /* MFSDK_OSX_DemoTests.m */,
+				18B217BA197F21FC00F13903 /* Supporting Files */,
+			);
+			path = "MFSDK OSX DemoTests";
+			sourceTree = "<group>";
+		};
+		18B217BA197F21FC00F13903 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				18B217BB197F21FC00F13903 /* MFSDK OSX DemoTests-Info.plist */,
+				18B217BC197F21FC00F13903 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		18B217D0197F2CF300F13903 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				18B217D4197F2CF300F13903 /* libMediaFireSDK.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		18B21791197F21FB00F13903 /* MFSDK OSX Demo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 18B217C3197F21FC00F13903 /* Build configuration list for PBXNativeTarget "MFSDK OSX Demo" */;
+			buildPhases = (
+				18B2178E197F21FB00F13903 /* Sources */,
+				18B2178F197F21FB00F13903 /* Frameworks */,
+				18B21790197F21FB00F13903 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				18B217D6197F2D0500F13903 /* PBXTargetDependency */,
+			);
+			name = "MFSDK OSX Demo";
+			productName = "MFSDK OSX Demo";
+			productReference = 18B21792197F21FB00F13903 /* MFSDK OSX Demo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		18B217B2197F21FC00F13903 /* MFSDK OSX DemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 18B217C6197F21FC00F13903 /* Build configuration list for PBXNativeTarget "MFSDK OSX DemoTests" */;
+			buildPhases = (
+				18B217AF197F21FC00F13903 /* Sources */,
+				18B217B0197F21FC00F13903 /* Frameworks */,
+				18B217B1197F21FC00F13903 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				18B217B8197F21FC00F13903 /* PBXTargetDependency */,
+			);
+			name = "MFSDK OSX DemoTests";
+			productName = "MFSDK OSX DemoTests";
+			productReference = 18B217B3197F21FC00F13903 /* MFSDK OSX DemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		18B2178A197F21FB00F13903 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = MediaFire;
+				TargetAttributes = {
+					18B217B2197F21FC00F13903 = {
+						TestTargetID = 18B21791197F21FB00F13903;
+					};
+				};
+			};
+			buildConfigurationList = 18B2178D197F21FB00F13903 /* Build configuration list for PBXProject "MFSDK OSX Demo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 18B21789197F21FB00F13903;
+			productRefGroup = 18B21793197F21FB00F13903 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 18B217D0197F2CF300F13903 /* Products */;
+					ProjectRef = 18B217CF197F2CF300F13903 /* MediaFireSDK.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				18B21791197F21FB00F13903 /* MFSDK OSX Demo */,
+				18B217B2197F21FC00F13903 /* MFSDK OSX DemoTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		18B217D4197F2CF300F13903 /* libMediaFireSDK.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMediaFireSDK.a;
+			remoteRef = 18B217D3197F2CF300F13903 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		18B21790197F21FB00F13903 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18B217A0197F21FB00F13903 /* InfoPlist.strings in Resources */,
+				18D38FEE19803388001F2784 /* MFMainViewController.xib in Resources */,
+				18B217AE197F21FC00F13903 /* Images.xcassets in Resources */,
+				18B217CE197F258900F13903 /* MFLoginViewController.xib in Resources */,
+				18B217A6197F21FB00F13903 /* Credits.rtf in Resources */,
+				18B217E1197F4B0C00F13903 /* MFDemoViewController.xib in Resources */,
+				18B217AC197F21FC00F13903 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18B217B1197F21FC00F13903 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18B217BE197F21FC00F13903 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		18B2178E197F21FB00F13903 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18B217A9197F21FB00F13903 /* AppDelegate.m in Sources */,
+				18B217A2197F21FB00F13903 /* main.m in Sources */,
+				18B217E0197F4B0C00F13903 /* MFDemoViewController.m in Sources */,
+				18D38FED19803388001F2784 /* MFMainViewController.m in Sources */,
+				18B217CD197F258900F13903 /* MFLoginViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18B217AF197F21FC00F13903 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18B217C0197F21FC00F13903 /* MFSDK_OSX_DemoTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		18B217B8197F21FC00F13903 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 18B21791197F21FB00F13903 /* MFSDK OSX Demo */;
+			targetProxy = 18B217B7197F21FC00F13903 /* PBXContainerItemProxy */;
+		};
+		18B217D6197F2D0500F13903 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MediaFireSDK;
+			targetProxy = 18B217D5197F2D0500F13903 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		18B2179E197F21FB00F13903 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				18B2179F197F21FB00F13903 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		18B217A4197F21FB00F13903 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				18B217A5197F21FB00F13903 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		18B217AA197F21FC00F13903 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				18B217AB197F21FC00F13903 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		18B217BC197F21FC00F13903 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				18B217BD197F21FC00F13903 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		18B217C1197F21FC00F13903 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		18B217C2197F21FC00F13903 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		18B217C4197F21FC00F13903 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MFSDK OSX Demo/MFSDK OSX Demo-Prefix.pch";
+				INFOPLIST_FILE = "MFSDK OSX Demo/MFSDK OSX Demo-Info.plist";
+				OTHER_LDFLAGS = "-all_load";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		18B217C5197F21FC00F13903 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MFSDK OSX Demo/MFSDK OSX Demo-Prefix.pch";
+				INFOPLIST_FILE = "MFSDK OSX Demo/MFSDK OSX Demo-Info.plist";
+				OTHER_LDFLAGS = "-all_load";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		18B217C7197F21FC00F13903 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MFSDK OSX Demo.app/Contents/MacOS/MFSDK OSX Demo";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MFSDK OSX Demo/MFSDK OSX Demo-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "MFSDK OSX DemoTests/MFSDK OSX DemoTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		18B217C8197F21FC00F13903 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MFSDK OSX Demo.app/Contents/MacOS/MFSDK OSX Demo";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MFSDK OSX Demo/MFSDK OSX Demo-Prefix.pch";
+				INFOPLIST_FILE = "MFSDK OSX DemoTests/MFSDK OSX DemoTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		18B2178D197F21FB00F13903 /* Build configuration list for PBXProject "MFSDK OSX Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18B217C1197F21FC00F13903 /* Debug */,
+				18B217C2197F21FC00F13903 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		18B217C3197F21FC00F13903 /* Build configuration list for PBXNativeTarget "MFSDK OSX Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18B217C4197F21FC00F13903 /* Debug */,
+				18B217C5197F21FC00F13903 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		18B217C6197F21FC00F13903 /* Build configuration list for PBXNativeTarget "MFSDK OSX DemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18B217C7197F21FC00F13903 /* Debug */,
+				18B217C8197F21FC00F13903 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 18B2178A197F21FB00F13903 /* Project object */;
+}
