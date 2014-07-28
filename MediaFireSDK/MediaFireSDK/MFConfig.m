@@ -31,10 +31,22 @@ MFConfig* instance = nil;
 
 @implementation MFConfig
 
+NSString* const MFCONF_APPID            = @"app_id";
+NSString* const MFCONF_APIKEY           = @"api_key";
+NSString* const MFCONF_CREDS_DELEGATE   = @"credentials_delegate";
+NSString* const MFCONF_PRM_DELEGATE     = @"prm_delegate";
+NSString* const MFCONF_SRM_DELEGATE     = @"srm_delegate";
+NSString* const MFCONF_MINTOKEN         = @"min_tokens";
+NSString* const MFCONF_MAXTOKEN         = @"max_tokens";
+NSString* const MFCONF_NETIND_DELEGATE  = @"netind_delegate";
+NSString* const MFCONF_HTTPCLIENT       = @"httpclient_config";
+
+//------------------------------------------------------------------------------
 - (id)init {
     return [self initWithConfig:nil];
 }
 
+//------------------------------------------------------------------------------
 - (id)initWithConfig:(NSDictionary*)config {
     BOOL instanceExists = false;
     @synchronized(self) {
@@ -107,14 +119,17 @@ MFConfig* instance = nil;
     
 }
 
+//------------------------------------------------------------------------------
 + (void)createWithConfig:(NSDictionary*)config {
     instance = [[MFConfig alloc] initWithConfig:config];
 }
 
+//------------------------------------------------------------------------------
 + (MFConfig*)instance {
     return instance;
 }
 
+//------------------------------------------------------------------------------
 + (void)destroy {
     [instance unregisterAllHTTPClients];
     @synchronized(self) {
@@ -122,14 +137,17 @@ MFConfig* instance = nil;
     }
 }
 
+//------------------------------------------------------------------------------
 + (Class)credentialsDelegate {
     return [self.instance CredentialsDelegate];
 }
 
+//------------------------------------------------------------------------------
 + (Class)serialRequestDelegate {
     return [self.instance SerialRequestDelegate];
 }
 
+//------------------------------------------------------------------------------
 + (Class)parallelRequestDelegate {
     return [self.instance ParallelRequestDelegate];
 }

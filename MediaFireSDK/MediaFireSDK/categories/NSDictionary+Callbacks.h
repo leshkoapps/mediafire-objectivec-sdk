@@ -21,7 +21,7 @@ extern const NSString* ONPROGRESS;
 extern const NSString* ONUPDATE;
 
 /**
- @brief The standard container for callbacks used throughout the MediaFire SDK.  Nearly all asynchronous functions in the SDK will expect an object of this type for callbacks.
+ @brief The standard container for callbacks used throughout the MediaFire SDK.  Nearly all asynchronous functions in the SDK will expect an object of this type for callbacks.  You should always provide at least ONLOAD and ONERROR.  For upload requests, you should also provide ONUPDATE.
  */
 @interface NSDictionary (Callbacks)
 

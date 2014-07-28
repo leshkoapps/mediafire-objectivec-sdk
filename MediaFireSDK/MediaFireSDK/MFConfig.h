@@ -9,9 +9,54 @@
 #import <Foundation/Foundation.h>
 #import "MFCredentials.h"
 /**
- @brief The global configuration interface for the MediaFireSDK.
+ @brief The global configuration interface for the MediaFireSDK.  Initialized with an NSDictionary.  The only required keys are @"app_id", and if your app requires it,  @"api_key".  If you are using the MediaFireSDK shared instance, the dictionary you pass to it in createWithConfig: is passed directly to MFConfig for initialization.  
  */
 @interface MFConfig : NSObject
+
+/**
+ @brief The name of the "app id" property in an MFConfig dictionary.
+ */
+extern NSString* const MFCONF_APPID;
+
+/**
+ @brief The name of the "api key" property in an MFConfig dictionary.
+ */
+extern NSString* const MFCONF_APIKEY;
+
+/**
+ @brief The name of the "credentials delegate" property in an MFConfig dictionary.
+ */
+extern NSString* const MFCONF_CREDS_DELEGATE;
+
+/**
+ @brief The name of the "parallel request manager delegate" property in an MFConfig dictionary.
+ */
+extern NSString* const MFCONF_PRM_DELEGATE;
+
+/**
+ @brief The name of the "serial request manager delegate" property in an MFConfig dictionary.
+ */
+extern NSString* const MFCONF_SRM_DELEGATE;
+
+/**
+ @brief The name of the "minimum tokens" property in an MFConfig dictionary.
+ */
+extern NSString* const MFCONF_MINTOKEN;
+
+/**
+ @brief The name of the "maximum tokens" property in an MFConfig dictionary.
+ */
+extern NSString* const MFCONF_MAXTOKEN;
+
+/**
+ @brief The name of the "network indicator delegate" property in an MFConfig dictionary.
+ */
+extern NSString* const MFCONF_NETIND_DELEGATE;
+
+/**
+ @brief The name of the "http client configuration" property in an MFConfig dictionary.
+ */
+extern NSString* const MFCONF_HTTPCLIENT;
 
 /**
  @brief The application ID.

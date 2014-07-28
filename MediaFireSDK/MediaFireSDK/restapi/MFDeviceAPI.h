@@ -39,7 +39,7 @@
  
  @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
  
- @param options Dictionary with API parameter options. See
+ @param parameters Dictionary with API parameter options. See
  [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/device.php#get_changes)
  for list of valid parameters.
  
@@ -67,7 +67,7 @@
  
  @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
  
- @param options Dictionary with API parameter options. See
+ @param parameters Dictionary with API parameter options. See
  [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/device.php#get_foreign_resources)
  for list of valid parameters.
  
@@ -93,7 +93,7 @@
  
  @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
  
- @param options Dictionary with API parameter options. See
+ @param parameters Dictionary with API parameter options. See
  [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/device.php#get_patch)
  for list of valid parameters.
  
@@ -131,7 +131,7 @@
 - (void)getResourceShares:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
 
 /**
- @brief Gedts revision and async job status for the device id supplied by the
+ @brief Gets revision and async job status for the device id supplied by the
  client.
  
  @param parameters Dictionary with API parameter options. See
