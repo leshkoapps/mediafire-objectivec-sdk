@@ -169,14 +169,17 @@ static MFRequestManager* instance = nil;
     }
 }
 
+//------------------------------------------------------------------------------
 + (void)endSession {
     [[MFConfig serialRequestDelegate] endSession];
 }
 
+//------------------------------------------------------------------------------
 + (BOOL)hasSession {
     return [[MFConfig serialRequestDelegate] hasSession];
 }
 
+//------------------------------------------------------------------------------
 + (void)destroy {
     [[MFConfig serialRequestDelegate] destroy];
     @synchronized(self) {
@@ -185,15 +188,18 @@ static MFRequestManager* instance = nil;
 }
 
 
+//------------------------------------------------------------------------------
 + (void)setSessionTokenAPI:(MFSessionAPI*)sessionAPI {
     id<MFSerialRequestManagerDelegate> srm = [[MFConfig serialRequestDelegate] getInstance];
     srm.sessionAPI = sessionAPI;
 }
 
+//------------------------------------------------------------------------------
 + (void)setActionTokenAPI:(MFActionTokenAPI*)tokenAPI forType:(NSString*)type {
     [[MFRequestManager instance] setActionTokenAPI:tokenAPI forType:type];
 }
 
+//------------------------------------------------------------------------------
 - (void)setActionTokenAPI:(MFActionTokenAPI*)actionAPI forType:(NSString*)type{
     id<MFParallelRequestManagerDelegate> prm = self.parallelRequests[type];
     if ((prm != nil) && [prm conformsToProtocol:@protocol(MFParallelRequestManagerDelegate) ]) {
