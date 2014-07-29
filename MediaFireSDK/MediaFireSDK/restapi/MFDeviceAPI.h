@@ -24,14 +24,14 @@
  @brief Gets a list of files and folders with revisions greater than the 
  revision supplied by the client, up to the next 500-multiplier.
  
- @param options Dictionary with API parameter options. See
+ @param parameters Dictionary with API parameter options. See
  [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/device.php#get_changes)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
  callback. See NSDictionary(Callbacks).
  */
-- (void)getChanges:(NSDictionary*)options callbacks:(NSDictionary*)callbacks;
+- (void)getChanges:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
 
 /**
  @brief Gets a list of files and folders with revisions greater than the
@@ -52,14 +52,14 @@
  @brief Gets a pair of lists representing the files and folders that have been
  shared to the current user from other users.
  
- @param options Dictionary with API parameter options. See
+ @param parameters Dictionary with API parameter options. See
  [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/device.php#get_foreign_resources)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
  callback. See NSDictionary(Callbacks).
  */
-- (void)getForeignResources:(NSDictionary*)options callbacks:(NSDictionary*)callbacks;
+- (void)getForeignResources:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
 
 /**
  @brief Gets a pair of lists representing the files and folders that have been
@@ -79,14 +79,14 @@
 /**
  @brief Gets a download link for the patch specified by the client.
  
- @param options Dictionary with API parameter options. See
+ @param parameters Dictionary with API parameter options. See
  [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/device.php#get_patch)
  for list of valid parameters.
  
  @param callbacks A dictionary containing an onload callback and onerror
  callback. See NSDictionary(Callbacks).
  */
-- (void)getPatch:(NSDictionary*)options callbacks:(NSDictionary*)callbacks;
+- (void)getPatch:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
 
 /**
  @brief Gets a download link for the patch specified by the client.
