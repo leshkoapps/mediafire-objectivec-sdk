@@ -21,7 +21,7 @@
 @implementation MFMediaAPI
 
 //------------------------------------------------------------------------------
-+ (NSString*)generateConversionServerURL:(NSString *)baseUrlString withHash:(NSString *)hash withParameters:(NSDictionary *)params {
++ (NSString*)generateConversionServerURL:(NSString*)baseUrlString withHash:(NSString*)hash withParameters:(NSDictionary*)params {
     // Sanity checks
     if ( baseUrlString == nil ) {
         mflog(@"[generateConversionServerURL] baseUrlString is nil.");

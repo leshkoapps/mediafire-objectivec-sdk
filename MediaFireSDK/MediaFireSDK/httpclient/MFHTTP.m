@@ -120,7 +120,6 @@
         [MFConfig hideNetworkIndicator];
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
         NSString* responseText = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        
         if (error != nil) {
             config.httpFail(nil, httpResponse.statusCode, nil);
             return;
@@ -129,6 +128,10 @@
         if (httpResponse.statusCode != 200) {
             config.httpFail(responseText, httpResponse.statusCode, nil);
         } else {
+            if ((responseText == nil) && (data.length > 0)) {
+                config.httpSuccess(nil, 200, @{@"blob" : data});
+                return;
+            }
             config.httpSuccess(responseText, 200, nil);
         }
         
