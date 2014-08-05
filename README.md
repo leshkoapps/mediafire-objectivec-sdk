@@ -3,7 +3,7 @@
 
 Leverage the MediaFire Platform to connect with millions of MediaFire users around the world and add powerful features to your iOS or Mac OSX app.
 
-Full documentation available here: [MediaFire Developers](http://www.mediafire.com/developers/sdks_and_tools/) (Coming Soon)
+Full documentation available here: [MediaFire Developers](https://www.mediafire.com/developers/sdks_and_tools/objective_c/index.php)
 
 ## Adding to your project
 
