@@ -691,7 +691,7 @@ static id instance = nil;
     NSDictionary* customizedCallbacks = [MFRequestHandler getCallbacksForRequest:url callbacks:
     @{ONLOAD:^(NSDictionary* response) {
         id newKey = response[@"new_key"];
-        if ((newKey == nil) || ![newKey isKindOfClass:[NSString class]]) {
+        if (((newKey == nil) || ![newKey isKindOfClass:[NSString class]]) && (response[@"blob"] == nil)) {
             [[self getInstance] abandonToken:sessionToken];
             callbacks.onerror(erm(invalidField:@"new key"));
             return;
