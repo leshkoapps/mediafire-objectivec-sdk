@@ -59,6 +59,11 @@
 
 //------------------------------------------------------------------------------
 - (void)beginTask:(NSURLSessionTask*)task withConfig:(MFURLRequestConfig*)config {
+    if (task == nil) {
+        mflog(@"Unable to begin nil task.");
+        config.httpFail(nil, 0, nil);
+        return;
+    }
     MFHTTPData* data = [[MFHTTPData alloc]init];
     data.task = task;
     data.callbacks =
