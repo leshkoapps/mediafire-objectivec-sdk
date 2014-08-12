@@ -24,6 +24,8 @@
 @property(strong, nonatomic) NSMutableDictionary* httpClients;
 @property(strong, nonatomic) NSLock* opLock;
 @property(strong, nonatomic) NSURLSession* defaultHttpClient;
+@property(strong, nonatomic) NSString* defaultAPIVersion;
+@property(strong, nonatomic) NSDictionary* defaultAPIVersions;
 
 @end
 
@@ -76,6 +78,16 @@ NSString* const MFCONF_HTTPCLIENT       = @"httpclient_config";
     
     _appId = config[@"app_id"];
     _apiKey = config[@"api_key"];
+
+    if (config[@"default_api_versions"] != nil && [config[@"default_api_versions"] isKindOfClass:[NSDictionary class]]) {
+        _defaultAPIVersions = config[@"default_api_versions"];
+    }
+    
+    if (config[@"default_api_version"] != nil && [config[@"default_api_version"] isKindOfClass:[NSString class]]) {
+        _defaultAPIVersion = config[@"default_api_version"];
+    } else {
+        _defaultAPIVersion = @"1.0";
+    }
     
     if (config[@"credentials_delegate"] != nil) {
         self.CredentialsDelegate = config[@"credentials_delegate"];
@@ -113,7 +125,8 @@ NSString* const MFCONF_HTTPCLIENT       = @"httpclient_config";
     
     if (config[@"httpclient_config"] != nil) {
         _defaultHttpClient = [NSURLSession sessionWithConfiguration:config[@"httpclient_config"]];
-    } 
+    }
+    
     
     return self;
     
@@ -234,15 +247,35 @@ NSString* const MFCONF_HTTPCLIENT       = @"httpclient_config";
 
 //------------------------------------------------------------------------------
 + (NSString*)defaultAPIVersion {
-    return @"1.0";
+    return [instance defaultAPIVersion];
 }
 
+//------------------------------------------------------------------------------
++ (NSString*)defaultAPIVersionForModule:(NSString*)className {
+    // sanity check
+    if (!className.length) {
+        return [self defaultAPIVersion];
+    }
+    if ((instance.defaultAPIVersions == nil) || (instance.defaultAPIVersions.count == 0)) {
+        return [self defaultAPIVersion];
+    }
+    id version = instance.defaultAPIVersions[className];
+    // client may not have configured this module with a default version.
+    if ((version != nil) && ([version isKindOfClass:[NSString class]]) && ([(NSString*)version length])) {
+        return version;
+    }
+    
+    return [self defaultAPIVersion];
+}
+
+//------------------------------------------------------------------------------
 + (void)showNetworkIndicator {
     if (instance.NetworkIndicatorDelegate) {
         [instance.NetworkIndicatorDelegate showNetworkIndicator];
     }
 }
 
+//------------------------------------------------------------------------------
 + (void)hideNetworkIndicator {
     if (instance.NetworkIndicatorDelegate) {
         [instance.NetworkIndicatorDelegate hideNetworkIndicator];

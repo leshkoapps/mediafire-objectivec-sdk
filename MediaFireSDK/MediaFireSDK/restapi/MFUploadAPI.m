@@ -18,7 +18,7 @@
 
 //------------------------------------------------------------------------------
 - (id)init {
-    self = [self initWithVersion:[MFConfig defaultAPIVersion]];
+    self = [self initWithVersion:[MFConfig defaultAPIVersionForModule:@"MFUploadAPI"]];
     if (self == nil) {
         return nil;
     }

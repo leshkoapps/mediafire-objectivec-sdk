@@ -15,7 +15,7 @@
 
 //------------------------------------------------------------------------------
 - (id)init {
-    self = [self initWithVersion:[MFConfig defaultAPIVersion]];
+    self = [self initWithVersion:[MFConfig defaultAPIVersionForModule:@"MFFolderAPI"]];
     if (self == nil) {
         return nil;
     }
