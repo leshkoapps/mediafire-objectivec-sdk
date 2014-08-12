@@ -145,8 +145,8 @@
         NSString* ekey = credentials[MFCRD_MF_EKEY];
         NSString* password = credentials[MFCRD_MF_PASS];
         signatureBase = [NSString stringWithFormat:@"%@%@", ekey, password];
-        params[@"ekey"]    = [ekey urlEncode];
-        params[@"password"] = [password urlEncode];
+        params[@"ekey"]    = ekey;
+        params[@"password"] = password;
     } else if ( [authType isEqualToString:MFCRD_TYPE_MF] ) {
         // use MediaFire credentials
         if (credentials[MFCRD_MF_EMAIL] == nil || credentials[MFCRD_MF_PASS] == nil) {
@@ -156,8 +156,8 @@
         NSString* email = credentials[MFCRD_MF_EMAIL];
         NSString* password = credentials[MFCRD_MF_PASS];
         signatureBase = [NSString stringWithFormat:@"%@%@", email, password];
-        params[@"email"]    = [email urlEncode];
-        params[@"password"] = [password urlEncode];
+        params[@"email"]    = email;
+        params[@"password"] = password;
     } else if ([authType isEqualToString:MFCRD_TYPE_FB]){
         // use Facebook credentials
         signatureBase = credentials[MFCRD_FB_TOKEN];

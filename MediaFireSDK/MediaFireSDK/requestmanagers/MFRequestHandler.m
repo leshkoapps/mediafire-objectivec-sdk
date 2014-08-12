@@ -33,6 +33,7 @@ typedef void (^SMRestCallback)(id responseText, NSInteger status, NSDictionary* 
         return;
     }
     config.queryDict = [MFREST addResponseFormat:config.queryDict];
+    config.queryDict = [config.queryDict urlEncode];
     config.query = [config.queryDict mapToUrlString];
     
     NSDictionary* apiWrapperCallbacks = [MFRequestHandler getCallbacksForRequest:config.url callbacks:callbacks];
