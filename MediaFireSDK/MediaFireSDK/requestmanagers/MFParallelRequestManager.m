@@ -129,6 +129,7 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
               return;
           }
           config.queryDict = [config.queryDict merge:@{@"session_token" : response[@"session_token"]}];
+          config.queryDict = [config.queryDict urlEncode];
           config.query = [config.queryDict mapToUrlString];
           NSDictionary* apiWrapperCallbacks = [self getCallbacksForRequest:config callbacks:callbacks];
           config.httpSuccess = apiWrapperCallbacks[ONLOAD];
