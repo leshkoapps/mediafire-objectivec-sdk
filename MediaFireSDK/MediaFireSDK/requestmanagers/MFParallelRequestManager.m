@@ -160,6 +160,18 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
     [self getNewActionTokenFromCloudAPI:@{ONLOAD:newTokenAvailable,ONERROR:failedToGetToken}];
 }
 
+//------------------------------------------------------------------------------
+- (void)endSession {
+    // prevent any further requests from being processed.
+    [self setFailure];
+    // get rid of the existing token.
+    [self setToken:nil];
+    // remove pending requests from the queue.
+    [self purgeRequests];
+    // return the prm to a usable state.
+    [self clearFailure];
+}
+
 //==============================================================================
 // PRIVATE
 //==============================================================================
@@ -410,6 +422,7 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
     [self.requestLock unlock];
 }
 
+//------------------------------------------------------------------------------
 - (MFActionTokenAPI*)actionAPI {
     MFActionTokenAPI* api=nil;
     [self.tokenLock lock];
@@ -421,6 +434,7 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
     return api;
 }
 
+//------------------------------------------------------------------------------
 - (void)setActionAPI:(MFActionTokenAPI*)api {
     [self.tokenLock lock];
     _actionAPI = api;

@@ -17,4 +17,5 @@
 - (id)initWithType:(NSString*)type;
 - (void)createRequest:(MFAPIURLRequestConfig*)config callbacks:(NSDictionary*)callbacks;
 - (void)askForNewToken;
+- (void)endSession;
 @end

@@ -44,4 +44,13 @@
  */
 - (void)askForNewToken;
 
+/**
+ @brief Terminates session, clearing session tokens, and attempts to abort any active
+ network connections. Actively executing API calls may complete successfully or terminate with an
+ error; an error category of ERRCAT_NET may simply refer to the interruption
+ of the connection caused by endSession. API call requests waiting for an
+ available session token will receive an error with code ERRCODE_SESSION_CLOSED.
+ */
+- (void)endSession;
+
 @end

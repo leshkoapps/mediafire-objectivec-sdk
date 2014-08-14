@@ -170,8 +170,22 @@ static MFRequestManager* instance = nil;
 }
 
 //------------------------------------------------------------------------------
-+ (void)endSession {
+- (void)endSession {
+    id<MFParallelRequestManagerDelegate> prm;
+    NSString* prmName;
+    for (int16_t i=0 ; i<self.validParallelTypes.count ; i++) {
+        prmName = self.validParallelTypes[i];
+        prm = self.parallelRequests[prmName];
+        if (prm != nil && [prm respondsToSelector:@selector(endSession)]) {
+            [prm endSession];
+        }
+    }
     [[MFConfig serialRequestDelegate] endSession];
+}
+
+//------------------------------------------------------------------------------
++ (void)endSession {
+    [[MFRequestManager instance] endSession];
 }
 
 //------------------------------------------------------------------------------
