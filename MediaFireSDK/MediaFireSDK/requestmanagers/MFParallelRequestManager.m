@@ -129,6 +129,7 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
               return;
           }
           config.queryDict = [config.queryDict merge:@{@"session_token" : response[@"session_token"]}];
+          config.queryDict = [config.queryDict urlEncode];
           config.query = [config.queryDict mapToUrlString];
           NSDictionary* apiWrapperCallbacks = [self getCallbacksForRequest:config callbacks:callbacks];
           config.httpSuccess = apiWrapperCallbacks[ONLOAD];
@@ -157,6 +158,18 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
     
     // request another token
     [self getNewActionTokenFromCloudAPI:@{ONLOAD:newTokenAvailable,ONERROR:failedToGetToken}];
+}
+
+//------------------------------------------------------------------------------
+- (void)endSession {
+    // prevent any further requests from being processed.
+    [self setFailure];
+    // get rid of the existing token.
+    [self setToken:nil];
+    // remove pending requests from the queue.
+    [self purgeRequests];
+    // return the prm to a usable state.
+    [self clearFailure];
 }
 
 //==============================================================================
@@ -409,6 +422,7 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
     [self.requestLock unlock];
 }
 
+//------------------------------------------------------------------------------
 - (MFActionTokenAPI*)actionAPI {
     MFActionTokenAPI* api=nil;
     [self.tokenLock lock];
@@ -420,6 +434,7 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
     return api;
 }
 
+//------------------------------------------------------------------------------
 - (void)setActionAPI:(MFActionTokenAPI*)api {
     [self.tokenLock lock];
     _actionAPI = api;

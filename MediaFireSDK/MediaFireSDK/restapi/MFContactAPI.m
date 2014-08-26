@@ -15,7 +15,7 @@
 
 //------------------------------------------------------------------------------
 - (id)init {
-    self = [self initWithVersion:[MFConfig defaultAPIVersion]];
+    self = [self initWithVersion:[MFConfig defaultAPIVersionForModule:@"MFContactAPI"]];
     if (self == nil) {
         return nil;
     }

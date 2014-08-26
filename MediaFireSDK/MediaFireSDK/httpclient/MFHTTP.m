@@ -144,16 +144,20 @@
         return;
     }
     NSURLRequest* request = [self createRequestFromConfig:config];
-    if (config.localPathForUpload != nil) {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+
+    if (config.localPathForUpload != nil && ([fileManager fileExistsAtPath:config.localPathForUpload.path])) {
         [[[MFConfig defaultHttpClient] uploadTaskWithRequest:request fromFile:config.localPathForUpload completionHandler: [MFHTTP getCompletionHandlerFor:config]] resume];
         [MFConfig showNetworkIndicator];
         return;
     }
+    mflog(@"No file found for upload.");
     if (config.body != nil) {
         [[[MFConfig defaultHttpClient] uploadTaskWithRequest:request fromData:config.body completionHandler: [MFHTTP getCompletionHandlerFor:config]] resume];
         [MFConfig showNetworkIndicator];
         return;
     }
+    mflog(@"No data found for upload.");
     config.httpFail(nil, 0, nil);
 }
 

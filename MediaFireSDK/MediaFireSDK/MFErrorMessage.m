@@ -92,6 +92,7 @@ static inline NSDictionary* build_error_with_data(enum ErrorCode code, NSString*
         case 128: // missing params
         case 129: // invalid params
         case 220: // failed to authenticate to Facebook
+        case 232: // failed to authenticate with Facebook because MF email isn't verified
             authErr = true;
             break;
             

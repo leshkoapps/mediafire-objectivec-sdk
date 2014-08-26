@@ -108,9 +108,16 @@ extern NSString* const MFCONF_HTTPCLIENT;
 + (Class)serialRequestDelegate;
 
 /**
- @brief Returns the defaul API version that this version of the SDK defaults to.
+ @brief Returns the default API version that this version of the SDK defaults to.
  */
 + (NSString*)defaultAPIVersion;
+
+/*
+ @brief Returns the default API version for a given API module.
+ 
+ @param className A string of the class name associated with the API module.
+ */
++ (NSString*)defaultAPIVersionForModule:(NSString*)className;
 
 /**
  @brief Stores a reference by name (clientId) that subsequent API requests can be directed thru using the 'options' dictionary.
