@@ -25,7 +25,7 @@
     _body = nil;
     _localPathForUpload = nil;
     _localPathForDownload = nil;
-    _description = nil;
+    _desc = nil;
     _httpClientId = nil;
     _httpSuccess = nil;
     _httpFail = nil;

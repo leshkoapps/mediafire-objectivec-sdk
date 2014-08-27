@@ -36,7 +36,7 @@ typedef void (^ProgressBlock)(double progress);
 /** @brief For a download request, this field should be set as the final destination path of the file. */
 @property(strong,nonatomic)NSURL* localPathForDownload;
 /** @brief Unique identifier. */
-@property(strong,nonatomic)NSString* description;
+@property(strong,nonatomic)NSString* desc;
 /** @brief Name of an http client registered thru MFConfig. */
 @property(strong,nonatomic)NSString* httpClientId;
 /** @brief The http success callback. Fired when http status == 200.  */
