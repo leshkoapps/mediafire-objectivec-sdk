@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^MFCallback)(NSDictionary * response);
+typedef void (^MFCallback)(NSDictionary* response);
 typedef void (^MFProgressCallback)(double progress);
 
 /** @brief The dictionary key for a success callback. */

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "MFCredentials.h"
+#import "NSDictionary+Callbacks.h"
+
 /**
  @brief The global configuration interface for the MediaFireSDK.  Initialized with an NSDictionary.  The only required keys are @"app_id", and if your app requires it,  @"api_key".  If you are using the MediaFireSDK shared instance, the dictionary you pass to it in createWithConfig: is passed directly to MFConfig for initialization.  
  */
@@ -57,6 +59,21 @@ extern NSString* const MFCONF_NETIND_DELEGATE;
  @brief The name of the "http client configuration" property in an MFConfig dictionary.
  */
 extern NSString* const MFCONF_HTTPCLIENT;
+
+/**
+ @brief The name of the "api version" property in an MFConfig dictionary.  This is a single, global version number that all API calls default to.
+ */
+extern NSString* const MFCONF_API_VERSION;
+
+/**
+ @brief The name of the "api versions" property in an MFConfig dictionary.  Differs from MFCONF_API_VERSION in that it allows specification of different version numbers for each API group.  The value for this key is expected to be an NSDictionary, where each key is the class name of the respective API, and the value is an NSString containing the API version number.
+ */
+extern NSString* const MFCONF_API_VERSIONS;
+
+/**
+ @brief The name of the "authentication failure callback" property in an MFConfig dictionary.  The value for this key expects an MFCallback block.
+ */
+extern NSString* const MFCONF_AUTHFAIL_CB;
 
 /**
  @brief The application ID.
@@ -156,5 +173,11 @@ extern NSString* const MFCONF_HTTPCLIENT;
  @brief Returns the SDK's default http client.  If no http client config was supplied to MFConfig in createWithConfig: then this function will return [NSURLSession sharedSession].
  */
 + (NSURLSession*)defaultHttpClient;
+
+/**
+ @brief Returns an MFCallback block when the Serial Request Manager delegate fails to authenticate because of a password failure.
+ */
++ (MFCallback)authenticationFailureCallback;
+
 
 @end

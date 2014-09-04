@@ -15,17 +15,19 @@
 #import "MFCredentialsDelegate.h"
 #import "MFNetworkIndicatorDelegate.h"
 
+
 @interface MFConfig()
 
-@property(nonatomic) Class<MFCredentialsDelegate>CredentialsDelegate;
-@property(nonatomic) Class<MFSerialRequestManagerDelegate>SerialRequestDelegate;
-@property(nonatomic) Class<MFParallelRequestManagerDelegate>ParallelRequestDelegate;
-@property(nonatomic) id<MFNetworkIndicatorDelegate>NetworkIndicatorDelegate;
-@property(strong, nonatomic) NSMutableDictionary* httpClients;
-@property(strong, nonatomic) NSLock* opLock;
-@property(strong, nonatomic) NSURLSession* defaultHttpClient;
-@property(strong, nonatomic) NSString* defaultAPIVersion;
-@property(strong, nonatomic) NSDictionary* defaultAPIVersions;
+@property (nonatomic) Class<MFCredentialsDelegate>CredentialsDelegate;
+@property (nonatomic) Class<MFSerialRequestManagerDelegate>SerialRequestDelegate;
+@property (nonatomic) Class<MFParallelRequestManagerDelegate>ParallelRequestDelegate;
+@property (nonatomic) id<MFNetworkIndicatorDelegate>NetworkIndicatorDelegate;
+@property (strong, nonatomic) NSMutableDictionary* httpClients;
+@property (strong, nonatomic) NSLock* opLock;
+@property (strong, nonatomic) NSURLSession* defaultHttpClient;
+@property (strong, nonatomic) NSString* defaultAPIVersion;
+@property (strong, nonatomic) NSDictionary* defaultAPIVersions;
+@property (strong, nonatomic) MFCallback authFailureCallback;
 
 @end
 
@@ -42,6 +44,9 @@ NSString* const MFCONF_MINTOKEN         = @"min_tokens";
 NSString* const MFCONF_MAXTOKEN         = @"max_tokens";
 NSString* const MFCONF_NETIND_DELEGATE  = @"netind_delegate";
 NSString* const MFCONF_HTTPCLIENT       = @"httpclient_config";
+NSString* const MFCONF_API_VERSION      = @"default_api_version";
+NSString* const MFCONF_API_VERSIONS     = @"default_api_versions";
+NSString* const MFCONF_AUTHFAIL_CB      = @"auth_failure_callback";
 
 //------------------------------------------------------------------------------
 - (id)init {
@@ -71,42 +76,42 @@ NSString* const MFCONF_HTTPCLIENT       = @"httpclient_config";
     
     _opLock = [[NSLock alloc] init];
     
-    if (config[@"app_id"] == nil) {
+    if (config[MFCONF_APPID] == nil) {
         erm(nullField:@"application identification");
         return nil;
     }
     
-    _appId = config[@"app_id"];
-    _apiKey = config[@"api_key"];
+    _appId = config[MFCONF_APPID];
+    _apiKey = config[MFCONF_APIKEY];
 
-    if (config[@"default_api_versions"] != nil && [config[@"default_api_versions"] isKindOfClass:[NSDictionary class]]) {
-        _defaultAPIVersions = config[@"default_api_versions"];
+    if (config[MFCONF_API_VERSIONS] != nil && [config[MFCONF_API_VERSIONS] isKindOfClass:[NSDictionary class]]) {
+        _defaultAPIVersions = config[MFCONF_API_VERSIONS];
     }
     
-    if (config[@"default_api_version"] != nil && [config[@"default_api_version"] isKindOfClass:[NSString class]]) {
-        _defaultAPIVersion = config[@"default_api_version"];
+    if (config[MFCONF_API_VERSION] != nil && [config[MFCONF_API_VERSION] isKindOfClass:[NSString class]]) {
+        _defaultAPIVersion = config[MFCONF_API_VERSION];
     } else {
         _defaultAPIVersion = @"1.0";
     }
     
-    if (config[@"credentials_delegate"] != nil) {
-        self.CredentialsDelegate = config[@"credentials_delegate"];
+    if (config[MFCONF_CREDS_DELEGATE] != nil) {
+        self.CredentialsDelegate = config[MFCONF_CREDS_DELEGATE];
     }
 
-    if (config[@"srm_delegate"] != nil) {
-        self.SerialRequestDelegate = config[@"srm_delegate"];
+    if (config[MFCONF_SRM_DELEGATE] != nil) {
+        self.SerialRequestDelegate = config[MFCONF_SRM_DELEGATE];
     }
 
-    if (config[@"prm_delegate"] != nil) {
-        self.ParallelRequestDelegate = config[@"prm_delegate"];
+    if (config[MFCONF_PRM_DELEGATE] != nil) {
+        self.ParallelRequestDelegate = config[MFCONF_PRM_DELEGATE];
     }
 
-    if (config[@"netind_delegate"] != nil) {
-        self.NetworkIndicatorDelegate = config[@"netind_delegate"];
+    if (config[MFCONF_NETIND_DELEGATE] != nil) {
+        self.NetworkIndicatorDelegate = config[MFCONF_NETIND_DELEGATE];
     }
     
-    if (config[@"max_tokens"] != nil) {
-        NSUInteger max = [config[@"max_tokens"] unsignedIntegerValue];
+    if (config[MFCONF_MAXTOKEN] != nil) {
+        NSUInteger max = [config[MFCONF_MAXTOKEN] unsignedIntegerValue];
         if (max > 0) {
             _maxTokens = max;
         }
@@ -114,8 +119,8 @@ NSString* const MFCONF_HTTPCLIENT       = @"httpclient_config";
         _maxTokens = 10;
     }
 
-    if (config[@"min_tokens"] != nil) {
-        NSUInteger min = [config[@"min_tokens"] unsignedIntegerValue];
+    if (config[MFCONF_MINTOKEN] != nil) {
+        NSUInteger min = [config[MFCONF_MINTOKEN] unsignedIntegerValue];
         if ((min < _maxTokens) && (min > 0)) {
             _minTokens = min;
         }
@@ -123,10 +128,13 @@ NSString* const MFCONF_HTTPCLIENT       = @"httpclient_config";
         _minTokens = 3;
     }
     
-    if (config[@"httpclient_config"] != nil) {
-        _defaultHttpClient = [NSURLSession sessionWithConfiguration:config[@"httpclient_config"]];
+    if (config[MFCONF_HTTPCLIENT] != nil) {
+        _defaultHttpClient = [NSURLSession sessionWithConfiguration:config[MFCONF_HTTPCLIENT]];
     }
     
+    if (config[MFCONF_AUTHFAIL_CB] != nil) {
+        _authFailureCallback = config[MFCONF_AUTHFAIL_CB];
+    }
     
     return self;
     
@@ -291,4 +299,14 @@ NSString* const MFCONF_HTTPCLIENT       = @"httpclient_config";
     }
 }
 
+//------------------------------------------------------------------------------
++ (MFCallback)authenticationFailureCallback {
+    if (!instance.authFailureCallback) {
+        return ^(NSDictionary* response) {
+            mflog(@"Authentication Failure");
+            return;
+        };
+    }
+    return instance.authFailureCallback;
+}
 @end
