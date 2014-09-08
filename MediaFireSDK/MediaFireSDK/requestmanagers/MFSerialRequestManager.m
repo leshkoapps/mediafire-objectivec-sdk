@@ -600,7 +600,7 @@ static id instance = nil;
             [self askForAdditionalSessionTokens];
         }
         [self nextRequest];
-        callbacks.onload(@{});
+        callbacks.onload(response);
     };
     
     // failure callback
