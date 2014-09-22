@@ -86,6 +86,16 @@
 - (void)cancel;
 
 /**
+ @brief Called by internal functions to prepare a file for upload.
+ */
+- (void)prepareFile;
+
+/**
+ @brief Called by internal functions to get a data chunk for upload.
+ */
+- (NSData*)getFileChunk:(int)i;
+
+/**
  @brief Called by internal functions to begin a resumable upload.
  */
 - (void)checkUpload;

@@ -192,20 +192,6 @@ typedef void (^StandardCallback)(NSDictionary* response);
     
     self.fileSize = [fileAttributes fileSize];
     
-    // Set upload data using memory mapping
-    //  Treated as NSData but without actually reading everything into memory.
-    //  The file on disk becomes treated as a section of virtual memory.
-    NSError* dataError = nil;
-    self.uploadData = [NSData dataWithContentsOfFile: self.filePath
-                                             options: NSMappedRead
-                                               error: &dataError];
-    
-    if (dataError) {
-        mflog(@"Cannot prepare file for upload. Cannot memory map the file data. - %@. Error: %@", self.filePath, [dataError userInfo]);
-        [self fail:[MFErrorMessage invalidField:@"filePath"]];
-        return;
-    }
-    
     // Set hash
     if (self.fileSize > 10000000) {
         NSFileHandle* file = [NSFileHandle fileHandleForReadingAtPath:self.filePath];
@@ -222,7 +208,19 @@ typedef void (^StandardCallback)(NSDictionary* response);
             return dataBuffer;
         };
         self.fileHash = [MFHash sha256HexChunked:block];
+        
     } else {
+        NSError* dataError = nil;
+        self.uploadData = [NSData dataWithContentsOfFile: self.filePath
+                                                 options: NSMappedRead
+                                                   error: &dataError];
+        
+        if (dataError) {
+            mflog(@"Cannot prepare file for upload. Cannot memory map the file data. - %@. Error: %@", self.filePath, [dataError userInfo]);
+            [self fail:[MFErrorMessage invalidField:@"filePath"]];
+            return;
+        }
+        
         self.fileHash = [MFHash sha256Hex:[self getFileChunk:-1]];
     }
     
@@ -589,19 +587,31 @@ typedef void (^StandardCallback)(NSDictionary* response);
         chunkSize = (unsigned long)(self.fileSize);
         startFrom = 0;
     }
-    
-    unsigned char *plainText;
-    plainText = malloc(chunkSize);
-    if (!plainText) {
-        return nil;
+
+    if (self.uploadData != nil) {
+        unsigned char *plainText;
+        plainText = malloc(chunkSize);
+        if (!plainText) {
+            return nil;
+        }
+        memset(plainText, 0, chunkSize);
+        
+        [self.uploadData getBytes:plainText range:(NSRange){startFrom, chunkSize}];
+        
+        NSData* unit = [NSData dataWithBytes:plainText length:chunkSize];
+        free(plainText);
+        return unit;
+        
+    } else {
+        NSFileHandle* file = [NSFileHandle fileHandleForReadingAtPath:self.filePath];
+        NSMutableData* dataBuffer = [[NSMutableData alloc] init];
+        [file seekToFileOffset:startFrom];
+        [dataBuffer setData:[file readDataOfLength:chunkSize]];
+        
+        return dataBuffer;
     }
-    memset(plainText, 0, chunkSize);
     
-    [self.uploadData getBytes:plainText range:(NSRange){startFrom, chunkSize}];
-    
-    NSData* unit = [NSData dataWithBytes:plainText length:chunkSize];
-    free(plainText);
-    return unit;
+    return nil;
 }
 
 //------------------------------------------------------------------------------
