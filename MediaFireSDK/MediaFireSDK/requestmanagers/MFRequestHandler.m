@@ -92,6 +92,9 @@ typedef void (^SMRestCallback)(id responseText, NSInteger status, NSDictionary* 
         NSDictionary* jsonResponse = [MFREST processResponse:response mimetype:@"application/json"];
         // sanity check on result
         if (jsonResponse == nil) {
+            if (status == ERRCODE_FILECOPY) {
+                callbacks.onerror(erm(fileCopyFailed));
+            }
             callbacks.onerror(erm(badHTTP:status message:[url absoluteString]));
             return;
         }

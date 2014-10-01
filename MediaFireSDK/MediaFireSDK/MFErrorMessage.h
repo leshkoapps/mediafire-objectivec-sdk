@@ -112,6 +112,10 @@
  @brief Returns an error message dictionary for when the maximum number of upload polls has been exceeded.
  */
 + (NSDictionary*)maxPolls;
+/**
+ @brief Returns an error message dictionary for when an attempt to copy a temp file to a local path has failed.
+ */
++ (NSDictionary*)fileCopyFailed;
 
 /**
  @brief Logs a message with reference to the file and line number in which the log originated.
@@ -147,6 +151,7 @@ enum ErrorCode {
     ERRCODE_SESSION_CLOSED      = 52900,    // session has been closed
     ERRCODE_NULL_FIELD          = 53000,    // Non-nil string or number required.
     ERRCODE_INVALID_FIELD       = 53100,    // Invalid string or number required.
+    ERRCODE_FILECOPY            = 58000,    // Failed to copy a temp file to local path.
     ERRCODE_CANCELLED           = 59000,    // An operation was cancelled.
     ERRCODE_MAX_POLLS           = 59100,    // Exceeded maximum poll_upload attempts.
     ERRCODE_BITMAP              = 59200,    // An error occurred with a bitmap operation.

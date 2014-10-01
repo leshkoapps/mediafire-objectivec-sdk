@@ -89,7 +89,9 @@
         }
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSError *errorCopy;
-        [fileManager copyItemAtURL:location toURL:localUrl error:&errorCopy];
+        if (![fileManager copyItemAtURL:location toURL:localUrl error:&errorCopy]) {
+            config.httpFail(nil, ERRCODE_FILECOPY, nil);
+        }
         
         if (httpResponse.statusCode == 200) {
             config.httpSuccess(@{@"filename" : [localUrl path]}, 200, nil);
