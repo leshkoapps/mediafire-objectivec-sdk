@@ -248,9 +248,11 @@ static id instance = nil;
     [self.sessions removeObjectForKey:token];
     if ( needMore ) {
         self.awaitingTokens++;
+        [self.sessionLock unlock];
         [self askForAdditionalSessionTokens];
+    } else {
+        [self.sessionLock unlock];
     }
-    [self.sessionLock unlock];
     // in case someone is referencing this token
     tokenPacket[@"locked"] = @NO;
 
