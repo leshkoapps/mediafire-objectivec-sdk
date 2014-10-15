@@ -76,6 +76,12 @@ extern NSString* const MFCONF_API_VERSIONS;
 extern NSString* const MFCONF_AUTHFAIL_CB;
 
 /**
+ @brief The name of the "prefer SSL" property in an MFConfig dictionary.  Setting this property to any value is interpreted as true.  Leaving this property unset is interpreted as false.
+ */
+extern NSString* const MFCONF_SSL;
+
+
+/**
  @brief The application ID.
  */
 @property(nonatomic) NSString* appId;
@@ -91,6 +97,11 @@ extern NSString* const MFCONF_AUTHFAIL_CB;
  @brief The minimum number of session tokens for the Serial Request Manager to reserve.
  */
 @property(nonatomic) NSUInteger minTokens;
+/**
+ @brief Defaults to false.  When set to true, all MediaFire API requests default to https.
+ */
+@property BOOL preferSSL;
+
 
 /**
  @brief Initializes the shared instance with given configuration.
