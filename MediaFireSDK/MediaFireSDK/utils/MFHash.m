@@ -25,6 +25,7 @@ typedef int (^UpdateDigest)(NSData* chunkData);
         const char* str = [data UTF8String];
         CC_SHA1_Update(ctx, str, strlen(str));
     } else {
+        free(ctx);
         return nil;
     }
     CC_SHA1_Final([result mutableBytes], ctx);
@@ -78,6 +79,7 @@ typedef int (^UpdateDigest)(NSData* chunkData);
         const char* str = [data UTF8String];
         CC_SHA256_Update(ctx, str, strlen(str));
     } else {
+        free(ctx);
         return nil;
     }
     CC_SHA256_Final([result mutableBytes], ctx);
@@ -132,6 +134,7 @@ typedef int (^UpdateDigest)(NSData* chunkData);
         const char* str = [data UTF8String];
         CC_MD5_Update(ctx, str, strlen(str));
     } else {
+        free(ctx);
         return false;
     }
     CC_MD5_Final([result mutableBytes], ctx);
