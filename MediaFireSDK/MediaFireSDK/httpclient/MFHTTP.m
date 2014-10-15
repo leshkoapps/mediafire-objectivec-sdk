@@ -176,8 +176,7 @@
         joiner = @"?";
     }
     
-    NSString* combinedUrl = [NSString stringWithFormat:@"%@%@%@",stringUrl,joiner,query];
-    return [NSURL URLWithString:combinedUrl];
+    return [NSURL URLWithString:[NSString stringWithFormat:@"%@%@%@",stringUrl,joiner,query]];
 }
 
 @end

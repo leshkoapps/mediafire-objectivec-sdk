@@ -107,7 +107,7 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
                 config.httpSuccess = nil;
                 config.httpProgress = nil;
                 config.query = nil;
-                [self createRequest:config callbacks:callbacks];
+                [asyncSelf createRequest:config callbacks:callbacks];
                 [asyncSelf askForNewToken];
                 return;
             } else {
@@ -131,7 +131,7 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
           config.queryDict = [config.queryDict merge:@{@"session_token" : response[@"session_token"]}];
           config.queryDict = [config.queryDict urlEncode];
           config.query = [config.queryDict mapToUrlString];
-          NSDictionary* apiWrapperCallbacks = [self getCallbacksForRequest:config callbacks:callbacks];
+          NSDictionary* apiWrapperCallbacks = [asyncSelf getCallbacksForRequest:config callbacks:callbacks];
           config.httpSuccess = apiWrapperCallbacks[ONLOAD];
           config.httpFail = apiWrapperCallbacks[ONERROR];
           config.httpProgress = apiWrapperCallbacks[ONPROGRESS];
@@ -233,36 +233,38 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
         NSDictionary* callbacks = request[@"callbacks"];
         callbacks.onerror(err);
     }
+    __weak MFParallelRequestManager* bself = self;
     dispatch_async(self.dispatchQueue, ^{
-        [self purgeRequests];
+        [bself purgeRequests];
     });
 }
 
 //------------------------------------------------------------------------------
 - (void)nextRequest {
+    __weak MFParallelRequestManager* bself = self;
     dispatch_async(self.dispatchQueue, ^{
-        if ([self isWaitingOnNewToken]) {
+        if ([bself isWaitingOnNewToken]) {
             // A token request has already been made, just sit tight.
             return;
         }
         
-        if ([self didFailToGetToken]) {
+        if ([bself didFailToGetToken]) {
             // Connection issue prevented getting a token, so lock this request
             // manager and error-out of all queued jobs.
-            [self purgeRequests];
+            [bself purgeRequests];
             return;
         }
         
-        if (![self hasValidToken]) {
+        if (![bself hasValidToken]) {
             // We've detected an invalid token, and we're not currently waiting
             // on a new one from the API.
-            [self askForNewToken];
+            [bself askForNewToken];
             return;
         }
         
         NSString* token= self.token;
         
-        if ([self queueIsEmpty]) {
+        if ([bself queueIsEmpty]) {
             // No requests to process at this time.
             return;
         }
@@ -274,7 +276,7 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
         }
         
         // attempt to resume the request
-        [self resumeRequest:request withToken:token];
+        [bself resumeRequest:request withToken:token];
     });
 }
 
@@ -301,14 +303,16 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
 //------------------------------------------------------------------------------
 - (NSDictionary*)getCallbacksForRequest:(MFAPIURLRequestConfig*)config callbacks:(NSDictionary*)callbacks {
     
+    __weak MFParallelRequestManager* bself = self;
+    
     NSDictionary* customizedCallbacks =
     @{ONLOAD:callbacks.onload,
       ONERROR:^(NSDictionary* response) {
         if ( [MFErrorMessage code:response] == ERRCODE_INVALID_SESSION_TOKEN ) {
             // request failed because our action token expired.
             // re-queue the request and get a new token.
-            if ([config.queryDict[@"session_token"] isEqualToString:self.token]) {
-                [self askForNewToken];
+            if ([config.queryDict[@"session_token"] isEqualToString:bself.token]) {
+                [bself askForNewToken];
             }
         }
         // general API error.
