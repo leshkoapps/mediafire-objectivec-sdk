@@ -69,8 +69,8 @@
     data.callbacks =
     @{ONLOAD:config.httpSuccess,ONERROR:config.httpFail, ONPROGRESS:config.httpProgress, @"httpClientRef":config.httpReference};
     NSString* key = nil;
-    if (config.description.length) {
-        key = config.description;
+    if (config.desc.length) {
+        key = config.desc;
     } else {
         [self.opLock lock];
         key = [NSString stringWithFormat:@"%lli",self.counter];

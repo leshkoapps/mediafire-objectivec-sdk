@@ -159,6 +159,9 @@ static id instance = nil;
     // failure callback
     MFCallback failedToGetToken = ^(NSDictionary * response) {
         erm(obtainTokenFailure:response);
+        if ([MFErrorMessage isAuthenticationError:response]) {
+            MFConfig.authenticationFailureCallback(response);
+        }
         [self nextRequest];
     };
     
@@ -597,7 +600,7 @@ static id instance = nil;
             [self askForAdditionalSessionTokens];
         }
         [self nextRequest];
-        callbacks.onload(@{});
+        callbacks.onload(response);
     };
     
     // failure callback

@@ -13,7 +13,7 @@ const NSString* ONERROR     = @"onerror";
 const NSString* ONPROGRESS  = @"onprogress";
 const NSString* ONUPDATE    = @"onupdate";
 
-static MFCallback ignoreblock = ^(NSDictionary * response) {
+static MFCallback ignoreblock = ^(NSDictionary* response) {
     return;
 };
 

@@ -86,7 +86,7 @@ static NSString* DEFAULT_METHOD = @"POST";
     }
     // description
     if ((options[HDESCRIPTION] != nil) && [options[HDESCRIPTION] isKindOfClass:[NSString class]]) {
-        self.description = options[HDESCRIPTION];
+        self.desc = options[HDESCRIPTION];
     }
     return self;
 }
