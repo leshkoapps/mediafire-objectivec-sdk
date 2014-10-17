@@ -325,6 +325,12 @@ static inline NSDictionary* build_error_with_data(enum ErrorCode code, NSString*
 }
 
 //------------------------------------------------------------------------------
++ (NSDictionary*)fileCopyFailed {
+    return build_error(ERRCODE_FILECOPY, @"Failed to copy temp file to local path.", ERRCAT_APP);
+}
+
+
+//------------------------------------------------------------------------------
 + (NSDictionary*)log:(NSDictionary*)errorMessage in:(const char*)srcfile at:(NSUInteger)line {
     if ([MFErrorMessage isErrorMessage:errorMessage]) {
         [MFErrorLog in:srcfile at:line message:@"Error : cat [%i] code [%i] message [%@]", [self category:errorMessage], [self code:errorMessage], [self message:errorMessage]];

@@ -47,6 +47,7 @@ NSString* const MFCONF_HTTPCLIENT       = @"httpclient_config";
 NSString* const MFCONF_API_VERSION      = @"default_api_version";
 NSString* const MFCONF_API_VERSIONS     = @"default_api_versions";
 NSString* const MFCONF_AUTHFAIL_CB      = @"auth_failure_callback";
+NSString* const MFCONF_SSL              = @"prefer_ssl";
 
 //------------------------------------------------------------------------------
 - (id)init {
@@ -135,6 +136,8 @@ NSString* const MFCONF_AUTHFAIL_CB      = @"auth_failure_callback";
     if (config[MFCONF_AUTHFAIL_CB] != nil) {
         _authFailureCallback = config[MFCONF_AUTHFAIL_CB];
     }
+    
+    _preferSSL = (config[MFCONF_SSL] != nil);
     
     return self;
     
