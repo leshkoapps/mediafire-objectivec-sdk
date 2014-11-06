@@ -68,6 +68,12 @@
     data.task = task;
     data.callbacks =
     @{ONLOAD:config.httpSuccess,ONERROR:config.httpFail, ONPROGRESS:config.httpProgress, @"httpClientRef":config.httpReference};
+    
+    config.httpSuccess = nil;
+    config.httpFail = nil;
+    config.httpProgress = nil;
+    config.httpReference = nil;
+    
     NSString* key = nil;
     if (config.desc.length) {
         key = config.desc;

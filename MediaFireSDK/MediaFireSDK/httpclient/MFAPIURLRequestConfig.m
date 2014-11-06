@@ -10,6 +10,7 @@
 #import "MFErrorMessage.h"
 #import "MFREST.h"
 #import "MFHTTPOptions.h"
+#import "MFConfig.h"
 
 static NSString* DEFAULT_METHOD = @"POST";
 
@@ -42,7 +43,7 @@ static NSString* DEFAULT_METHOD = @"POST";
         self.method = DEFAULT_METHOD;
     }
     // HTTP or HTTPS
-    if ([options[HSECURE] isEqualToString:@"true"]) {
+    if ([options[HSECURE] isEqualToString:@"true"] || ((options[HSECURE] == nil) && [[MFConfig instance] preferSSL])) {
         self.secure = true;
     }
     // headers
