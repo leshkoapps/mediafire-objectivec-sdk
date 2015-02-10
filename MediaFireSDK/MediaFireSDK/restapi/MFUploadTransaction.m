@@ -533,7 +533,8 @@ typedef void (^StandardCallback)(NSDictionary* response);
               [self fail:response];
               return;
           }
-          if ([doUploadResponse[@"status"] isEqualToString:@"99"]) {
+          NSString* pollStatus = doUploadResponse[@"status"];
+          if ([pollStatus isEqualToString:@"99"] || [pollStatus isEqualToString:@"98"]) {
               // UPLOAD COMPLETE!
               NSString* quickkeyResult = doUploadResponse[@"quickkey"];
               
