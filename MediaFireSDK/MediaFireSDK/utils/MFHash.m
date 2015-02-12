@@ -20,10 +20,10 @@ typedef int (^UpdateDigest)(NSData* chunkData);
     
     CC_SHA1_Init(ctx);
     if ( [data isKindOfClass:[NSData class]] ) {
-        CC_SHA1_Update(ctx, [data bytes], [data length]);
+        CC_SHA1_Update(ctx, [data bytes], (CC_LONG)[data length]);
     } else if ( [data isKindOfClass:[NSString class]] ) {
         const char* str = [data UTF8String];
-        CC_SHA1_Update(ctx, str, strlen(str));
+        CC_SHA1_Update(ctx, str, (CC_LONG)strlen(str));
     } else {
         free(ctx);
         return nil;
@@ -54,7 +54,7 @@ typedef int (^UpdateDigest)(NSData* chunkData);
             done = true;
             break;
         }
-        CC_SHA1_Update(ctx, [data bytes], [data length]);
+        CC_SHA1_Update(ctx, [data bytes], (CC_LONG)[data length]);
     }
     CC_SHA1_Final([result mutableBytes], ctx);
     free(ctx);
@@ -74,10 +74,10 @@ typedef int (^UpdateDigest)(NSData* chunkData);
     
     CC_SHA256_Init(ctx);
     if ( [data isKindOfClass:[NSData class]] ) {
-        CC_SHA256_Update(ctx, [data bytes], [data length]);
+        CC_SHA256_Update(ctx, [data bytes], (CC_LONG)[data length]);
     } else if ( [data isKindOfClass:[NSString class]] ) {
         const char* str = [data UTF8String];
-        CC_SHA256_Update(ctx, str, strlen(str));
+        CC_SHA256_Update(ctx, str, (CC_LONG)strlen(str));
     } else {
         free(ctx);
         return nil;
@@ -108,7 +108,7 @@ typedef int (^UpdateDigest)(NSData* chunkData);
             done = true;
             break;
         }
-        CC_SHA256_Update(ctx, [data bytes], [data length]);
+        CC_SHA256_Update(ctx, [data bytes], (CC_LONG)[data length]);
     }
     CC_SHA256_Final([result mutableBytes], ctx);
     free(ctx);
@@ -129,10 +129,10 @@ typedef int (^UpdateDigest)(NSData* chunkData);
     
     CC_MD5_Init(ctx);
     if ( [data isKindOfClass:[NSData class]] ) {
-        CC_MD5_Update(ctx, [data bytes], [data length]);
+        CC_MD5_Update(ctx, [data bytes], (CC_LONG)[data length]);
     } else if ( [data isKindOfClass:[NSString class]] ) {
         const char* str = [data UTF8String];
-        CC_MD5_Update(ctx, str, strlen(str));
+        CC_MD5_Update(ctx, str, (CC_LONG)strlen(str));
     } else {
         free(ctx);
         return false;
@@ -163,7 +163,7 @@ typedef int (^UpdateDigest)(NSData* chunkData);
             done = true;
             break;
         }
-        CC_MD5_Update(ctx, [data bytes], [data length]);
+        CC_MD5_Update(ctx, [data bytes], (CC_LONG)[data length]);
     }
     CC_MD5_Final([result mutableBytes], ctx);
     free(ctx);

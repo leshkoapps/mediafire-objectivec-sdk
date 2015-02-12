@@ -227,7 +227,7 @@ static inline NSDictionary* build_error_with_data(enum ErrorCode code, NSString*
                                           response);
             break;
         default:
-            error = build_error_with_data((NSInteger)ERRCODE_API_ERROR + apiError,
+            error = build_error_with_data((enum ErrorCode)(ERRCODE_API_ERROR + apiError),
                                           @"REST API error",
                                           ERRCAT_API,
                                           @"response",
@@ -242,7 +242,7 @@ static inline NSDictionary* build_error_with_data(enum ErrorCode code, NSString*
     // Response is not guaranteed to be valid JSON. Try to deserialize JSON to
     // find API error 'message'. If failure, keep original response.
     if ([response isKindOfClass:[NSDictionary class]]) {
-        return build_error_with_data((NSInteger)ERRCODE_HTTP_BASE+status, @"Bad HTTP", ERRCAT_API, @"response", response);
+        return build_error_with_data((enum ErrorCode)(ERRCODE_HTTP_BASE+status), @"Bad HTTP", ERRCAT_API, @"response", response);
     }
     NSDictionary* deserializeJSON = [response deserializeJSON];
     if (deserializeJSON != nil) {
@@ -252,9 +252,9 @@ static inline NSDictionary* build_error_with_data(enum ErrorCode code, NSString*
         }
     }
     if ( status < 100 ) {
-        return build_error(ERRCODE_NETWORK_BASE + status, response, ERRCAT_NET);
+        return build_error((enum ErrorCode)(ERRCODE_NETWORK_BASE + status), response, ERRCAT_NET);
     } else {
-        return build_error(ERRCODE_HTTP_BASE + status, response, ERRCAT_CLOUD);
+        return build_error((enum ErrorCode)(ERRCODE_HTTP_BASE + status), response, ERRCAT_CLOUD);
     }
 }
 
