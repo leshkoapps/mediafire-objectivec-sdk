@@ -46,6 +46,8 @@ typedef void (^SMRestCallback)(id responseText, NSInteger status, NSDictionary* 
     
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 //------------------------------------------------------------------------------
 + (NSDictionary*)getCallbacksForRequest:(NSURL*)url callbacks:(NSDictionary*)callbacks {
     
@@ -124,5 +126,6 @@ typedef void (^SMRestCallback)(id responseText, NSInteger status, NSDictionary* 
     
     return cb;
 }
+#pragma clang diagnostic pop
 
 @end

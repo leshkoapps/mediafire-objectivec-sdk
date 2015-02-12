@@ -34,6 +34,9 @@
     return self;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
+
 //------------------------------------------------------------------------------
 - (OperationBlock)httpSuccess {
     if (_httpSuccess == nil) {
@@ -69,6 +72,7 @@
     }
     return _httpReference;
 }
+#pragma clang diagnostic pop
 
 
 @end

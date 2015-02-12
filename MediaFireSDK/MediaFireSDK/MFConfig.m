@@ -302,6 +302,8 @@ NSString* const MFCONF_SSL              = @"prefer_ssl";
     }
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 //------------------------------------------------------------------------------
 + (MFCallback)authenticationFailureCallback {
     if (!instance.authFailureCallback) {
@@ -312,4 +314,5 @@ NSString* const MFCONF_SSL              = @"prefer_ssl";
     }
     return instance.authFailureCallback;
 }
+#pragma clang diagnostic pop
 @end

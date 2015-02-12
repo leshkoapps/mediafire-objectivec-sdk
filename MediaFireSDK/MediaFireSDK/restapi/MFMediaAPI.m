@@ -20,6 +20,8 @@
 
 @implementation MFMediaAPI
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 //------------------------------------------------------------------------------
 + (NSString*)generateConversionServerURL:(NSString*)baseUrlString withHash:(NSString*)hash withParameters:(NSDictionary*)params {
     // Sanity checks
@@ -38,7 +40,6 @@
     
     __block NSString*     paramsUrlString   = [[NSString alloc] initWithFormat:@"?%@",[hash substringToIndex:4]];
     NSMutableDictionary*  newParams         = [NSMutableDictionary dictionaryWithCapacity:[params count]];
-    
     [params enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL * stop) {
         if ( [obj isKindOfClass:[NSString class]] ) {
             newParams[key] = [obj urlEncode];
@@ -50,6 +51,7 @@
     NSString* resultUrlString = [NSString stringWithFormat:@"%@%@", baseUrlString, paramsUrlString];
     return resultUrlString;
 }
+#pragma clang diagnostic pop
 
 //------------------------------------------------------------------------------
 - (NSString*)getPreviewURL:(NSDictionary*)parameters withHash:(NSString*)hash {

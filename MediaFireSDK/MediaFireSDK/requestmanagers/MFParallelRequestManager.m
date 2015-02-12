@@ -141,6 +141,8 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
     [self queueRequest:config callbacks:handleToken];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 //------------------------------------------------------------------------------
 - (void)askForNewToken {
     __weak MFParallelRequestManager* asyncSelf = self;
@@ -159,6 +161,7 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
     // request another token
     [self getNewActionTokenFromCloudAPI:@{ONLOAD:newTokenAvailable,ONERROR:failedToGetToken}];
 }
+#pragma clang diagnostic pop
 
 //------------------------------------------------------------------------------
 - (void)endSession {

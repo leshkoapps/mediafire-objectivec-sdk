@@ -94,10 +94,13 @@
     [MFConfig showNetworkIndicator];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 //------------------------------------------------------------------------------
 - (id)constructTaskWithRequest:(NSMutableURLRequest*)request config:(MFURLRequestConfig*)config{
     return [self.session dataTaskWithRequest:request];
 }
+#pragma clang diagnostic pop
 
 //------------------------------------------------------------------------------
 - (void)addRequest:(MFURLRequestConfig*)config {
@@ -119,6 +122,8 @@
     self.session = nil;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 //------------------------------------------------------------------------------
 - (void)URLSession:(NSURLSession*)session task:(NSURLSessionTask*)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend {
     // prevent div by 0
@@ -142,6 +147,7 @@
     mflog(@"MFHTTPClient willRedirect");
     completionHandler(request);
 }
+#pragma clang diagnostic pop
 
 //------------------------------------------------------------------------------
 - (MFHTTPData*)getAppRequestDataForTask:(NSURLSessionTask*)task {
