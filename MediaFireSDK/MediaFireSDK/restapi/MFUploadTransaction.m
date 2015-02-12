@@ -276,8 +276,8 @@ typedef void (^StandardCallback)(NSDictionary* response);
           
           [self event:@{UEVENT : UESETUP} status:UESETUP];
           
-          self.unitCount = (int)[resumable[@"number_of_units"] integerValue];
-          self.unitSize = (int)[resumable[@"unit_size"] integerValue];
+          self.unitCount = [resumable[@"number_of_units"] intValue];
+          self.unitSize = [resumable[@"unit_size"] intValue];
           
           int firstEmptyBit = [self getFirstEmptyBit:resumable[@"bitmap"]];
           if (firstEmptyBit >= self.unitCount) {
@@ -660,14 +660,14 @@ typedef void (^StandardCallback)(NSDictionary* response);
     if (bitmap[@"count"] == nil || bitmap[@"count"] == nil) {
         return 0;
     }
-    int count = (int)[bitmap[@"count"] integerValue];
+    int count = [bitmap[@"count"] intValue];
     NSArray* words = bitmap[@"words"];
     int32_t word = 0;
     int emptyBit=0;
     int emptyBitFromWord=0;
     
     for (int i=0 ; i<count ; i++) {
-        word = (int)[words[i] integerValue];
+        word = [words[i] intValue];
         if (word == 0) {
             // Obviously we have found a zero bit.
             break;
