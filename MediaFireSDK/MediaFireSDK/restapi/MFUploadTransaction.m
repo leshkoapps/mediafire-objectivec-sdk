@@ -17,8 +17,8 @@
 #import "MFHTTPOptions.h"
 
 //==============================================================================
-static const double POLL_INTERVAL   = 4;
-static const int    POLL_ATTEMPTS   = 6;
+static const double POLL_INTERVAL   = 10.0; // poll interval in seconds
+static const int    POLL_ATTEMPTS   = 6;    // number of polling attempts
 static NSString*    ON_FIND_DUP     = @"keep";
 
 static int getFirstEmptyBitFromWord(int32_t bitmap);
@@ -276,8 +276,8 @@ typedef void (^StandardCallback)(NSDictionary* response);
           
           [self event:@{UEVENT : UESETUP} status:UESETUP];
           
-          self.unitCount = [resumable[@"number_of_units"] integerValue];
-          self.unitSize = [resumable[@"unit_size"] integerValue];
+          self.unitCount = [resumable[@"number_of_units"] intValue];
+          self.unitSize = [resumable[@"unit_size"] intValue];
           
           int firstEmptyBit = [self getFirstEmptyBit:resumable[@"bitmap"]];
           if (firstEmptyBit >= self.unitCount) {
@@ -324,11 +324,6 @@ typedef void (^StandardCallback)(NSDictionary* response);
         }
     }
     
-    return FALSE;
-}
-
-//------------------------------------------------------------------------------
-- (BOOL)shouldCheckAgain:(NSDictionary*)checkResponse {
     return FALSE;
 }
 
@@ -459,7 +454,7 @@ typedef void (^StandardCallback)(NSDictionary* response);
     NSDictionary* unitInfo =
     @{@"unit_data"  : unit,
       @"unit_hash"  : [MFHash sha256Hex:unit],
-      @"unit_size"  : [NSString stringWithFormat:@"%i", unit.length],
+      @"unit_size"  : [NSString stringWithFormat:@"%lu", unit.length],
       @"unit_id"    : [NSString stringWithFormat:@"%i", self.lastUnit],
       @"file_name"  : self.fileName,
       @"file_size"  : [NSString stringWithFormat:@"%lli", self.fileSize],
@@ -498,8 +493,7 @@ typedef void (^StandardCallback)(NSDictionary* response);
     }
     [self.pollLock unlock];
     
-    double delayInSeconds = 10.0;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, POLL_INTERVAL * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         [self pollUpload];
     });
@@ -666,14 +660,14 @@ typedef void (^StandardCallback)(NSDictionary* response);
     if (bitmap[@"count"] == nil || bitmap[@"count"] == nil) {
         return 0;
     }
-    int count = [bitmap[@"count"] integerValue];
+    int count = [bitmap[@"count"] intValue];
     NSArray* words = bitmap[@"words"];
     int32_t word = 0;
     int emptyBit=0;
     int emptyBitFromWord=0;
     
     for (int i=0 ; i<count ; i++) {
-        word = [words[i] integerValue];
+        word = [words[i] intValue];
         if (word == 0) {
             // Obviously we have found a zero bit.
             break;
@@ -687,6 +681,14 @@ typedef void (^StandardCallback)(NSDictionary* response);
     }
     return emptyBit;
 }
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
+//------------------------------------------------------------------------------
+- (BOOL)shouldCheckAgain:(NSDictionary*)checkResponse {
+    return FALSE;
+}
+#pragma clang diagnostic pop
 
 //------------------------------------------------------------------------------
 - (NSDictionary*)fileInfo {

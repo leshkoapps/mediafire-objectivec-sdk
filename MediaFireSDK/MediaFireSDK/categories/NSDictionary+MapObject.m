@@ -132,6 +132,8 @@
     return newDictionary;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 //------------------------------------------------------------------------------
 - (NSString*)mapToUrlString {
     __block NSString* newUrl = nil;
@@ -157,5 +159,6 @@
     }];
     return params;
 }
+#pragma clang diagnostic pop
 
 @end

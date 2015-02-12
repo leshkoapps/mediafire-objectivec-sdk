@@ -13,6 +13,8 @@ const NSString* ONERROR     = @"onerror";
 const NSString* ONPROGRESS  = @"onprogress";
 const NSString* ONUPDATE    = @"onupdate";
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 static MFCallback ignoreblock = ^(NSDictionary* response) {
     return;
 };
@@ -20,7 +22,7 @@ static MFCallback ignoreblock = ^(NSDictionary* response) {
 static MFProgressCallback progblock = ^(double progress) {
     return;
 };
-
+#pragma clang diagnostic pop
 
 @implementation NSDictionary (Callbacks)
 @dynamic onload;

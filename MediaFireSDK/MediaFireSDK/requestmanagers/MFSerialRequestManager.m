@@ -493,7 +493,7 @@ static id instance = nil;
     
     NSMutableArray* orderedParams = [MFSerialRequestManager getOrderedArrayOfParameters:newParams];
     
-    signature = [NSString stringWithFormat:@"%d%@%@?%@", (secret % 256), tokenPacket[@"time"], baseUrl, [MFSerialRequestManager getQueryStringFromOrderedParameters:orderedParams]];
+    signature = [NSString stringWithFormat:@"%lu%@%@?%@", (secret % 256), tokenPacket[@"time"], baseUrl, [MFSerialRequestManager getQueryStringFromOrderedParameters:orderedParams]];
     
     NSString * sig = [MFHash md5Hex:signature];
     [MFSerialRequestManager urlEncodeOrderedParameters:orderedParams];

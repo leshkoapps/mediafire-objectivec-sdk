@@ -56,6 +56,8 @@
               callbacks:callbacks];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 //------------------------------------------------------------------------------
 - (void)uploadFile:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
     NSDictionary* headers = [self getHeadersFrom:options];
@@ -80,6 +82,7 @@
     
     [self upload:reqOptions query:optionsMutable callbacks:callbacks];
 }
+#pragma clang diagnostic pop
 
 //------------------------------------------------------------------------------
 - (void)uploadUnit:(NSDictionary*)fileInfo query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {

@@ -47,6 +47,8 @@
     [self getSessionToken:@{} query:credentials callbacks:callbacks];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 //------------------------------------------------------------------------------
 - (void)getSessionToken:(NSDictionary*)options query:(NSDictionary*)credentials callbacks:(NSDictionary*)callbacks {
     // bail out if credentials are empty
@@ -92,6 +94,7 @@
     // start the request
     [self createRequest:config callbacks:customizedCallbacks];
 }
+#pragma clang diagnostic pop
 
 //------------------------------------------------------------------------------
 + (BOOL)validateTokenResponse:(NSDictionary*)response withVersion:(NSString*)version {

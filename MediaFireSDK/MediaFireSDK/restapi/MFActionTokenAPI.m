@@ -36,6 +36,8 @@
     [self getActionToken:@{} query:parameters callbacks:callbacks];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 //------------------------------------------------------------------------------
 - (void)getActionToken:(NSDictionary*)options query:(NSDictionary *)parameters callbacks:(NSDictionary *)callbacks {
     // put all action requests of this type on hold until we get a new token.
@@ -47,5 +49,6 @@
     [self setOverrides:config];
     [[MFConfig serialRequestDelegate] createRequest:config callbacks:callbacks];
 }
+#pragma clang diagnostic pop
 
 @end
