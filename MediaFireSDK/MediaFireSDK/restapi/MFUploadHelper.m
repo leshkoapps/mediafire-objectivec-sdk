@@ -11,6 +11,9 @@
 #import "MFErrorLog.h"
 #import "MFHash.h"
 
+static int64_t      MAX_FILESIZE_MEM= 10000000;
+static unsigned long long HASH_BLOCK_SIZE = 262144;
+
 @implementation MFUploadHelper
 
 - (NSData*)getChunk:(int)chunkNumber forFile:(NSDictionary*)fileInfo {
@@ -81,7 +84,7 @@
     file.fileSize = [fileAttributes fileSize];
     
     // File Hash and upload data
-    if (file.fileSize < 10000000) {
+    if (file.fileSize < MAX_FILESIZE_MEM) {
         NSError* dataError = nil;
         file.uploadData = [NSData dataWithContentsOfFile:path options:NSMappedRead error:&dataError];
         if (dataError) {
@@ -91,7 +94,7 @@
         }
         file.fileHash = [MFHash sha256Hex:file.uploadData];
     } else {
-        file.fileHash = [MFHash sha256HashFileAtPath:file.filePath blockSize:262144];
+        file.fileHash = [MFHash sha256HashFileAtPath:file.filePath blockSize:HASH_BLOCK_SIZE];
     }
 
     block(file, nil);

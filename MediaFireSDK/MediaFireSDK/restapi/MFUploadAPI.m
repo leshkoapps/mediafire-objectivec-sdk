@@ -179,14 +179,14 @@
     if (bitmap[@"count"] == nil || bitmap[@"count"] == nil) {
         return 0;
     }
-    int count = [bitmap[@"count"] integerValue];
+    int count = [bitmap[@"count"] intValue];
     NSArray* words = bitmap[@"words"];
     int32_t word = 0;
     int emptyBit=0;
     int emptyBitFromWord=0;
     
     for (int i=0 ; i<count ; i++) {
-        word = [words[i] integerValue];
+        word = [words[i] intValue];
         if (word == 0) {
             // Obviously we have found a zero bit.
             break;

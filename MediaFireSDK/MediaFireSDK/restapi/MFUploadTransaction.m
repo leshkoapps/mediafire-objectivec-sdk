@@ -22,7 +22,6 @@
 static const double POLL_INTERVAL   = 10.0; // poll interval in seconds
 static const int    POLL_ATTEMPTS   = 6;    // number of polling attempts
 static NSString*    ON_FIND_DUP     = @"keep";
-static int64_t      MAX_FILESIZE_MEM= 10000000;
 typedef void (^StandardCallback)(NSDictionary* response);
 
 //==============================================================================
