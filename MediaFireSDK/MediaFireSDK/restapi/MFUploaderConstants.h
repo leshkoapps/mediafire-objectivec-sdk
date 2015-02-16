@@ -48,3 +48,5 @@ extern NSString* const ULASTUNIT;
 extern NSString* const UUNITSIZE;
 /** @brief The name of the "total number of units" property in a file properties dictionary.*/
 extern NSString* const UUNITCOUNT;
+/** @brief The name of the "identifier" property in a file properties dictionary.*/
+extern NSString* const UIDENT;

@@ -30,3 +30,4 @@ NSString* const UFILESIZE    = @"filesize";
 NSString* const ULASTUNIT    = @"lastunit";
 NSString* const UUNITSIZE    = @"unitsize";
 NSString* const UUNITCOUNT   = @"unitcount";
+NSString* const UIDENT       = @"identifier";
