@@ -158,4 +158,7 @@
  */
 - (void)pollUpload:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
 
++ (int)getFirstEmptyBitFromWord:(int32_t)bitmap;
+
++ (int)getFirstEmptyBit:(NSDictionary*)bitmap;
 @end

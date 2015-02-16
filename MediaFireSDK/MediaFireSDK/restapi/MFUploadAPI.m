@@ -150,4 +150,55 @@
     return headers;
 }
 
+//------------------------------------------------------------------------------
++ (int)getFirstEmptyBitFromWord:(int32_t)bitmap {
+    if (bitmap == 0) {
+        // All zeros, no need to check this one.
+        return 0;
+    }
+    int emptyBit = 0;   // Return value
+    int currentBit = 0; // Contains the last shifted bit
+    
+    for (int i=0; i<16 ; i++) {
+        currentBit = (bitmap >> i) & 1;
+        if (currentBit == 0) {
+            break;
+        }
+        currentBit = 0;
+        emptyBit++;
+    }
+    
+    return emptyBit;
+}
+
+//------------------------------------------------------------------------------
++ (int)getFirstEmptyBit:(NSDictionary*)bitmap {
+    if (bitmap == nil) {
+        return 0;
+    }
+    if (bitmap[@"count"] == nil || bitmap[@"count"] == nil) {
+        return 0;
+    }
+    int count = [bitmap[@"count"] integerValue];
+    NSArray* words = bitmap[@"words"];
+    int32_t word = 0;
+    int emptyBit=0;
+    int emptyBitFromWord=0;
+    
+    for (int i=0 ; i<count ; i++) {
+        word = [words[i] integerValue];
+        if (word == 0) {
+            // Obviously we have found a zero bit.
+            break;
+        }
+        emptyBitFromWord = [self getFirstEmptyBitFromWord:word];
+        emptyBit = emptyBit + emptyBitFromWord;
+        if (emptyBitFromWord < 16) {
+            // bit 0-15 was returned, so we have found a zero bit.
+            break;
+        }
+    }
+    return emptyBit;
+}
+
 @end
