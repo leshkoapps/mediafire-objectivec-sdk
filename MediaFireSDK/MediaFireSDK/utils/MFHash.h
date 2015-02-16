@@ -100,6 +100,8 @@ typedef NSData* (^MFHashChunkBlock)(int index, BOOL* done);
  */
 + (NSString*)sha1HexChunked:(MFHashChunkBlock)block;
 
++ (NSString*)sha1HashFileAtPath:(NSString*)path blockSize:(unsigned long long)size;
+
 /**
  @brief Creates a string representation of the sha256 hash of the provided object.
  
@@ -117,6 +119,8 @@ typedef NSData* (^MFHashChunkBlock)(int index, BOOL* done);
  the chunk of the item to be hashed.
  */
 + (NSString*)sha256HexChunked:(MFHashChunkBlock)block;
+
++ (NSString*)sha256HashFileAtPath:(NSString*)path blockSize:(unsigned long long)size;
 
 /**
  @brief Creates a string representation of the md5 hash of the provided object.
@@ -136,4 +140,5 @@ typedef NSData* (^MFHashChunkBlock)(int index, BOOL* done);
  */
 + (NSString*)md5HexChunked:(MFHashChunkBlock)block;
 
++ (NSString*)md5HashFileAtPath:(NSString*)path blockSize:(unsigned long long)size;
 @end

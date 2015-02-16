@@ -68,6 +68,24 @@ typedef int (^UpdateDigest)(NSData* chunkData);
 }
 
 //------------------------------------------------------------------------------
++ (NSString*)sha1HashFileAtPath:(NSString*)path blockSize:(unsigned long long)size {
+    NSFileHandle* file = [NSFileHandle fileHandleForReadingAtPath:path];
+    __block NSMutableData* dataBuffer = [[NSMutableData alloc]init];
+    
+    MFHashChunkBlock block = ^(int index, BOOL* done) {
+        [file seekToFileOffset: (index*size)];
+        @autoreleasepool {
+            [dataBuffer setData:[file readDataOfLength:size]];
+            if (dataBuffer.length < size) {
+                *done = true;
+            }
+        }
+        return dataBuffer;
+    };
+    return [MFHash sha1HexChunked:block];
+}
+
+//------------------------------------------------------------------------------
 + (NSData*)sha256:(id)data {
     CC_SHA256_CTX* ctx = (CC_SHA256_CTX*)malloc(sizeof(CC_SHA256_CTX));
     NSMutableData* result = [NSMutableData dataWithLength:CC_SHA256_DIGEST_LENGTH];
@@ -119,6 +137,24 @@ typedef int (^UpdateDigest)(NSData* chunkData);
 //------------------------------------------------------------------------------
 + (NSString*)sha256HexChunked:(MFHashChunkBlock)block {
     return [MFEncode dataToHex:[self sha256Chunked:block]];
+}
+
+//------------------------------------------------------------------------------
++ (NSString*)sha256HashFileAtPath:(NSString*)path blockSize:(unsigned long long)size {
+    NSFileHandle* file = [NSFileHandle fileHandleForReadingAtPath:path];
+    __block NSMutableData* dataBuffer = [[NSMutableData alloc]init];
+    
+    MFHashChunkBlock block = ^(int index, BOOL* done) {
+        [file seekToFileOffset: (index*size)];
+        @autoreleasepool {
+            [dataBuffer setData:[file readDataOfLength:size]];
+            if (dataBuffer.length < size) {
+                *done = true;
+            }
+        }
+        return dataBuffer;
+    };
+    return [MFHash sha256HexChunked:block];
 }
 
 
@@ -174,6 +210,24 @@ typedef int (^UpdateDigest)(NSData* chunkData);
 //------------------------------------------------------------------------------
 + (NSString*)md5HexChunked:(MFHashChunkBlock)block {
     return [MFEncode dataToHex:[self md5Chunked:block]];
+}
+
+//------------------------------------------------------------------------------
++ (NSString*)md5HashFileAtPath:(NSString*)path blockSize:(unsigned long long)size {
+    NSFileHandle* file = [NSFileHandle fileHandleForReadingAtPath:path];
+    __block NSMutableData* dataBuffer = [[NSMutableData alloc]init];
+    
+    MFHashChunkBlock block = ^(int index, BOOL* done) {
+        [file seekToFileOffset: (index*size)];
+        @autoreleasepool {
+            [dataBuffer setData:[file readDataOfLength:size]];
+            if (dataBuffer.length < size) {
+                *done = true;
+            }
+        }
+        return dataBuffer;
+    };
+    return [MFHash md5HexChunked:block];
 }
 
 @end
