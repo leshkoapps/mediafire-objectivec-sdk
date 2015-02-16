@@ -162,4 +162,26 @@
               callbacks:callbacks];
 }
 
+//------------------------------------------------------------------------------
+- (void)directDownloadToMemory:(NSURL*)url callbacks:(NSDictionary*)callbacks {
+    if (url == nil) {
+        callbacks.onerror(erm(nullURL));
+    }
+    
+    NSString* pathWithQuery = @"";
+    
+    if ([url query].length) {
+        pathWithQuery = [NSString stringWithFormat:@"%@?%@", [url path], [url query]];
+    } else {
+        pathWithQuery = [url path];
+    }
+    
+    [self createRequest:@{@"method" : @"GET",
+                          @"token_type" : @"none",
+                          @"host" : [url host],
+                          @"url" : pathWithQuery}
+                  query:@{}
+              callbacks:callbacks];
+}
+
 @end

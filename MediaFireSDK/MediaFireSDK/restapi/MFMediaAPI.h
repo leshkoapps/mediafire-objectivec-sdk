@@ -95,4 +95,14 @@
  */
 - (void)directDownload:(NSURL*)url callbacks:(NSDictionary*)callbacks;
 
+/**
+ @brief Performs a direct download of a file at the given url.  Differs from getPreviewBinaryCachedPath in that this method gets the original file, not a preview.  The file is saved to memory and passed up the callback chain.
+ 
+ @param url The direct download url, which can be acquired via a call to 'getLinks'.  See MFFileAPI.
+ 
+ @param callbacks A dictionary containing an onload callback and onerror
+ callback. See NSDictionary(Callbacks).
+ */
+- (void)directDownloadToMemory:(NSURL*)url callbacks:(NSDictionary*)callbacks;
+
 @end

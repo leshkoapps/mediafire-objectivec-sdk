@@ -27,7 +27,7 @@ static id instance = nil;
 @property(strong,nonatomic,getter=SystemAPI)MFSystemAPI*    system;
 @property(strong,nonatomic,getter=UploadAPI)MFUploadAPI*    upload;
 @property(strong,nonatomic,getter=UserAPI)MFUserAPI*        user;
-@property(strong,nonatomic,getter=MediaAPI)MFMediaAPI*       media;
+@property(strong,nonatomic,getter=MediaAPI)MFMediaAPI*      media;
 
 @end
 
@@ -265,7 +265,5 @@ static id instance = nil;
 + (MFMediaAPI*)MediaAPI {
     return [instance MediaAPI];
 }
-
-
 
 @end
