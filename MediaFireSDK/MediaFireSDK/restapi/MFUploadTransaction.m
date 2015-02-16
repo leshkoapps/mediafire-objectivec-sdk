@@ -15,14 +15,14 @@
 #import "MFErrorLog.h"
 #import "MFErrorMessage.h"
 #import "MFHTTPOptions.h"
+#import "MFUploadHelper.h"
+#import "NSData+BytesRange.h"
 
 //==============================================================================
 static const double POLL_INTERVAL   = 10.0; // poll interval in seconds
 static const int    POLL_ATTEMPTS   = 6;    // number of polling attempts
 static NSString*    ON_FIND_DUP     = @"keep";
-
-static int getFirstEmptyBitFromWord(int32_t bitmap);
-
+static int64_t      MAX_FILESIZE_MEM= 10000000;
 typedef void (^StandardCallback)(NSDictionary* response);
 
 //==============================================================================
@@ -35,23 +35,24 @@ typedef void (^StandardCallback)(NSDictionary* response);
 @property (nonatomic,strong) NSDictionary* opCallbacks;
 
 @property (nonatomic,strong) NSData* uploadData;
-@property (nonatomic,strong)  NSURLSessionTask* connection;
+@property (nonatomic,strong) NSURLSessionTask* connection;
 @property (nonatomic,strong) NSString* currentStatus;
 @property (nonatomic,strong) NSString* fileName;
 @property (nonatomic,strong) NSString* fileHash;
-@property (nonatomic,strong) NSString* folderkey;
 @property (nonatomic,strong) NSString* filePath;
+@property (nonatomic,strong) NSString* identifier;
 
 @property (nonatomic,strong) NSString* verificationKey;
 @property (nonatomic,strong) NSString* quickkey;
 
 @property (nonatomic,assign) int64_t fileSize;
-@property (nonatomic,assign) int     unitCount;
-@property (nonatomic,assign) int     unitSize;
+@property (nonatomic,assign) long     unitCount;
+@property (nonatomic,assign) long     unitSize;
 @property (nonatomic,assign) int     lastUnit;
 @property (nonatomic,assign) int     pollCount;
 
 @property (nonatomic,assign) BOOL cancelled;
+
 
 @end
 
@@ -164,67 +165,45 @@ typedef void (^StandardCallback)(NSDictionary* response);
 
 //------------------------------------------------------------------------------
 - (void)prepareFile {
-    // Check for empty file path
-    if (self.filePath == nil || [self.filePath isEqualToString:@""]) {
-        mflog(@"Cannot prepare file for upload. File path is empty. - %@",self.filePath);
-        [self fail:[MFErrorMessage nullField:@"filePath"]];
-        return;
+    id<MFUploadHelperDelegate> helper = self.helper;
+    if (helper == nil) {
+        helper = [[MFUploadHelper alloc] init];
     }
     
-    NSFileManager* fileManager = [NSFileManager defaultManager];
+    __weak MFUploadTransaction* bself = self;
     
-    // Check for existence and readability
-    if (![fileManager isReadableFileAtPath:self.filePath]) {
-        mflog(@"Cannot prepare file for upload. App does not have read privileges or the existence of the file could not be determined - %@", self.filePath);
-        [self fail:[MFErrorMessage invalidField:@"filePath"]];
-        return;
-    }
-    
-    // Get file size
-    NSError* sizeError = nil;
-    NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:self.filePath error:&sizeError];
-
-    if (sizeError) {
-        mflog(@"Cannot prepare file for upload. Could not get file size. - %@. Error: %@", self.filePath, [sizeError userInfo]);
-        [self fail:[MFErrorMessage invalidField:@"filePath"]];
-        return;
-    }
-    
-    self.fileSize = [fileAttributes fileSize];
-    
-    // Set hash
-    if (self.fileSize > 10000000) {
-        NSFileHandle* file = [NSFileHandle fileHandleForReadingAtPath:self.filePath];
-        __block NSMutableData* dataBuffer = [[NSMutableData alloc]init];
-        
-        MFHashChunkBlock block = ^(int index, BOOL* done) {
-            [file seekToFileOffset: (index*262144)];
-            @autoreleasepool {
-                [dataBuffer setData:[file readDataOfLength:262144]];
-                if (dataBuffer.length < 262144) {
-                    *done = true;
-                }
-            }
-            return dataBuffer;
-        };
-        self.fileHash = [MFHash sha256HexChunked:block];
-        
-    } else {
-        NSError* dataError = nil;
-        self.uploadData = [NSData dataWithContentsOfFile: self.filePath
-                                                 options: NSMappedRead
-                                                   error: &dataError];
-        
-        if (dataError) {
-            mflog(@"Cannot prepare file for upload. Cannot memory map the file data. - %@. Error: %@", self.filePath, [dataError userInfo]);
-            [self fail:[MFErrorMessage invalidField:@"filePath"]];
+    [helper prepareFileForUpload:[self fileInfo] withCompletionHandler:^(MFUploadFileInfo* fileInfo, NSError* err) {
+        if (err != nil) {
+            [self fail:[MFErrorMessage nullField:@"filePath"]];
+            return;
+        }
+        if (fileInfo == nil) {
+            [self fail:[MFErrorMessage nullField:@"fileInfo"]];
+            return;
+        }
+        if (fileInfo.fileHash == nil) {
+            [self fail:[MFErrorMessage nullField:@"fileHash"]];
+            return;
+        }
+        if ((fileInfo.filePath == nil) && (fileInfo.uploadData == nil)) {
+            [self fail:[MFErrorMessage nullField:@"fileHash"]];
             return;
         }
         
-        self.fileHash = [MFHash sha256Hex:[self getFileChunk:-1]];
-    }
-    
-    [self checkUpload];
+        if ((fileInfo.fileName != nil) && ![fileInfo.fileName isEqualToString:@""]) {
+            self.fileName = fileInfo.fileName;
+        }
+        self.fileSize = fileInfo.fileSize;
+        self.fileHash = fileInfo.fileHash;
+        
+        if (fileInfo.uploadData != nil) {
+            self.uploadData = fileInfo.uploadData;
+        }
+        if (fileInfo.filePath != nil) {
+            self.filePath = fileInfo.filePath;
+        }
+        [bself checkUpload];
+    }];
 }
 
 //------------------------------------------------------------------------------
@@ -247,6 +226,7 @@ typedef void (^StandardCallback)(NSDictionary* response);
     @{@"httpTask" : [self httpTask],
       ONLOAD    : ^(NSDictionary* response) {
           if ([self shouldSucceed:response]) {
+              self.quickkey = response[@"duplicate_quickkey"];
               [self success:response];
               return;
           }
@@ -276,10 +256,10 @@ typedef void (^StandardCallback)(NSDictionary* response);
           
           [self event:@{UEVENT : UESETUP} status:UESETUP];
           
-          self.unitCount = [resumable[@"number_of_units"] intValue];
-          self.unitSize = [resumable[@"unit_size"] intValue];
+          self.unitCount = [resumable[@"number_of_units"] longLongValue];
+          self.unitSize = [resumable[@"unit_size"] longLongValue];
           
-          int firstEmptyBit = [self getFirstEmptyBit:resumable[@"bitmap"]];
+          int firstEmptyBit = [[self.api class] getFirstEmptyBit:resumable[@"bitmap"]];
           if (firstEmptyBit >= self.unitCount) {
               mflog(@"Cannot checkUpload. Bitmap failure. - %@.", self.filePath);
               [self fail:[MFErrorMessage bitmapError]];
@@ -321,6 +301,12 @@ typedef void (^StandardCallback)(NSDictionary* response);
                 // No upload needed. File exists with same name, location, and hash.
                 return TRUE;
             }
+            }
+    }
+    if ((checkResponse[@"resumable_upload"] != nil) && ([checkResponse[@"resumable_upload"] isKindOfClass:[NSDictionary class] ])) {
+        NSDictionary* resumable = checkResponse[@"resumable_upload"];
+        if ([resumable[@"all_units_ready"] isEqualToString:@"yes"]) {
+            return TRUE;
         }
     }
     
@@ -449,7 +435,18 @@ typedef void (^StandardCallback)(NSDictionary* response);
           }
       }};
     
-    NSData* unit = [self getFileChunk:self.lastUnit];
+    id<MFUploadHelperDelegate> helper = self.helper;
+    if (helper == nil) {
+        helper = [[MFUploadHelper alloc] init];
+    }
+    
+    NSData* unit = nil;
+    
+    if (self.uploadData != nil) {
+        unit = [self.uploadData getBytesFromIndex:(self.lastUnit*self.unitSize) length:self.unitSize];
+    } else {
+        unit = [helper getChunk:self.lastUnit forFile:[self fileInfo]];
+    }
     
     NSDictionary* unitInfo =
     @{@"unit_data"  : unit,
@@ -569,45 +566,7 @@ typedef void (^StandardCallback)(NSDictionary* response);
 //------------------------------------------------------------------------------
 - (NSDictionary*)optionsForPollUpload {
     return @{};
-}
-
-//------------------------------------------------------------------------------
-- (NSData*)getFileChunk:(int)i {
-    unsigned long chunkSize = self.unitSize;
-    unsigned long startFrom = self.lastUnit * self.unitSize;
-    if (startFrom + chunkSize > self.fileSize) {
-        chunkSize = (unsigned long)(self.fileSize - startFrom);
     }
-    if (i < 0) {
-        chunkSize = (unsigned long)(self.fileSize);
-        startFrom = 0;
-    }
-
-    if (self.uploadData != nil) {
-        unsigned char *plainText;
-        plainText = malloc(chunkSize);
-        if (!plainText) {
-            return nil;
-        }
-        memset(plainText, 0, chunkSize);
-        
-        [self.uploadData getBytes:plainText range:(NSRange){startFrom, chunkSize}];
-        
-        NSData* unit = [NSData dataWithBytes:plainText length:chunkSize];
-        free(plainText);
-        return unit;
-        
-    } else {
-        NSFileHandle* file = [NSFileHandle fileHandleForReadingAtPath:self.filePath];
-        NSMutableData* dataBuffer = [[NSMutableData alloc] init];
-        [file seekToFileOffset:startFrom];
-        [dataBuffer setData:[file readDataOfLength:chunkSize]];
-        
-        return dataBuffer;
-    }
-    
-    return nil;
-}
 
 //------------------------------------------------------------------------------
 - (void)event:(NSDictionary*)response status:(NSString*)status {
@@ -625,7 +584,7 @@ typedef void (^StandardCallback)(NSDictionary* response);
 }
 
 //------------------------------------------------------------------------------
-- (void)statusChange:(StandardCallback)callback response:(NSDictionary*) response status:(NSString*)status{
+- (void)statusChange:(StandardCallback)callback response:(NSDictionary*)response status:(NSString*)status{
     self.connection = nil;
     if (status != nil) {
         [self setStatus:status];
@@ -634,7 +593,9 @@ typedef void (^StandardCallback)(NSDictionary* response);
     if (response == nil) {
         response = @{};
     }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     callback(@{ @"fileInfo" : [self fileInfo], @"response" : response});
+    });
 }
 
 //------------------------------------------------------------------------------
@@ -650,36 +611,6 @@ typedef void (^StandardCallback)(NSDictionary* response);
     return ^(NSURLSessionTask* connection) {
         bself.connection = connection;
     };
-}
-
-//------------------------------------------------------------------------------
-- (int)getFirstEmptyBit:(NSDictionary*)bitmap {
-    if (bitmap == nil) {
-        return 0;
-    }
-    if (bitmap[@"count"] == nil || bitmap[@"count"] == nil) {
-        return 0;
-    }
-    int count = [bitmap[@"count"] intValue];
-    NSArray* words = bitmap[@"words"];
-    int32_t word = 0;
-    int emptyBit=0;
-    int emptyBitFromWord=0;
-    
-    for (int i=0 ; i<count ; i++) {
-        word = [words[i] intValue];
-        if (word == 0) {
-            // Obviously we have found a zero bit.
-            break;
-        }
-        emptyBitFromWord = getFirstEmptyBitFromWord(word);
-        emptyBit = emptyBit + emptyBitFromWord;
-        if (emptyBitFromWord < 16) {
-            // bit 0-15 was returned, so we have found a zero bit.
-            break;
-        }
-    }
-    return emptyBit;
 }
 
 #pragma clang diagnostic push
@@ -702,7 +633,8 @@ typedef void (^StandardCallback)(NSDictionary* response);
       UUNITCOUNT: [NSNumber numberWithInteger:self.unitCount],
       UFILESIZE : [NSNumber numberWithLongLong:self.fileSize],
       UUNITSIZE : [NSNumber numberWithInteger:self.unitSize],
-      ULASTUNIT : [NSNumber numberWithInteger:self.lastUnit]
+      ULASTUNIT : [NSNumber numberWithInteger:self.lastUnit],
+      UIDENT : self.identifier
       };
 }
 
@@ -794,27 +726,3 @@ typedef void (^StandardCallback)(NSDictionary* response);
 
 @end
 
-//==============================================================================
-// STATIC METHODS
-//==============================================================================
-
-//------------------------------------------------------------------------------
-static int getFirstEmptyBitFromWord(int32_t bitmap) {
-    if (bitmap == 0) {
-        // All zeros, no need to check this one.
-        return 0;
-    }
-    int emptyBit = 0;   // Return value
-    int currentBit = 0; // Contains the last shifted bit
-    
-    for (int i=0; i<16 ; i++) {
-        currentBit = (bitmap >> i) & 1;
-        if (currentBit == 0) {
-            break;
-        }
-        currentBit = 0;
-        emptyBit++;
-    }
-    
-    return emptyBit;
-}

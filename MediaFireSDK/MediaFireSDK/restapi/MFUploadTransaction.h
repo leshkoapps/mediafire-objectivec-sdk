@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MFUploadHelperDelegate.h"
 
 /**
   @brief Uploads a file to the cloud.
@@ -37,10 +38,18 @@
 @interface MFUploadTransaction : NSObject
 
 /**
+ @brief The destination folderkey for the upload.  Defaults to the root folder if left blank.
+ */
+@property (nonatomic,strong) NSString* folderkey;
+/**
  @brief A unique http client name registered thru MFConfig.
  */
 @property (strong,nonatomic) NSString* httpClientId;
 
+/**
+ @brief A delegate that conforms to the MFUploadHelper protocol. (Optional)
+ */
+@property (nonatomic, strong) id<MFUploadHelperDelegate> helper;
 /**
  @brief Returns an MFUploadTransaction object initialized with a given MFUploadAPI instance.
  
@@ -89,11 +98,6 @@
  @brief Called by internal functions to prepare a file for upload.
  */
 - (void)prepareFile;
-
-/**
- @brief Called by internal functions to get a data chunk for upload.
- */
-- (NSData*)getFileChunk:(int)i;
 
 /**
  @brief Called by internal functions to begin a resumable upload.
