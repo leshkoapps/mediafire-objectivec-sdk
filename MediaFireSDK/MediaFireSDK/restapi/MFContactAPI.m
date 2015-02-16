@@ -50,4 +50,49 @@
     [self createRequest:[options merge:@{HURL : @"delete.php"}] query:parameters callbacks:cb];
 }
 
+//------------------------------------------------------------------------------
+- (void)fetch:(NSDictionary*)parameters callbacks:(NSDictionary*)cb {
+    [self fetch:@{} query:parameters callbacks:cb];
+}
+
+- (void)fetch:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)cb {
+    [self createRequest:[options merge:@{HURL : @"fetch.php"}] query:parameters callbacks:cb];
+}
+
+//------------------------------------------------------------------------------
+- (void)getAvatar:(NSDictionary*)parameters callbacks:(NSDictionary*)cb {
+    [self getAvatar:@{} query:parameters callbacks:cb];
+}
+
+- (void)getAvatar:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)cb {
+    [self createRequest:[options merge:@{HURL : @"get_avatar.php"}] query:parameters callbacks:cb];
+}
+
+//------------------------------------------------------------------------------
+- (void)getSources:(NSDictionary*)parameters callbacks:(NSDictionary*)cb {
+    [self getSources:@{} query:parameters callbacks:cb];
+}
+
+- (void)getSources:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)cb {
+    [self createRequest:[options merge:@{HURL : @"get_sources.php"}] query:parameters callbacks:cb];
+}
+
+//------------------------------------------------------------------------------
+- (void)setAvatar:(NSDictionary*)parameters callbacks:(NSDictionary*)cb {
+    [self setAvatar:@{} query:parameters callbacks:cb];
+}
+
+- (void)setAvatar:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)cb {
+    [self createRequest:[options merge:@{HURL : @"set_avatar.php"}] query:parameters callbacks:cb];
+}
+
+//------------------------------------------------------------------------------
+- (void)summary:(NSDictionary*)parameters callbacks:(NSDictionary*)cb {
+    [self summary:@{} query:parameters callbacks:cb];
+}
+
+- (void)summary:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)cb {
+    [self createRequest:[options merge:@{HURL : @"summary.php"}] query:parameters callbacks:cb];
+}
+
 @end

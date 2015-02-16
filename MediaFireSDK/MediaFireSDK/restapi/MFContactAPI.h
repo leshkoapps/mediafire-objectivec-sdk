@@ -74,4 +74,135 @@
  */
 - (void)delete:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
 
+/**
+ @brief Fetches the contact list.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/contact.php#fetch)
+ for list of valid parameters.
+ 
+ @param callbacks A dictionary containing an onload callback and onerror
+ callback. See NSDictionary(Callbacks).
+ */
+- (void)fetch:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
+
+/**
+ @brief Fetches the contact list.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/contact.php#fetch)
+ for list of valid parameters.
+ 
+ @param callbacks A dictionary containing an onload callback and onerror
+ callback. See NSDictionary(Callbacks).
+ */
+- (void)fetch:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
+
+/**
+ @brief Gets the url of the current user's avatar.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/contact.php#get_avatar)
+ for list of valid parameters.
+ 
+ @param callbacks A dictionary containing an onload callback and onerror
+ callback. See NSDictionary(Callbacks).
+ */
+- (void)getAvatar:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
+
+/**
+ @brief Gets the url of the current user's avatar.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/contact.php#get_avatar)
+ for list of valid parameters.
+ 
+ @param callbacks A dictionary containing an onload callback and onerror
+ callback. See NSDictionary(Callbacks).
+ */
+- (void)getAvatar:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
+
+/**
+ @brief Gets contact sources.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/contact.php#get_sources)
+ for list of valid parameters.
+ 
+ @param callbacks A dictionary containing an onload callback and onerror
+ callback. See NSDictionary(Callbacks).
+ */
+- (void)getSources:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
+
+/**
+ @brief Gets contact sources.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/contact.php#get_sources)
+ for list of valid parameters.
+ 
+ @param callbacks A dictionary containing an onload callback and onerror
+ callback. See NSDictionary(Callbacks).
+ */
+- (void)getSources:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
+
+/**
+ @brief Sets the avatar of the current user.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/contact.php#set_avatar)
+ for list of valid parameters.
+ 
+ @param callbacks A dictionary containing an onload callback and onerror
+ callback. See NSDictionary(Callbacks).
+ */
+- (void)setAvatar:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
+
+/**
+ @brief Sets the avatar of the current user.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/contact.php#set_avatar)
+ for list of valid parameters.
+ 
+ @param callbacks A dictionary containing an onload callback and onerror
+ callback. See NSDictionary(Callbacks).
+ */
+- (void)setAvatar:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
+
+/**
+ @brief Fetch a summary of contacts by type.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/contact.php#summary)
+ for list of valid parameters.
+ 
+ @param callbacks A dictionary containing an onload callback and onerror
+ callback. See NSDictionary(Callbacks).
+ */
+- (void)summary:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
+
+/**
+ @brief Fetch a summary of contacts by type.
+
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/contact.php#summary)
+ for list of valid parameters.
+ 
+ @param callbacks A dictionary containing an onload callback and onerror
+ callback. See NSDictionary(Callbacks).
+ */
+- (void)summary:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
+
+
 @end
