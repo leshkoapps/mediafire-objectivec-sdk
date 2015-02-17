@@ -185,7 +185,7 @@ typedef void (^StandardCallback)(NSDictionary* response);
             return;
         }
         if ((fileInfo.filePath == nil) && (fileInfo.uploadData == nil)) {
-            [self fail:[MFErrorMessage nullField:@"fileHash"]];
+            [self fail:[MFErrorMessage nullField:@"fileData"]];
             return;
         }
         
