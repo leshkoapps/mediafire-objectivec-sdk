@@ -300,7 +300,7 @@ typedef void (^StandardCallback)(NSDictionary* response);
                 // No upload needed. File exists with same name, location, and hash.
                 return TRUE;
             }
-            }
+        }
     }
     if ((checkResponse[@"resumable_upload"] != nil) && ([checkResponse[@"resumable_upload"] isKindOfClass:[NSDictionary class] ])) {
         NSDictionary* resumable = checkResponse[@"resumable_upload"];
@@ -623,17 +623,17 @@ typedef void (^StandardCallback)(NSDictionary* response);
 //------------------------------------------------------------------------------
 - (NSDictionary*)fileInfo {
     return
-    @{UFILENAME : self.fileName,
-      UFILEHASH : self.fileHash,
-      UFILEPATH : self.filePath,
-      USTATUS   : self.currentStatus,
-      UUPLOADKEY: self.verificationKey,
-      UQUICKKEY : self.quickkey,
+    @{UFILENAME : (self.fileName.length ? self.fileName : @""),
+      UFILEHASH : (self.fileHash.length ? self.fileHash : @""),
+      UFILEPATH : (self.filePath.length ? self.filePath : @""),
+      USTATUS   : (self.currentStatus.length ? self.currentStatus : @""),
+      UUPLOADKEY: (self.verificationKey.length ? self.verificationKey : @""),
+      UQUICKKEY : (self.quickkey.length ? self.quickkey : @"") ,
       UUNITCOUNT: [NSNumber numberWithInteger:self.unitCount],
       UFILESIZE : [NSNumber numberWithLongLong:self.fileSize],
       UUNITSIZE : [NSNumber numberWithInteger:self.unitSize],
       ULASTUNIT : [NSNumber numberWithInteger:self.lastUnit],
-      UIDENT : self.identifier
+      UIDENT    : (self.identifier.length ? self.identifier : @"")
       };
 }
 
