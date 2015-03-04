@@ -89,7 +89,7 @@ static bool validCreds = false;
 //------------------------------------------------------------------------------
 + (BOOL)setTwitter:(NSString*)token withSecret:(NSString*)secret {
     // sanity check
-    if ( token == nil || secret == nil ) {
+    if ((token == nil) || (secret == nil)) {
         return false;
     }
     // clear all credentials before setting a new value.

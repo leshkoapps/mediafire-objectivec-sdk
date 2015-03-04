@@ -391,6 +391,11 @@ static id instance = nil;
     if (callbacks == nil) {
         return;
     }
+    
+    if (config == nil) {
+        callbacks.onerror(erm(nullField:@"config"));
+        return;
+    }
     //  create a packet containing this method's parameters and save it for
     //  eventual processing when a session token is available. If we haven't
     //  requested some maximum number of tokens, initiate another request

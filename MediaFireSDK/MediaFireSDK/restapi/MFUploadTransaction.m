@@ -447,6 +447,11 @@ typedef void (^StandardCallback)(NSDictionary* response);
         unit = [helper getChunk:self.lastUnit forFile:[self fileInfo]];
     }
     
+    if (unit == nil) {
+        [self fail:[MFErrorMessage nullField:@"unit"]];
+        return;
+    }
+    
     NSDictionary* unitInfo =
     @{@"unit_data"  : unit,
       @"unit_hash"  : [MFHash sha256Hex:unit],
