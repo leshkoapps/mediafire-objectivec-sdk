@@ -523,6 +523,10 @@ static id instance = nil;
         erm(nullField:@"callbacks for resumed request");
         return;
     }
+    if (tokenPacket[@"session_token"] == nil) {
+        callbacks.onerror(erm(nullField:@"session_token"));
+        return;
+    }
     MFAPIURLRequestConfig* config = request[@"config"];
     if (config == nil) {
         callbacks.onerror(erm(nullField:@"config"));

@@ -113,7 +113,7 @@
         BOOL isCreated = [[NSFileManager defaultManager] createDirectoryAtPath:cachedImageSizePath withIntermediateDirectories:TRUE attributes:nil error:&error];
         
         if (!isCreated || error != nil) {
-            mflog(@"Failed to create directory at: %@. Error - @%", cachedImageSizePath, [error userInfo]);
+            mflog(@"Failed to create directory at: %@. Error - @%", cachedImageSizePath, error.userInfo);
             callbacks.onerror(erm(invalidField:@"cachedImageSizePath"));
         }
     }
@@ -151,13 +151,16 @@
         callbacks.onerror(erm(nullURL));
     }
     
-    NSString* localPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[url lastPathComponent]];
+    NSString* localPath = [NSTemporaryDirectory() stringByAppendingPathComponent:url.lastPathComponent];
+    if (localPath == nil) {
+        localPath = @"";
+    }
     
     [self createRequest:@{@"method" : @"GET",
                           @"token_type" : @"none",
                           @"localpath" : localPath,
-                          @"host" : [url host],
-                          @"url" : [url path]}
+                          @"host" : url.host,
+                          @"url" : url.path}
                   query:@{}
               callbacks:callbacks];
 }
@@ -170,15 +173,18 @@
     
     NSString* pathWithQuery = @"";
     
-    if ([url query].length) {
-        pathWithQuery = [NSString stringWithFormat:@"%@?%@", [url path], [url query]];
+    if (url.query.length) {
+        pathWithQuery = [NSString stringWithFormat:@"%@?%@", url.path, url.query];
     } else {
-        pathWithQuery = [url path];
+        pathWithQuery = url.path;
+    }
+    if (pathWithQuery == nil) {
+        pathWithQuery = @"";
     }
     
     [self createRequest:@{@"method" : @"GET",
                           @"token_type" : @"none",
-                          @"host" : [url host],
+                          @"host" : url.host,
                           @"url" : pathWithQuery}
                   query:@{}
               callbacks:callbacks];

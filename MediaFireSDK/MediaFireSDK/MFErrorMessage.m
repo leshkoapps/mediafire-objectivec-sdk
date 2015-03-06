@@ -23,6 +23,9 @@ static inline NSDictionary* build_error_with_data(enum ErrorCode code, NSString*
     if (message == nil) {
         message = @"";
     }
+    if ((!key.length) || (object == nil)) {
+        return build_error(code, message, category);
+    }
     return @{ @"error" : [NSNumber numberWithInt:code],
             @"message" : message,
            @"errorcat" : [NSNumber numberWithInt:category],
