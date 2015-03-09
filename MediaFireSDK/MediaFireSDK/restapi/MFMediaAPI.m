@@ -113,7 +113,7 @@
         BOOL isCreated = [[NSFileManager defaultManager] createDirectoryAtPath:cachedImageSizePath withIntermediateDirectories:TRUE attributes:nil error:&error];
         
         if (!isCreated || error != nil) {
-            mflog(@"Failed to create directory at: %@. Error - @%", cachedImageSizePath, error.userInfo);
+            mflog(@"Failed to create directory at: %@. Error - %@", cachedImageSizePath, error.userInfo);
             callbacks.onerror(erm(invalidField:@"cachedImageSizePath"));
         }
     }
