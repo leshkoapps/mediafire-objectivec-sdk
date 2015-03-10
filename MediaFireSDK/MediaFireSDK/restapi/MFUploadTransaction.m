@@ -624,12 +624,12 @@ typedef void (^StandardCallback)(NSDictionary* response);
 
 //------------------------------------------------------------------------------
 - (void)success:(NSDictionary*)response {
-    [self statusChange:self.opCallbacks.onload response:response status:@"success"];
+    [self statusChange:self.opCallbacks.onload response:response status:UESUCCESS];
 }
 
 //------------------------------------------------------------------------------
 - (void)fail:(NSDictionary*)response {
-    [self statusChange:self.opCallbacks.onerror response:response status:@"fail"];
+    [self statusChange:self.opCallbacks.onerror response:response status:UEFAIL];
 }
 
 //------------------------------------------------------------------------------

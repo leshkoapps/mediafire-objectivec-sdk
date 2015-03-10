@@ -15,6 +15,8 @@ NSString* const UECHUNK  = @"chunk_complete";
 NSString* const UECHUNKS = @"chunks_complete";
 NSString* const UEPOLL   = @"poll_wait";
 NSString* const UEHANG   = @"recoverable_error";
+NSString* const UEFAIL   = @"fail";
+NSString* const UESUCCESS= @"success";
 NSString* const UCHUNKID = @"chunk_id";
 
 // Field names for upload info.
