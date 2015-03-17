@@ -94,7 +94,7 @@
         }
         
         if (httpResponse.statusCode == 200) {
-            config.httpSuccess(@{@"filename" : [localUrl path]}, 200, nil);
+            config.httpSuccess(@{@"filename" : localUrl.path}, 200, nil);
         } else {
             erm(badHTTP:httpResponse.statusCode message:@"Unknown error.");
             config.httpFail(nil, httpResponse.statusCode, nil);

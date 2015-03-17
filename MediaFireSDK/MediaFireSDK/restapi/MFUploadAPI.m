@@ -93,7 +93,11 @@
 - (void)uploadUnit:(NSDictionary*)options fileInfo:(NSDictionary*)fileInfo query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
     NSDictionary* headers = [self getHeadersFrom:fileInfo];
     if (headers == nil) {
-        callbacks.onerror([MFErrorMessage nullField]);
+        callbacks.onerror([MFErrorMessage nullField:@"headers"]);
+        return;
+    }
+    if (fileInfo[@"unit_data"] == nil) {
+        callbacks.onerror([MFErrorMessage nullField:@"unit_data"]);
         return;
     }
     NSDictionary* reqOptions = [options merge:

@@ -70,14 +70,14 @@ static id instance = nil;
     }
     if (firstRun) {
         NSMutableDictionary* defaults = [[NSMutableDictionary alloc] init];
-        if (config[@"srm_delegate"] == nil) {
-            defaults[@"srm_delegate"] = [MFSerialRequestManager class];
+        if (config[MFCONF_SRM_DELEGATE] == nil) {
+            defaults[MFCONF_SRM_DELEGATE] = [MFSerialRequestManager class];
         }
-        if (config[@"prm_delegate"] == nil) {
-            defaults[@"prm_delegate"] = [MFParallelRequestManager class];
+        if (config[MFCONF_PRM_DELEGATE] == nil) {
+            defaults[MFCONF_PRM_DELEGATE] = [MFParallelRequestManager class];
         }
-        if (config[@"credentials_delegate"] == nil) {
-            defaults[@"credentials_delegate"] = [MFCredentials class];
+        if (config[MFCONF_CREDS_DELEGATE] == nil) {
+            defaults[MFCONF_CREDS_DELEGATE] = [MFCredentials class];
         }
         config = [config merge:defaults];
         [MFConfig createWithConfig:config];

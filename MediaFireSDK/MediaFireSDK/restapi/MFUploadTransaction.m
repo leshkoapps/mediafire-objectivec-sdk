@@ -207,10 +207,22 @@ typedef void (^StandardCallback)(NSDictionary* response);
 
 //------------------------------------------------------------------------------
 - (NSDictionary*)getCheckOptions {
-    return @{@"filename"          : self.fileName,
-             @"hash"              : self.fileHash,
+    NSString* fileName = self.fileName;
+    if (fileName == nil) {
+        fileName = @"";
+    }
+    NSString* fileHash = self.fileHash;
+    if (fileHash == nil) {
+        fileHash = @"";
+    }
+    NSString* folderkey = self.folderkey;
+    if (folderkey == nil) {
+        folderkey = @"";
+    }
+    return @{@"filename"          : fileName,
+             @"hash"              : fileHash,
              @"size"              : [NSString stringWithFormat:@"%lli",self.fileSize],
-             @"folder_key"        : self.folderkey,
+             @"folder_key"        : folderkey,
              @"resumable"         : @"yes"};
 }
 
@@ -324,10 +336,22 @@ typedef void (^StandardCallback)(NSDictionary* response);
 
 //------------------------------------------------------------------------------
 - (NSDictionary*)getInstantOptions {
-    return @{@"filename"            : self.fileName,
-             @"hash"                : self.fileHash,
+    NSString* fileName = self.fileName;
+    if (fileName == nil) {
+        fileName = @"";
+    }
+    NSString* fileHash = self.fileHash;
+    if (fileHash == nil) {
+        fileHash = @"";
+    }
+    NSString* folderkey = self.folderkey;
+    if (folderkey == nil) {
+        folderkey = @"";
+    }
+    return @{@"filename"            : fileName,
+             @"hash"                : fileHash,
              @"size"                : [NSString stringWithFormat:@"%lli",self.fileSize],
-             @"folder_key"          : self.folderkey,
+             @"folder_key"          : folderkey,
              @"action_on_duplicate" : ON_FIND_DUP};
 }
 
@@ -447,16 +471,34 @@ typedef void (^StandardCallback)(NSDictionary* response);
         unit = [helper getChunk:self.lastUnit forFile:[self fileInfo]];
     }
     
+    if (unit == nil) {
+        [self fail:[MFErrorMessage nullField:@"unit"]];
+        return;
+    }
+    
+    NSString* fileName = self.fileName;
+    if (fileName == nil) {
+        fileName = @"";
+    }
+    NSString* fileHash = self.fileHash;
+    if (fileHash == nil) {
+        fileHash = @"";
+    }
+    NSString* client = self.httpClientId;
+    if (client == nil) {
+        client = @"";
+    }
+    
     NSDictionary* unitInfo =
     @{@"unit_data"  : unit,
       @"unit_hash"  : [MFHash sha256Hex:unit],
       @"unit_size"  : [NSString stringWithFormat:@"%lu", unit.length],
       @"unit_id"    : [NSString stringWithFormat:@"%i", self.lastUnit],
-      @"file_name"  : self.fileName,
+      @"file_name"  : fileName,
       @"file_size"  : [NSString stringWithFormat:@"%lli", self.fileSize],
-      @"file_hash"  : self.fileHash,
+      @"file_hash"  : fileHash,
       @"action_on_duplicate" : ON_FIND_DUP,
-      @"http_client_id" : self.httpClientId};
+      @"http_client_id" : client};
     
     NSDictionary* params = [self parametersForResumableUpload];
     
@@ -472,8 +514,12 @@ typedef void (^StandardCallback)(NSDictionary* response);
 
 //------------------------------------------------------------------------------
 - (NSDictionary*)parametersForResumableUpload {
+    NSString* folderkey = self.folderkey;
+    if (folderkey == nil) {
+        folderkey = @"";
+    }
     return @{@"action_on_duplicate" : ON_FIND_DUP,
-             @"folder_key"          : self.folderkey};
+             @"folder_key"          : folderkey};
 }
 
 //------------------------------------------------------------------------------
@@ -559,7 +605,11 @@ typedef void (^StandardCallback)(NSDictionary* response);
       }};
     
     [self setStatus:@"polling"];
-    [self.api pollUpload:[self optionsForPollUpload] query:@{@"key" : self.verificationKey} callbacks:pollCallbacks];
+    NSString* verificationKey = self.verificationKey;
+    if (verificationKey == nil) {
+        verificationKey = @"";
+    }
+    [self.api pollUpload:[self optionsForPollUpload] query:@{@"key" : verificationKey} callbacks:pollCallbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -574,12 +624,12 @@ typedef void (^StandardCallback)(NSDictionary* response);
 
 //------------------------------------------------------------------------------
 - (void)success:(NSDictionary*)response {
-    [self statusChange:self.opCallbacks.onload response:response status:@"success"];
+    [self statusChange:self.opCallbacks.onload response:response status:UESUCCESS];
 }
 
 //------------------------------------------------------------------------------
 - (void)fail:(NSDictionary*)response {
-    [self statusChange:self.opCallbacks.onerror response:response status:@"fail"];
+    [self statusChange:self.opCallbacks.onerror response:response status:UEFAIL];
 }
 
 //------------------------------------------------------------------------------
