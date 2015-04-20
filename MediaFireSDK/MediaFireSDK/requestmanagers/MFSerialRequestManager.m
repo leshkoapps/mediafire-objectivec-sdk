@@ -21,6 +21,7 @@
 #import "MFHash.h"
 #import "NSString+StringURL.h"
 #import "NSDictionary+JSONExtender.h"
+#import "NSArray+JSONExtender.h"
 #import "NSString+JSONExtender.h"
 #import "NSDictionary+MapObject.h"
 #import "MFErrorMessage.h"
@@ -434,10 +435,22 @@ static id instance = nil;
     NSString* uriString = nil;
     for (int i=0; i<orderedParams.count; i++) {
         params = orderedParams[i];
-        if (queryString.length == 0) {
-            uriString = [NSString stringWithFormat:@"%@=%@",params[@"name"],params[@"value"]];
+        
+        NSString* paramValueString = @"";
+        if ([params[@"value"] isKindOfClass:[NSString class]]) {
+            paramValueString = params[@"value"];
+        } else if ([params[@"value"] isKindOfClass:[NSArray class]]) {
+            paramValueString = [params[@"value"] serializeJSON];
+        } else if ([params[@"value"] isKindOfClass:[NSDictionary class]]) {
+            paramValueString = [params[@"value"] serializeJSON];
         } else {
-            uriString = [NSString stringWithFormat:@"&%@=%@",params[@"name"],params[@"value"]];
+            paramValueString = [params[@"value"] stringValue];
+        }
+
+        if (queryString.length == 0) {
+            uriString = [NSString stringWithFormat:@"%@=%@",params[@"name"],paramValueString];
+        } else {
+            uriString = [NSString stringWithFormat:@"&%@=%@",params[@"name"],paramValueString];
         }
         [queryString appendString:uriString];
     }
@@ -452,6 +465,10 @@ static id instance = nil;
         params = [orderedParams[i] mutableCopy];
         if ([params[@"value"] isKindOfClass:[NSString class]]) {
             urlEncoded = params[@"value"];
+        } else if ([params[@"value"] isKindOfClass:[NSArray class]]) {
+            urlEncoded = [params[@"value"] serializeJSON];
+        } else if ([params[@"value"] isKindOfClass:[NSDictionary class]]) {
+            urlEncoded = [params[@"value"] serializeJSON];
         } else {
             urlEncoded = [params[@"value"] stringValue];
         }
