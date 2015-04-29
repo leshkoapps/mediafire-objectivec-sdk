@@ -196,7 +196,7 @@
     
     [self createRequest:[options merge:@{HMETHOD : @"GET",
                                          HTOKEN : HTKT_NONE,
-                                         HTOKEN : url.host,
+                                         HHOST : url.host,
                                          HURL: pathWithQuery}]
                   query:@{}
               callbacks:callbacks];
