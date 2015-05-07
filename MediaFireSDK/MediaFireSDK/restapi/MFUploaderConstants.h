@@ -20,6 +20,10 @@ extern NSString* const UECHUNKS;
 extern NSString* const UEPOLL;
 /** @brief The value of UEVENT when a non-fatal error occurs during poll upload. */
 extern NSString* const UEHANG;
+/** @brief The value of UEVENT when an upload fails. */
+extern NSString* const UEFAIL;
+/** @brief The value of UEVENT when an upload completes successfully. */
+extern NSString* const UESUCCESS;
 /** @brief The name of the "chunk id" property in an upload callback response. */
 extern NSString* const UCHUNKID;
 

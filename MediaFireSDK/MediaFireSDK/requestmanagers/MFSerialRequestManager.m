@@ -148,6 +148,9 @@ static id instance = nil;
     
     // success callback
     MFCallback newTokenAvailable = ^(NSDictionary* response) {
+        [self.sessionLock lock];
+        self.awaitingTokens--;
+        [self.sessionLock unlock];
         [self processNewToken:response];
         
         if ( [self doesNeedMoreTokens] ) {
@@ -158,12 +161,19 @@ static id instance = nil;
     
     // failure callback
     MFCallback failedToGetToken = ^(NSDictionary * response) {
+        [self.sessionLock lock];
+        self.awaitingTokens--;
+        [self.sessionLock unlock];
         erm(obtainTokenFailure:response);
         if ([MFErrorMessage isAuthenticationError:response]) {
             MFConfig.authenticationFailureCallback(response);
         }
         [self nextRequest];
     };
+    
+    [self.sessionLock lock];
+    self.awaitingTokens++;
+    [self.sessionLock unlock];
     
     // request another token
     [self.sessionAPI getSessionToken:credentials callbacks:@{ONLOAD:newTokenAvailable,ONERROR:failedToGetToken}];
@@ -242,20 +252,18 @@ static id instance = nil;
         return;
     }
     
-    BOOL needMore = [self doesNeedMoreTokens];
-    [self.sessionLock lock];
     // remove token from sessions.
+    [self.sessionLock lock];
     [self.sessions removeObjectForKey:token];
-    if ( needMore ) {
-        self.awaitingTokens++;
-        [self.sessionLock unlock];
-        [self askForAdditionalSessionTokens];
-    } else {
-        [self.sessionLock unlock];
-    }
+    [self.sessionLock unlock];
+    
     // in case someone is referencing this token
     tokenPacket[@"locked"] = @NO;
 
+    if ([self doesNeedMoreTokens]) {
+        [self askForAdditionalSessionTokens];
+    }
+    
     [self nextRequest];
 }
 
@@ -263,12 +271,11 @@ static id instance = nil;
 - (BOOL)doesNeedMoreTokens {
     BOOL needMore = false;
     [self.sessionLock lock];
-    NSUInteger incomingTokens   = self.awaitingTokens;
-    NSUInteger numTokens        = [self.sessions count] + incomingTokens;
-    NSUInteger numWaiting       = [self.tokenRequests count];
+    NSUInteger totalTokens        = self.sessions.count + self.awaitingTokens;
+    NSUInteger pendingRequests  = self.tokenRequests.count;
     // if we have more requests waiting to process than we have session tokens,
     // then we should increase the number of tokens we want.
-    if ((numTokens < self.suggestedTokens) || (incomingTokens < numWaiting && numTokens < self.maxTokens) ) {
+    if ((totalTokens < self.suggestedTokens) || ((self.awaitingTokens < pendingRequests) && (totalTokens < self.maxTokens))) {
         needMore = true;
     }
     [self.sessionLock unlock];
@@ -284,7 +291,6 @@ static id instance = nil;
     }
     // the response object should look like a valid token packet.
     NSMutableDictionary*    tokenPacket = [[NSMutableDictionary alloc] initWithDictionary:response];
-    NSUInteger              moreTokens  = 0;
     
     //sanity check
     if (tokenPacket == nil || (![tokenPacket[@"session_token"] isKindOfClass:[NSString class]])) {
@@ -309,19 +315,7 @@ static id instance = nil;
     tokenPacket[@"locked"] = @NO;
     // Add this token to the token pool.
     [self.available enqueue:tokenHash];
-    // Do we need to request more tokens?
-    moreTokens = self.awaitingTokens;
-    if ( moreTokens > 0 ) {
-        --moreTokens; // just received one, so decrement
-    }
-    if ( self.sessions.count + moreTokens < self.suggestedTokens ) {
-        // need more than we're expecting, so make another request
-        ++moreTokens;
-    } else {
-        // have all we need now or incoming, so don't request more
-        self.awaitingTokens = moreTokens;
-        moreTokens = 0;
-    }
+
     [self.sessionLock unlock];
 }
 
@@ -391,13 +385,18 @@ static id instance = nil;
     if (callbacks == nil) {
         return;
     }
+    
+    if (config == nil) {
+        callbacks.onerror(erm(nullField:@"config"));
+        return;
+    }
     //  create a packet containing this method's parameters and save it for
     //  eventual processing when a session token is available. If we haven't
     //  requested some maximum number of tokens, initiate another request
     NSDictionary* request = @{@"config" : config, @"callbacks" : callbacks};
     
     [self.sessionLock lock];
-    BOOL noSession = ( self.sessions == nil && self.awaitingTokens == 0 );
+    BOOL noSession = ( self.sessions == nil && self.awaitingTokens == 0 ); // Looks at value
     [self.sessionLock unlock];
     
     // if there's no active session, we abort this request and bail out.
@@ -518,6 +517,10 @@ static id instance = nil;
         erm(nullField:@"callbacks for resumed request");
         return;
     }
+    if (tokenPacket[@"session_token"] == nil) {
+        callbacks.onerror(erm(nullField:@"session_token"));
+        return;
+    }
     MFAPIURLRequestConfig* config = request[@"config"];
     if (config == nil) {
         callbacks.onerror(erm(nullField:@"config"));
@@ -588,6 +591,9 @@ static id instance = nil;
 - (void)login:(NSDictionary*)credentials callbacks:(NSDictionary *)callbacks {
     // success callback
     MFCallback tokenAvailable = ^(NSDictionary * response) {
+        [self.sessionLock lock];
+        self.awaitingTokens--;
+        [self.sessionLock unlock];
         [self processNewToken:response];
         
         // successful login, so mark credentials as valid
@@ -607,6 +613,10 @@ static id instance = nil;
     
     // failure callback
     MFCallback noToken = ^(NSDictionary * response) {
+        [self.sessionLock lock];
+        self.awaitingTokens--;
+        [self.sessionLock unlock];
+
         if (!response) {
             // bad response, so generate a default error message
             [self endSession];
@@ -626,7 +636,9 @@ static id instance = nil;
     if ( self.sessions != nil ) {
     [self endSession];
     }
-    self.awaitingTokens = 1;
+    [self.sessionLock lock];
+    self.awaitingTokens++;
+    [self.sessionLock unlock];
     
     [self.sessionAPI getSessionToken:credentials callbacks:@{ONLOAD:tokenAvailable,ONERROR:noToken}];
 }

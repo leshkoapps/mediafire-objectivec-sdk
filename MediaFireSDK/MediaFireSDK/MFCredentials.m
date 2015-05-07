@@ -11,7 +11,7 @@
 @implementation MFCredentials
 
 NSString* const MFCRD_MF_EMAIL    = @"email";
-NSString* const MFCRD_MF_EKEY    = @"ekey";
+NSString* const MFCRD_MF_EKEY     = @"ekey";
 NSString* const MFCRD_MF_PASS     = @"password";
 NSString* const MFCRD_FB_TOKEN    = @"fbtoken";
 NSString* const MFCRD_TW_SECRET   = @"twsecret";
@@ -19,7 +19,7 @@ NSString* const MFCRD_TW_TOKEN    = @"twtoken";
 NSString* const MFCRD_TYPE_FB     = @"facebook";
 NSString* const MFCRD_TYPE_MF     = @"mediafire";
 NSString* const MFCRD_TYPE_TW     = @"twitter";
-NSString* const MFCRD_TYPE_EKEY     = @"mediafire_ekey";
+NSString* const MFCRD_TYPE_EKEY   = @"mediafire_ekey";
 
 static NSDictionary* tmpCreds;
 static bool validCreds = false;
@@ -89,7 +89,7 @@ static bool validCreds = false;
 //------------------------------------------------------------------------------
 + (BOOL)setTwitter:(NSString*)token withSecret:(NSString*)secret {
     // sanity check
-    if ( token == nil || secret == nil ) {
+    if ((token == nil) || (secret == nil)) {
         return false;
     }
     // clear all credentials before setting a new value.
