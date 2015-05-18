@@ -25,6 +25,7 @@
 		189E5BFF18C7CF7E0011A9DC /* MFUploaderConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 189E5BFE18C7CF7E0011A9DC /* MFUploaderConstants.m */; };
 		189E5C0018C7D4150011A9DC /* MFUploaderConstants.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 189E5BFD18C7CF7E0011A9DC /* MFUploaderConstants.h */; };
 		189E5C0118C7D4150011A9DC /* MFUploadTransaction.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1861F7CF18C79B910031D834 /* MFUploadTransaction.h */; };
+		27438DA51ADF01F10016D14F /* NSArray+JSONExtender.m in Sources */ = {isa = PBXBuildFile; fileRef = 27438DA41ADF01F10016D14F /* NSArray+JSONExtender.m */; };
 		6502A72B18BD1BA200817085 /* MFHTTP.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 650D974818B3ECA800B993A1 /* MFHTTP.h */; };
 		6502A72C18BD1BAA00817085 /* NSDictionary+Callbacks.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 650D973718B3EC4F00B993A1 /* NSDictionary+Callbacks.h */; };
 		6502A72E18BD1BC300817085 /* MFErrorMessage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 650D972E18B3E4C400B993A1 /* MFErrorMessage.h */; };
@@ -165,6 +166,8 @@
 		1885EA3E18E9C985005528DC /* MFFolderAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFFolderAPI.m; sourceTree = "<group>"; };
 		189E5BFD18C7CF7E0011A9DC /* MFUploaderConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFUploaderConstants.h; sourceTree = "<group>"; };
 		189E5BFE18C7CF7E0011A9DC /* MFUploaderConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFUploaderConstants.m; sourceTree = "<group>"; };
+		27438DA31ADF01F10016D14F /* NSArray+JSONExtender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+JSONExtender.h"; sourceTree = "<group>"; };
+		27438DA41ADF01F10016D14F /* NSArray+JSONExtender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+JSONExtender.m"; sourceTree = "<group>"; };
 		6502A73D18BD31EE00817085 /* MFAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAPI.h; sourceTree = "<group>"; };
 		6502A73E18BD31EE00817085 /* MFAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFAPI.m; sourceTree = "<group>"; };
 		6502A73F18BD31EE00817085 /* MFFileAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFFileAPI.h; sourceTree = "<group>"; };
@@ -307,6 +310,8 @@
 		650D973618B3EC4F00B993A1 /* categories */ = {
 			isa = PBXGroup;
 			children = (
+				27438DA31ADF01F10016D14F /* NSArray+JSONExtender.h */,
+				27438DA41ADF01F10016D14F /* NSArray+JSONExtender.m */,
 				65AA34A11A92969500947A82 /* NSData+BytesRange.h */,
 				65AA34A21A92969500947A82 /* NSData+BytesRange.m */,
 				650D973718B3EC4F00B993A1 /* NSDictionary+Callbacks.h */,
@@ -492,6 +497,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1885EA3F18E9C985005528DC /* MFFolderAPI.m in Sources */,
+				27438DA51ADF01F10016D14F /* NSArray+JSONExtender.m in Sources */,
 				65730B0518FEF1FA00E402C3 /* MFContactAPI.m in Sources */,
 				6529EEF018B54A32007C79B7 /* NSDictionary+MapObject.m in Sources */,
 				65AA349F1A92966F00947A82 /* MFUploadHelper.m in Sources */,
