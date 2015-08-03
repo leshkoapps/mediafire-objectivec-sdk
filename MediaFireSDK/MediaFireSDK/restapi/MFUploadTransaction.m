@@ -243,11 +243,13 @@ typedef void (^StandardCallback)(NSDictionary* response);
           }
           
           if ([self shouldCheckAgain:response]) {
+              [self event:@{UEVENT : UESETUP} status:UESETUP];
               [self checkUpload];
               return;
           }
           
           if ([self shouldInstantUpload:response]){
+              [self event:@{UEVENT : UESETUP} status:UESETUP];
               [self instantUpload];
               return;
           }
@@ -264,8 +266,6 @@ typedef void (^StandardCallback)(NSDictionary* response);
               [self fail:[MFErrorMessage nullField]];
               return;
           }
-          
-          [self event:@{UEVENT : UESETUP} status:UESETUP];
           
           self.unitCount = [resumable[@"number_of_units"] longLongValue];
           self.unitSize = [resumable[@"unit_size"] longLongValue];

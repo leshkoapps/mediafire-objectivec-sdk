@@ -67,9 +67,9 @@
 
 - (void)getPreviewBinary:(NSDictionary*)options query:(NSDictionary*)parameters hash:(NSString*)hash callbacks:(NSDictionary*)callbacks {
     [self createRequest:[options merge:@{HMETHOD : @"GET",
-                          HURL : [self getPreviewURL:parameters withHash:hash],
-                          HTOKEN : HTKT_PARA,
-                          HPARALLEL : HPTT_IMAGE}]
+                                         HURL : [self getPreviewURL:parameters withHash:hash],
+                                         HTOKEN : HTKT_PARA,
+                                         HPARALLEL : HPTT_IMAGE}]
                   query:parameters
               callbacks:callbacks];
 }
@@ -142,11 +142,17 @@
     }
     MFAPIURLRequestConfig* config = [[MFAPIURLRequestConfig alloc] initWithOptions:options query:params];
     config.location = options[@"url"];
+    
     [MFRequestManager createRequest:config callbacks:cb];
 }
 
 //------------------------------------------------------------------------------
 - (void)directDownload:(NSURL*)url callbacks:(NSDictionary*)callbacks {
+    [self directDownload:@{} url:url callbacks:callbacks];
+}
+
+//------------------------------------------------------------------------------
+- (void)directDownload:(NSDictionary*)options url:(NSURL*)url callbacks:(NSDictionary*)callbacks {
     if (url == nil) {
         callbacks.onerror(erm(nullURL));
     }
@@ -156,17 +162,23 @@
         localPath = @"";
     }
     
-    [self createRequest:@{@"method" : @"GET",
-                          @"token_type" : @"none",
-                          @"localpath" : localPath,
-                          @"host" : url.host,
-                          @"url" : url.path}
+    [self createRequest:[options merge:@{HMETHOD : @"GET",
+                                         HTOKEN : HTKT_NONE,
+                                         HLOCALPATH : localPath,
+                                         HHOST : url.host,
+                                         HURL : url.path}]
                   query:@{}
               callbacks:callbacks];
+    
 }
 
 //------------------------------------------------------------------------------
 - (void)directDownloadToMemory:(NSURL*)url callbacks:(NSDictionary*)callbacks {
+    [self directDownloadToMemory:@{} url:url callbacks:callbacks];
+}
+
+//------------------------------------------------------------------------------
+- (void)directDownloadToMemory:(NSDictionary*)options url:(NSURL*)url callbacks:(NSDictionary*)callbacks {
     if (url == nil) {
         callbacks.onerror(erm(nullURL));
     }
@@ -182,10 +194,10 @@
         pathWithQuery = @"";
     }
     
-    [self createRequest:@{@"method" : @"GET",
-                          @"token_type" : @"none",
-                          @"host" : url.host,
-                          @"url" : pathWithQuery}
+    [self createRequest:[options merge:@{HMETHOD : @"GET",
+                                         HTOKEN : HTKT_NONE,
+                                         HHOST : url.host,
+                                         HURL: pathWithQuery}]
                   query:@{}
               callbacks:callbacks];
 }

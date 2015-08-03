@@ -21,7 +21,11 @@
 //------------------------------------------------------------------------------
 + (void)execute:(MFURLRequestConfig*)config {
     if ([config.method isEqualToString:@"POST"]) {
+#if defined(DEBUG)
+        mflog(@"POST %@\n%@",[config.url absoluteString], config.query);
+#else
         mflog(@"POST %@",[config.url absoluteString]);
+#endif
         // construct the request
         if ((config.body != nil) || [config.localPathForUpload absoluteString].length) {
             // upload a file from it's path on disk.
