@@ -13,6 +13,8 @@
 #import "MFURLRequestConfig.h"
 #import "MFConfig.h"
 #import "MFHTTPClientDelegate.h"
+#import "MFEncode.h"
+#import "NSMutableURLRequest+Auth.h"
 
 @implementation MFHTTP
 
@@ -111,6 +113,9 @@
     NSMutableURLRequest* request = [self createRequestFromConfig:config];
     if ([config.method isEqualToString:@"POST"]) {
         [request setHTTPBody:config.body];
+    }
+    if (config.authUser.length && config.authPassword.length) {
+        [request addAuthenticationHeaderWithUser:config.authUser password:config.authPassword];
     }
     [[[MFConfig defaultHttpClient] dataTaskWithRequest:request completionHandler:[self getCompletionHandlerFor:config]] resume];
     [MFConfig showNetworkIndicator];

@@ -15,7 +15,7 @@
 #import "NSDictionary+MapObject.h"
 #import "MFErrorLog.h"
 
-static int LOG_TRUNCATE_AMOUNT = 256;
+static int LOG_TRUNCATE_AMOUNT = 384;
 
 typedef void (^SMRestCallback)(id responseText, NSInteger status, NSDictionary* downloaded);
 

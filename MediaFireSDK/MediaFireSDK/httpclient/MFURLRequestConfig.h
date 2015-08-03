@@ -39,6 +39,11 @@ typedef void (^ProgressBlock)(double progress);
 @property(strong,nonatomic)NSString* desc;
 /** @brief Name of an http client registered thru MFConfig. */
 @property(strong,nonatomic)NSString* httpClientId;
+/** @brief User value for http requests that require authentication. */
+@property(strong,nonatomic)NSString* authUser;
+/** @brief Password value for http requests that require authentication. */
+@property(strong,nonatomic)NSString* authPassword;
+
 /** @brief The http success callback. Fired when http status == 200.  */
 @property(strong,nonatomic)OperationBlock httpSuccess;
 /** @brief The http failure callback.  Fired when http status != 200. (Depending on your http client, this may not include redirects)*/
@@ -47,4 +52,6 @@ typedef void (^ProgressBlock)(double progress);
 @property(strong,nonatomic)ProgressBlock httpProgress;
 /** @brief The http task reference callback.  Implement this if you want to be able to abort the request. */
 @property(strong,nonatomic)ReferenceCallback httpReference;
+
+
 @end

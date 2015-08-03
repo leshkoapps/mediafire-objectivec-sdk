@@ -27,6 +27,8 @@
     _localPathForDownload = nil;
     _desc = nil;
     _httpClientId = nil;
+    _authUser =  nil;
+    _authPassword = nil;
     _httpSuccess = nil;
     _httpFail = nil;
     _httpProgress = nil;
