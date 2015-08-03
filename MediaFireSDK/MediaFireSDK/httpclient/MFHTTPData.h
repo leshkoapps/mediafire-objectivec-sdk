@@ -16,5 +16,6 @@
 @property(strong,nonatomic)NSURL* localPathForUpload;
 @property(strong,nonatomic)NSURL* localPathForDownload;
 @property(strong,nonatomic)NSDictionary* headers;
+@property(strong,nonatomic)NSError* error;
 @property NSInteger status;
 @end

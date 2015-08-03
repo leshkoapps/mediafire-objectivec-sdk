@@ -21,6 +21,7 @@
     _localPathForUpload = nil;
     _localPathForDownload = nil;
     _headers = nil;
+    _error = nil;
     _status = 0;
     return self;
 }
