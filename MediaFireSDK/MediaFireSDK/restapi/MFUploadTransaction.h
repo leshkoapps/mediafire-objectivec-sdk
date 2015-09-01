@@ -89,6 +89,26 @@
  */
 - (void)start;
 
+/*
+ @brief Starts the upload process with an explicit call to upload/instant.
+ 
+ @param callbacks A NSDictionary with ONLOAD, ONERROR, ONPROGRESS, ONUPDATE
+ blocks to be called on successful or failed uploads as well as multiple
+ times for status changes. Callback dictionary may be used for multiple
+ MFUploadTransactions.
+ */
+- (void)startWithInstant:(NSDictionary*)callbacks;
+
+/*
+ @brief Starts the upload process with an explicit call to upload/resumable.
+
+ @param callbacks A NSDictionary with ONLOAD, ONERROR, ONPROGRESS, ONUPDATE
+ blocks to be called on successful or failed uploads as well as multiple
+ times for status changes. Callback dictionary may be used for multiple
+ MFUploadTransactions.
+ */
+- (void)startWithResumable:(NSDictionary*)callbacks;
+
 /**
  @brief Cancels the upload process. May be restarted with a call to start.
  */

@@ -24,6 +24,9 @@ static const int    POLL_ATTEMPTS   = 6;    // number of polling attempts
 static NSString*    ON_FIND_DUP     = @"keep";
 typedef void (^StandardCallback)(NSDictionary* response);
 
+static NSString*    NEEDS_INSTANT = @"needs_instant";
+static NSString*    NEEDS_RESUMABLE = @"needs_resumable";
+
 //==============================================================================
 @interface MFUploadTransaction()
 
@@ -51,6 +54,7 @@ typedef void (^StandardCallback)(NSDictionary* response);
 @property (nonatomic,assign) int     pollCount;
 
 @property (nonatomic,assign) BOOL cancelled;
+@property (nonatomic,strong) NSString* startingStatusOverride;
 
 
 @end
@@ -69,6 +73,9 @@ typedef void (^StandardCallback)(NSDictionary* response);
     if (self == nil) {
         return nil;
     }
+    
+    _statusLock = [[NSLock alloc] init];
+    _startingStatusOverride = nil;
     return self;
 }
 
@@ -134,8 +141,30 @@ typedef void (^StandardCallback)(NSDictionary* response);
     self.cancelled      = FALSE;
     
     self.verificationKey= nil;
+
+    [self.statusLock lock];
+    if ([self.startingStatusOverride isEqualToString:NEEDS_INSTANT] || [self.startingStatusOverride isEqualToString:NEEDS_RESUMABLE]) {
+        self.currentStatus = self.startingStatusOverride;
+    }
+    [self.statusLock unlock];
     
     [self prepareFile];
+}
+
+//------------------------------------------------------------------------------
+- (void)startWithInstant:(NSDictionary*)callbacks {
+    [self.statusLock lock];
+    self.startingStatusOverride = NEEDS_INSTANT;
+    [self.statusLock unlock];
+    [self startWithCallbacks:callbacks];
+}
+
+//------------------------------------------------------------------------------
+- (void)startWithResumable:(NSDictionary*)callbacks {
+    [self.statusLock lock];
+    self.startingStatusOverride = NEEDS_RESUMABLE;
+    [self.statusLock unlock];
+    [self startWithCallbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -201,6 +230,22 @@ typedef void (^StandardCallback)(NSDictionary* response);
         if (fileInfo.filePath != nil) {
             self.filePath = fileInfo.filePath;
         }
+        
+        NSString* status = nil;
+        [self.statusLock lock];
+        status = self.currentStatus;
+        [self.statusLock unlock];
+        
+        if ([status isEqualToString:NEEDS_INSTANT]) {
+            [self instantUpload];
+            return;
+        }
+        
+        if ([status isEqualToString:NEEDS_RESUMABLE]) {
+            [self resumableUpload];
+            return;
+        }
+
         [bself checkUpload];
     }];
 }
