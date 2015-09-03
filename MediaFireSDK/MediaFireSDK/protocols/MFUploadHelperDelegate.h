@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MFUploadFileInfo.h"
 
-typedef void (^MFUploadFilePrepCallback)(MFUploadFileInfo*, NSError*);
+typedef void (^MFUploadFilePrepCallback)(MFUploadFileInfo* fileInfo, NSError* err);
 
 @protocol MFUploadHelperDelegate <NSObject>
 
