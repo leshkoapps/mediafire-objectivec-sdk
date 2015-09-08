@@ -18,6 +18,7 @@
 #import "MFUploadTransaction.h"
 #import "MFUserAPI.h"
 #import "MFMediaAPI.h"
+#import "MFBillingAPI.h"
 
 /**
  @brief The main MediaFire API access object.  Must be initialized first by using createWithConfig:.  You must supply your own app id, and if necessary, your own api key.  Once initialized, a login attempt can be made with startSession:withPassword:andCallbacks: or startFacebookSession:withCallbacks.  If credentials have already been stored and validated, use startSession:withCallbacks.  If you don't need to override the default behaviors of the SDK, then almost everything you will need can be done thru the MediaFireSDK shared instance.
@@ -162,6 +163,12 @@
  */
 + (MFMediaAPI*)MediaAPI;
 
+- (MFBillingAPI*)BillingAPI;
+
+/**
+ @brief Returns the MediaFireSDK singleton's stored instance of the MFBillingAPI class.
+ */
++ (MFBillingAPI*)BillingAPI;
 
 
 @end
