@@ -88,6 +88,10 @@
 		6599A93019737DDB00BF23D3 /* MFAPIBase.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6599A92C1972C83F00BF23D3 /* MFAPIBase.h */; };
 		659A82641938C7CF00A3B5F3 /* MFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 659A82631938C7CF00A3B5F3 /* MFHTTPClient.m */; };
 		65A0E3521B686573009C7253 /* NSMutableURLRequest+Auth.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A0E3511B686573009C7253 /* NSMutableURLRequest+Auth.m */; };
+		65A363421B9F85BC00297AFB /* MFBillingAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A363411B9F85BC00297AFB /* MFBillingAPI.m */; };
+		65A363471B9F875C00297AFB /* MFNotificationAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A363461B9F875C00297AFB /* MFNotificationAPI.m */; };
+		65A363481B9F898800297AFB /* MFBillingAPI.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 65A363401B9F85BC00297AFB /* MFBillingAPI.h */; };
+		65A363491B9F899000297AFB /* MFNotificationAPI.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 65A363451B9F875C00297AFB /* MFNotificationAPI.h */; };
 		65AA349E1A92966F00947A82 /* MFUploadFileInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 65AA349B1A92966F00947A82 /* MFUploadFileInfo.m */; };
 		65AA349F1A92966F00947A82 /* MFUploadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 65AA349D1A92966F00947A82 /* MFUploadHelper.m */; };
 		65AA34A31A92969500947A82 /* NSData+BytesRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 65AA34A21A92969500947A82 /* NSData+BytesRange.m */; };
@@ -108,6 +112,8 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				65A363491B9F899000297AFB /* MFNotificationAPI.h in CopyFiles */,
+				65A363481B9F898800297AFB /* MFBillingAPI.h in CopyFiles */,
 				65DB56F81B73C7CF004ED058 /* NSArray+JSONExtender.h in CopyFiles */,
 				654F9B511A92990000E1030E /* MFUploadHelper.h in CopyFiles */,
 				654F9B501A9298F900E1030E /* MFUploadFileInfo.h in CopyFiles */,
@@ -245,6 +251,10 @@
 		659A82631938C7CF00A3B5F3 /* MFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFHTTPClient.m; sourceTree = "<group>"; };
 		65A0E3501B686573009C7253 /* NSMutableURLRequest+Auth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableURLRequest+Auth.h"; sourceTree = "<group>"; };
 		65A0E3511B686573009C7253 /* NSMutableURLRequest+Auth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableURLRequest+Auth.m"; sourceTree = "<group>"; };
+		65A363401B9F85BC00297AFB /* MFBillingAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFBillingAPI.h; sourceTree = "<group>"; };
+		65A363411B9F85BC00297AFB /* MFBillingAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFBillingAPI.m; sourceTree = "<group>"; };
+		65A363451B9F875C00297AFB /* MFNotificationAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFNotificationAPI.h; sourceTree = "<group>"; };
+		65A363461B9F875C00297AFB /* MFNotificationAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFNotificationAPI.m; sourceTree = "<group>"; };
 		65AA349A1A92966F00947A82 /* MFUploadFileInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFUploadFileInfo.h; sourceTree = "<group>"; };
 		65AA349B1A92966F00947A82 /* MFUploadFileInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFUploadFileInfo.m; sourceTree = "<group>"; };
 		65AA349C1A92966F00947A82 /* MFUploadHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFUploadHelper.h; sourceTree = "<group>"; };
@@ -280,6 +290,8 @@
 				6502A73E18BD31EE00817085 /* MFAPI.m */,
 				6599A92C1972C83F00BF23D3 /* MFAPIBase.h */,
 				6599A92D1972C83F00BF23D3 /* MFAPIBase.m */,
+				65A363401B9F85BC00297AFB /* MFBillingAPI.h */,
+				65A363411B9F85BC00297AFB /* MFBillingAPI.m */,
 				65730B0318FEF1FA00E402C3 /* MFContactAPI.h */,
 				65730B0418FEF1FA00E402C3 /* MFContactAPI.m */,
 				6510898E18EF1935000007A9 /* MFDeviceAPI.h */,
@@ -290,6 +302,8 @@
 				1885EA3E18E9C985005528DC /* MFFolderAPI.m */,
 				657F0E8019645AAD00931590 /* MFMediaAPI.h */,
 				657F0E8119645AAD00931590 /* MFMediaAPI.m */,
+				65A363451B9F875C00297AFB /* MFNotificationAPI.h */,
+				65A363461B9F875C00297AFB /* MFNotificationAPI.m */,
 				6502A74118BD31EE00817085 /* MFREST.h */,
 				6502A74218BD31EE00817085 /* MFREST.m */,
 				6502A74318BD31EE00817085 /* MFUploadAPI.h */,
@@ -509,6 +523,7 @@
 				6529EEF018B54A32007C79B7 /* NSDictionary+MapObject.m in Sources */,
 				65AA349F1A92966F00947A82 /* MFUploadHelper.m in Sources */,
 				650D974E18B3ECA800B993A1 /* MFHTTP.m in Sources */,
+				65A363471B9F875C00297AFB /* MFNotificationAPI.m in Sources */,
 				189E5BFF18C7CF7E0011A9DC /* MFUploaderConstants.m in Sources */,
 				651EE4D419017A4800839A44 /* MFParallelRequestManager.m in Sources */,
 				650D974F18B3ECA800B993A1 /* MFHTTPOptions.m in Sources */,
@@ -538,6 +553,7 @@
 				6502A74B18BD31EE00817085 /* MFUserAPI.m in Sources */,
 				65A0E3521B686573009C7253 /* NSMutableURLRequest+Auth.m in Sources */,
 				65620F1318C93902002F6E6C /* MFConfig.m in Sources */,
+				65A363421B9F85BC00297AFB /* MFBillingAPI.m in Sources */,
 				65AA34A31A92969500947A82 /* NSData+BytesRange.m in Sources */,
 				6502A74718BD31EE00817085 /* MFAPI.m in Sources */,
 				650D973F18B3EC4F00B993A1 /* NSDictionary+Callbacks.m in Sources */,

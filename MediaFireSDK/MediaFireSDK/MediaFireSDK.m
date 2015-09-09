@@ -28,6 +28,8 @@ static id instance = nil;
 @property(strong,nonatomic,getter=UploadAPI)MFUploadAPI*    upload;
 @property(strong,nonatomic,getter=UserAPI)MFUserAPI*        user;
 @property(strong,nonatomic,getter=MediaAPI)MFMediaAPI*      media;
+@property(strong,nonatomic,getter=BillingAPI)MFBillingAPI*  billing;
+@property(strong,nonatomic,getter=NotificationAPI)MFNotificationAPI*  notification;
 
 @end
 
@@ -264,6 +266,30 @@ static id instance = nil;
 
 + (MFMediaAPI*)MediaAPI {
     return [instance MediaAPI];
+}
+
+//------------------------------------------------------------------------------
+- (MFBillingAPI*)BillingAPI {
+    if (_billing == nil) {
+        _billing = [[MFBillingAPI alloc] initWithVersion:@"1.1"];
+    }
+    return _billing;
+}
+
++ (MFBillingAPI*)BillingAPI {
+    return [[self getInstance] BillingAPI];
+}
+
+//------------------------------------------------------------------------------
+- (MFNotificationAPI*)NotificationAPI {
+    if (_notification == nil) {
+        _notification = [[MFNotificationAPI alloc] initWithVersion:@"1.4"];
+    }
+    return _notification;
+}
+
++ (MFNotificationAPI*)NotificationAPI {
+    return [[self getInstance] NotificationAPI];
 }
 
 @end
