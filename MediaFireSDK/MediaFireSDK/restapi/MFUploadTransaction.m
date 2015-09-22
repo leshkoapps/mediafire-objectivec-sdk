@@ -564,11 +564,6 @@ typedef void (^StandardCallback)(NSDictionary* response);
               [self fail:response];
               return;
           }
-          if (doUploadResponse[@"fileerror"] == nil && ![doUploadResponse[@"fileerror"] isEqualToString:@""]) {
-              mflog(@"Cannot pollupload. Response's doupload parameters result and/or key invalid - %@", doUploadResponse);
-              [self fail:response];
-              return;
-          }
           NSString* pollStatus = doUploadResponse[@"status"];
           if ([pollStatus isEqualToString:@"99"] || [pollStatus isEqualToString:@"98"]) {
               // UPLOAD COMPLETE!
