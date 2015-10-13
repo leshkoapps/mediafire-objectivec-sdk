@@ -39,8 +39,6 @@
  */
 + (instancetype)getInstance;
 
-- (void)startSession:(NSString*)email withPassword:(NSString*)password andCallbacks:(NSDictionary*)callbacks;
-
 /**
  @brief Establishes a session with the MediaFire API via email and password combination.
  
@@ -51,9 +49,7 @@
  @param callbacks A dictionary containing an onload callback and onerror
  callback. See NSDictionary(Callbacks).
  */
-+ (void)startSession:(NSString*)email withPassword:(NSString*)password andCallbacks:(NSDictionary*)callbacks;
-
-- (void)startSessionWithCallbacks:(NSDictionary*)callbacks;
+- (void)startSession:(NSString*)email withPassword:(NSString*)password andCallbacks:(NSDictionary*)callbacks;
 
 /**
  @brief Establishes a session with the MediaFire API via stored credentials.
@@ -61,9 +57,7 @@
  @param callbacks A dictionary containing an onload callback and onerror
  callback. See NSDictionary(Callbacks).
  */
-+ (void)startSessionWithCallbacks:(NSDictionary*)callbacks;
-
-- (void)startFacebookSession:(NSString*)authToken withCallbacks:(NSDictionary*)callbacks;
+- (void)startSessionWithCallbacks:(NSDictionary*)callbacks;
 
 /**
  @brief Establishes a session with the MediaFire API via facebook token.
@@ -73,110 +67,82 @@
  @param callbacks A dictionary containing an onload callback and onerror
  callback. See NSDictionary(Callbacks).
  */
-+ (void)startFacebookSession:(NSString*)authToken withCallbacks:(NSDictionary*)callbacks;
-
-- (void)endSession;
+- (void)startFacebookSession:(NSString*)authToken withCallbacks:(NSDictionary*)callbacks;
 
 /**
  @brief Purges all existing session tokens, disabling any further requests.
  */
-+ (void)endSession;
+- (void)endSession;
 
 /**
  @brief Returns true if 1 or more session tokens are available.
  */
 + (BOOL)hasSession;
 
-- (void)destroy;
-
 /**
  @brief Destroys the MediaFireSDK shared instance.
  */
-+ (void)destroy;
-
-- (MFSessionAPI*)SessionAPI;
+- (void)destroy;
 
 /**
  @brief Returns the MediaFireSDK singleton's stored instance of the MFSessionAPI class.
  */
-+ (MFSessionAPI*)SessionAPI;
-
-- (MFActionTokenAPI*)ActionTokenAPI;
+- (MFSessionAPI*)SessionAPI;
 
 /**
  @brief Returns the MediaFireSDK singleton's stored instance of the MFActionTokenAPI class.
  */
-+ (MFActionTokenAPI*)ActionTokenAPI;
-
-- (MFContactAPI*)ContactAPI;
+- (MFActionTokenAPI*)ActionTokenAPI;
 
 /**
  @brief Returns the MediaFireSDK singleton's stored instance of the MFConctactAPI class.
  */
-+ (MFContactAPI*)ContactAPI;
-
-- (MFDeviceAPI*)DeviceAPI;
+- (MFContactAPI*)ContactAPI;
 
 /**
  @brief Returns the MediaFireSDK singleton's stored instance of the MFDeviceAPI class.
  */
-+ (MFDeviceAPI*)DeviceAPI;
-
-- (MFFileAPI*)FileAPI;
+- (MFDeviceAPI*)DeviceAPI;
 
 /**
  @brief Returns the MediaFireSDK singleton's stored instance of the MFFileAPI class.
  */
-+ (MFFileAPI*)FileAPI;
-
-- (MFFolderAPI*)FolderAPI;
+- (MFFileAPI*)FileAPI;
 
 /**
  @brief Returns the MediaFireSDK singleton's stored instance of the MFFolderAPI class.
  */
-+ (MFFolderAPI*)FolderAPI;
-
-- (MFSystemAPI*)SystemAPI;
+- (MFFolderAPI*)FolderAPI;
 
 /**
  @brief Returns the MediaFireSDK singleton's stored instance of the MFSystemAPI class.
  */
-+ (MFSystemAPI*)SystemAPI;
-
-- (MFUploadAPI*)UploadAPI;
+- (MFSystemAPI*)SystemAPI;
 
 /**
  @brief Returns the MediaFireSDK singleton's stored instance of the MFUploadAPI class.
  */
-+ (MFUploadAPI*)UploadAPI;
-
-- (MFUserAPI*)UserAPI;
+- (MFUploadAPI*)UploadAPI;
 
 /**
  @brief Returns the MediaFireSDK singleton's stored instance of the MFUserAPI class.
  */
-+ (MFUserAPI*)UserAPI;
-
-- (MFMediaAPI*)MediaAPI;
+- (MFUserAPI*)UserAPI;
 
 /**
  @brief Returns the MediaFireSDK singleton's stored instance of the MFMediaAPI class.
  */
-+ (MFMediaAPI*)MediaAPI;
-
-- (MFBillingAPI*)BillingAPI;
+- (MFMediaAPI*)MediaAPI;
 
 /**
  @brief Returns the MediaFireSDK singleton's stored instance of the MFBillingAPI class.
  */
-+ (MFBillingAPI*)BillingAPI;
-
-- (MFNotificationAPI*)NotificationAPI;
+- (MFBillingAPI*)BillingAPI;
 
 /**
  @brief Returns the MediaFireSDK singleton's stored instance of the MFNotification class.
  */
-+ (MFNotificationAPI*)NotificationAPI;
+- (MFNotificationAPI*)NotificationAPI;
 
 
 @end

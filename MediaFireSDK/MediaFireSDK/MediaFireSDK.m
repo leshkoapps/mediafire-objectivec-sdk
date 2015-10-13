@@ -84,9 +84,9 @@ static id instance = nil;
         config = [config merge:defaults];
         [MFConfig createWithConfig:config];
     }
-    [MFRequestManager setSessionTokenAPI:self.SessionAPI];
-    [MFRequestManager setActionTokenAPI:self.ActionTokenAPI forType:@"image"];
-    [MFRequestManager setActionTokenAPI:self.ActionTokenAPI forType:@"upload"];
+    [MFRequestManager setSessionTokenAPI:[(MediaFireSDK*)instance SessionAPI]];
+    [MFRequestManager setActionTokenAPI:[(MediaFireSDK*)instance ActionTokenAPI] forType:@"image"];
+    [MFRequestManager setActionTokenAPI:[(MediaFireSDK*)instance ActionTokenAPI] forType:@"upload"];
     return firstRun;
 }
 
@@ -96,37 +96,21 @@ static id instance = nil;
 
 //------------------------------------------------------------------------------
 - (void)startSession:(NSString*)email withPassword:(NSString*)password andCallbacks:(NSDictionary*)callbacks {
-    [MediaFireSDK startSession:email withPassword:password andCallbacks:callbacks];
-}
-
-+ (void)startSession:(NSString*)email withPassword:(NSString*)password andCallbacks:(NSDictionary*)callbacks {
     [MFRequestManager startSession:email withPassword:password andCallbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
 - (void)startSessionWithCallbacks:(NSDictionary*)callbacks {
-    [MediaFireSDK startSessionWithCallbacks:callbacks];
-}
-
-+ (void)startSessionWithCallbacks:(NSDictionary*)callbacks {
     [MFRequestManager startSessionWithCallbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
 - (void)startFacebookSession:(NSString*)authToken withCallbacks:(NSDictionary*)callbacks {
-    [MediaFireSDK startFacebookSession:authToken withCallbacks:callbacks];
-}
-
-+ (void)startFacebookSession:(NSString*)authToken withCallbacks:(NSDictionary*)callbacks {
     [MFRequestManager startFacebookSession:authToken withCallbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
 - (void)endSession {
-    [MediaFireSDK endSession];
-}
-
-+ (void)endSession {
     [MFRequestManager endSession];
 }
 
@@ -156,20 +140,12 @@ static id instance = nil;
     return _session;
 }
 
-+ (MFSessionAPI*)SessionAPI {
-    return [instance SessionAPI];
-}
-
 //------------------------------------------------------------------------------
 - (MFActionTokenAPI*)ActionTokenAPI {
     if (_token == nil) {
         _token = [[MFActionTokenAPI alloc] init];
     }
     return _token;
-}
-
-+ (MFActionTokenAPI*)ActionTokenAPI {
-    return [instance ActionTokenAPI];
 }
 
 //------------------------------------------------------------------------------
@@ -180,20 +156,12 @@ static id instance = nil;
     return _contact;
 }
 
-+ (MFContactAPI*)ContactAPI {
-    return [instance ContactAPI];
-}
-
 //------------------------------------------------------------------------------
 - (MFDeviceAPI*)DeviceAPI {
     if (_device == nil) {
         _device = [[MFDeviceAPI alloc] init];
     }
     return _device;
-}
-
-+ (MFDeviceAPI*)DeviceAPI {
-    return [instance DeviceAPI];
 }
 
 //------------------------------------------------------------------------------
@@ -204,20 +172,12 @@ static id instance = nil;
     return _file;
 }
 
-+ (MFFileAPI*)FileAPI {
-    return [instance FileAPI];
-}
-
 //------------------------------------------------------------------------------
 - (MFFolderAPI*)FolderAPI {
     if (_folder == nil) {
         _folder = [[MFFolderAPI alloc] init];
     }
     return _folder;
-}
-
-+ (MFFolderAPI*)FolderAPI {
-    return [instance FolderAPI];
 }
 
 //------------------------------------------------------------------------------
@@ -228,20 +188,12 @@ static id instance = nil;
     return _system;
 }
 
-+ (MFSystemAPI*)SystemAPI {
-    return [instance SystemAPI];
-}
-
 //------------------------------------------------------------------------------
 - (MFUploadAPI*)UploadAPI {
     if (_upload == nil) {
         _upload= [[MFUploadAPI alloc] init];
     }
     return _upload;
-}
-
-+ (MFUploadAPI*)UploadAPI {
-    return [instance UploadAPI];
 }
 
 //------------------------------------------------------------------------------
@@ -252,20 +204,12 @@ static id instance = nil;
     return _user;
 }
 
-+ (MFUserAPI*)UserAPI {
-    return [instance UserAPI];
-}
-
 //------------------------------------------------------------------------------
 - (MFMediaAPI*)MediaAPI {
     if (_media == nil) {
         _media = [[MFMediaAPI alloc] init];
     }
     return _media;
-}
-
-+ (MFMediaAPI*)MediaAPI {
-    return [instance MediaAPI];
 }
 
 //------------------------------------------------------------------------------
@@ -276,20 +220,12 @@ static id instance = nil;
     return _billing;
 }
 
-+ (MFBillingAPI*)BillingAPI {
-    return [[self getInstance] BillingAPI];
-}
-
 //------------------------------------------------------------------------------
 - (MFNotificationAPI*)NotificationAPI {
     if (_notification == nil) {
         _notification = [[MFNotificationAPI alloc] initWithVersion:@"1.4"];
     }
     return _notification;
-}
-
-+ (MFNotificationAPI*)NotificationAPI {
-    return [[self getInstance] NotificationAPI];
 }
 
 @end
