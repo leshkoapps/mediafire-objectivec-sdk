@@ -657,7 +657,7 @@ static id instance = nil;
     self.awaitingTokens++;
     [self.sessionLock unlock];
     
-    [self.sessionAPI getSessionToken:credentials callbacks:@{ONLOAD:tokenAvailable,ONERROR:noToken}];
+    [self.sessionAPI getSessionToken:@{HCLIENT:HCLIENT_NONE} query:credentials callbacks:@{ONLOAD:tokenAvailable,ONERROR:noToken}];
 }
 
 //==============================================================================
