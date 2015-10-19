@@ -200,7 +200,7 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
           [asyncSelf stopWaitingForToken];
           callbacks.onerror(response);
       }};
-    [self.actionAPI getActionToken:@{@"type" : self.type, @"lifespan" : @"240"} callbacks:tokenCallbacks];
+    [self.actionAPI getActionToken:@{@"type" : self.type, @"lifespan" : @"1440"} callbacks:tokenCallbacks];
 }
 
 
