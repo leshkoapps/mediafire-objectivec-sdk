@@ -29,4 +29,5 @@ NSString* const HPTT_IMAGE  = @"image";
 NSString* const HPTT_UPLOAD = @"upload";
 NSString* const HSECURE     = @"secure";
 NSString* const HCLIENT     = @"http_client_id";
+NSString* const HCLIENT_NONE= @"none";
 NSString* const HDESCRIPTION= @"description";

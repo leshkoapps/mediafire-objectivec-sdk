@@ -114,6 +114,11 @@ extern NSString* const HSECURE;
 extern NSString* const HCLIENT;
 
 /**
+ @brief The value of the "http client id" property when no client is desired.
+ */
+extern NSString* const HCLIENT_NONE;
+
+/**
  @brief The name of the "description" property in an options dictionary.
  */
 extern NSString* const HDESCRIPTION;

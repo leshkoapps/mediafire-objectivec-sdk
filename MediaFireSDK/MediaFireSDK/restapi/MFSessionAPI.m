@@ -20,6 +20,7 @@
 #import "MFHTTP.h"
 #import "MFConfig.h"
 #import "MFHash.h"
+#import "MFHTTPOptions.h"
 
 @implementation MFSessionAPI
 
@@ -41,6 +42,12 @@
     return self;
 }
 
+//------------------------------------------------------------------------------
+- (void)setOverrides:(MFAPIURLRequestConfig*)config {
+    if (self.method.length) {
+        config.method = self.method;
+    }
+}
 
 //------------------------------------------------------------------------------
 - (void)getSessionToken:(NSDictionary*)credentials callbacks:(NSDictionary*)callbacks {
@@ -90,6 +97,22 @@
         }
         callbacks.onload(innerResponse);
     }};
+    
+    NSString* optionsHttpClientId = nil;
+    
+    if (options[HCLIENT] != nil && [options[HCLIENT] isKindOfClass:[NSString class]]) {
+        optionsHttpClientId = options[HCLIENT];
+    }
+    
+    if (optionsHttpClientId.length) {
+        if ([optionsHttpClientId isEqualToString:HCLIENT_NONE]) {
+            config.httpClientId = nil;
+        } else {
+            config.httpClientId = optionsHttpClientId;
+        }
+    } else if (self.httpClientId.length) {
+        config.httpClientId = self.httpClientId;
+    }
     
     // start the request
     [self createRequest:config callbacks:customizedCallbacks];
