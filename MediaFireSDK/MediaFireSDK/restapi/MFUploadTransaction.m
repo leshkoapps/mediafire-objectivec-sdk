@@ -248,15 +248,15 @@ typedef void (^StandardCallback)(NSDictionary* response);
               return;
           }
           
+          // Check to ensure user has sufficient storage space
+          if (response[@"storage_limit_exceeded"] != nil && [[response[@"storage_limit_exceeded"] lowercaseString] isEqualToString:@"yes"]) {
+              [self fail:[MFErrorMessage storageLimitExceeded]];
+              return;
+          }
+
           if ([self shouldInstantUpload:response]){
               [self event:@{UEVENT : UESETUP} status:UESETUP];
               [self instantUpload];
-              return;
-          }
-          
-          // Check to ensure user has sufficient storage space
-          if (response[@"storage_limit_exceeded"] != nil && [response[@"storage_limit_exceeded"] isEqualToString:@"yes"]) {
-              [self fail:[MFErrorMessage storageLimitExceeded]];
               return;
           }
           
@@ -304,11 +304,11 @@ typedef void (^StandardCallback)(NSDictionary* response);
 
 //------------------------------------------------------------------------------
 - (BOOL)shouldSucceed:(NSDictionary*)checkResponse {
-    if (checkResponse[@"hash_exists"] != nil && [checkResponse[@"hash_exists"] isEqualToString:@"yes"]) {
+    if (checkResponse[@"hash_exists"] != nil && [[checkResponse[@"hash_exists"] lowercaseString] isEqualToString:@"yes"]) {
         // Our file hash was found on the server.
-        if (checkResponse[@"file_exists"] != nil && [checkResponse[@"file_exists"] isEqualToString:@"yes"]) {
+        if (checkResponse[@"file_exists"] != nil && [[checkResponse[@"file_exists"] lowercaseString] isEqualToString:@"yes"]) {
             // A file has the same name and location.
-            if (checkResponse[@"different_hash"] != nil && [checkResponse[@"different_hash"] isEqualToString:@"no"]) {
+            if (checkResponse[@"different_hash"] != nil && [[checkResponse[@"different_hash"] lowercaseString] isEqualToString:@"no"]) {
                 // No upload needed. File exists with same name, location, and hash.
                 return TRUE;
             }
@@ -316,7 +316,7 @@ typedef void (^StandardCallback)(NSDictionary* response);
     }
     if ((checkResponse[@"resumable_upload"] != nil) && ([checkResponse[@"resumable_upload"] isKindOfClass:[NSDictionary class] ])) {
         NSDictionary* resumable = checkResponse[@"resumable_upload"];
-        if ([resumable[@"all_units_ready"] isEqualToString:@"yes"]) {
+        if ([[resumable[@"all_units_ready"] lowercaseString] isEqualToString:@"yes"]) {
             return TRUE;
         }
     }
@@ -326,7 +326,7 @@ typedef void (^StandardCallback)(NSDictionary* response);
 
 //------------------------------------------------------------------------------
 - (BOOL)shouldInstantUpload:(NSDictionary*)checkResponse {
-    if (checkResponse[@"hash_exists"] != nil && [checkResponse[@"hash_exists"] isEqualToString:@"yes"]) {
+    if (checkResponse[@"hash_exists"] != nil && [[checkResponse[@"hash_exists"] lowercaseString] isEqualToString:@"yes"]) {
         // Our file hash was found on the server.
         return TRUE;
     }
