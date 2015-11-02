@@ -17,7 +17,6 @@
 #import "MFErrorLog.h"
 
 @interface MFRequestManager()
-@property(strong,nonatomic) NSArray* validParallelTypes;
 @property(strong,nonatomic) NSMutableDictionary* parallelRequests;
 @end
 
@@ -38,13 +37,13 @@ static MFRequestManager* instance = nil;
         return nil;
     }
 
-    _validParallelTypes = @[@"image", @"upload"];
     _parallelRequests = [[NSMutableDictionary alloc] init];
     
-    for (int i=0; i<_validParallelTypes.count ; i++) {
-        NSString* type = _validParallelTypes[i];
-        _parallelRequests[type] = [[[MFConfig parallelRequestDelegate] alloc] initWithType:type];
-    }
+    _parallelRequests[@"image"] = [[[MFConfig parallelRequestDelegate] alloc] initWithType:@"image"];
+    [_parallelRequests[@"image"] setTokenLifespan: [MFConfig instance].imageActionTokenLifespan];
+    
+    _parallelRequests[@"upload"] = [[[MFConfig parallelRequestDelegate] alloc] initWithType:@"upload"];
+    [_parallelRequests[@"upload"] setTokenLifespan: [MFConfig instance].uploadActionTokenLifespan];
     return self;
 }
 
@@ -56,17 +55,6 @@ static MFRequestManager* instance = nil;
         }
     }
     return instance;
-}
-
-//------------------------------------------------------------------------------
-- (BOOL)isValidParallelType:(NSString*)type {
-    if (type == nil || [type isEqualToString:@""]) {
-        return false;
-    }
-    if ([self.validParallelTypes indexOfObject:type] == NSNotFound) {
-        return false;
-    }
-    return true;
 }
 
 //------------------------------------------------------------------------------
@@ -172,13 +160,13 @@ static MFRequestManager* instance = nil;
 //------------------------------------------------------------------------------
 - (void)endSession {
     id<MFParallelRequestManagerDelegate> prm;
-    NSString* prmName;
-    for (int16_t i=0 ; i<self.validParallelTypes.count ; i++) {
-        prmName = self.validParallelTypes[i];
-        prm = self.parallelRequests[prmName];
-        if (prm != nil && [prm respondsToSelector:@selector(endSession)]) {
-            [prm endSession];
-        }
+    prm = self.parallelRequests[@"image"];
+    if (prm != nil && [prm respondsToSelector:@selector(endSession)]) {
+        [prm endSession];
+    }
+    prm = self.parallelRequests[@"upload"];
+    if (prm != nil && [prm respondsToSelector:@selector(endSession)]) {
+        [prm endSession];
     }
     [[MFConfig serialRequestDelegate] endSession];
 }
