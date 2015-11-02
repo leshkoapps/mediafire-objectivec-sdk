@@ -53,4 +53,10 @@
  */
 - (void)endSession;
 
+/*
+ @brief Sets the lifespan of the next requested action token.
+ 
+ @param lifespan The expected lifespan of the token, in seconds.
+ */
+- (void)setTokenLifespan:(NSUInteger)lifespan;
 @end

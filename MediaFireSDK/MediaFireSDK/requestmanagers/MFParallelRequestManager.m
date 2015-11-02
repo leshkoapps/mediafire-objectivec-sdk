@@ -22,6 +22,7 @@
 
 static NSString* DEFAULT_TYPE = @"image";
 const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel";
+static NSUInteger const ACTION_TOKEN_LIFESPAN = 240;
 
 @interface MFParallelRequestManager ()
 @property(strong, nonatomic) MFCircularQueue* requests;
@@ -33,11 +34,15 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
 @property BOOL tokenFailure;
 @property(strong, nonatomic) NSString* tokenCallbacks;
 @property(strong,nonatomic) dispatch_queue_t dispatchQueue;
+@property(nonatomic, strong) NSDate* tokenStartDate;
+@property(nonatomic, assign) NSUInteger tokenLifespan;
 @end
 
 @implementation MFParallelRequestManager
 
 @synthesize token = _token;
+@synthesize tokenLifespan = _tokenLifespan;
+@synthesize tokenStartDate = _tokenStartDate;
 @synthesize actionAPI = _actionAPI;
 
 //==============================================================================
@@ -72,6 +77,7 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
     _waiting = false;
     _tokenFailure= false;
     _dispatchQueue = dispatch_queue_create(MF_PARALLEL_REQUEST_DISPATCH_QUEUE, DISPATCH_QUEUE_CONCURRENT);
+    _tokenLifespan = ACTION_TOKEN_LIFESPAN;
     return self;
 }
 
@@ -200,7 +206,7 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
           [asyncSelf stopWaitingForToken];
           callbacks.onerror(response);
       }};
-    [self.actionAPI getActionToken:@{@"type" : self.type, @"lifespan" : @"240"} callbacks:tokenCallbacks];
+    [self.actionAPI getActionToken:@{@"type" : self.type, @"lifespan" : [NSString stringWithFormat:@"%lu",self.tokenLifespan]} callbacks:tokenCallbacks];
 }
 
 
@@ -311,7 +317,7 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
     NSDictionary* customizedCallbacks =
     @{ONLOAD:callbacks.onload,
       ONERROR:^(NSDictionary* response) {
-        if ( [MFErrorMessage code:response] == ERRCODE_INVALID_SESSION_TOKEN ) {
+        if ([MFErrorMessage code:response] == ERRCODE_INVALID_SESSION_TOKEN || [self tokenAgeExceeded]) {
             // request failed because our action token expired.
             // re-queue the request and get a new token.
             if ([config.queryDict[@"session_token"] isEqualToString:bself.token]) {
@@ -332,6 +338,14 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
 //==============================================================================
 
 //------------------------------------------------------------------------------
+- (BOOL)tokenAgeExceeded {
+    if ([[NSDate date] timeIntervalSinceDate:self.tokenStartDate] > (double)self.tokenLifespan) {
+        return true;
+    }
+    return false;
+}
+
+//------------------------------------------------------------------------------
 - (NSString*)token {
     [self.tokenLock lock];
     NSString* token = _token;
@@ -343,7 +357,40 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
 - (void)setToken:(NSString*)token {
     [self.tokenLock lock];
     _token = token;
+    _tokenStartDate = [NSDate date];
     [self.tokenLock unlock];
+}
+
+//------------------------------------------------------------------------------
+- (void)setTokenLifespan:(NSUInteger)lifespan {
+    if (lifespan < 1)  {
+        return;
+    }
+    [self.tokenLock lock];
+    _tokenLifespan = lifespan;
+    [self.tokenLock unlock];
+}
+
+//------------------------------------------------------------------------------
+- (NSUInteger)tokenLifespan {
+    [self.tokenLock lock];
+    NSUInteger lifespan = _tokenLifespan;
+    [self.tokenLock unlock];
+    return lifespan;
+}
+
+//------------------------------------------------------------------------------
+- (NSDate*)tokenStartDate {
+    [self.tokenLock lock];
+    NSDate* startDate = _tokenStartDate;
+    [self.tokenLock unlock];
+    return startDate;
+}
+
+//------------------------------------------------------------------------------
+- (void)setTokenStartDate:(NSDate*)startDate {
+    // token date is set automatically when token is set.
+    return;
 }
 
 //------------------------------------------------------------------------------
