@@ -15,6 +15,8 @@
 #import "MFCredentialsDelegate.h"
 #import "MFNetworkIndicatorDelegate.h"
 
+static NSUInteger ACTION_TOKEN_LIFESPAN_DEFAULT_IMAGE = 240;
+static NSUInteger ACTION_TOKEN_LIFESPAN_DEFAULT_UPLOAD = 240;
 
 @interface MFConfig()
 
@@ -28,6 +30,8 @@
 @property (strong, nonatomic) NSString* defaultAPIVersion;
 @property (strong, nonatomic) NSDictionary* defaultAPIVersions;
 @property (strong, nonatomic) MFCallback authFailureCallback;
+@property (readwrite, nonatomic, assign) NSUInteger uploadActionTokenLifespan;
+@property (readwrite, nonatomic, assign) NSUInteger imageActionTokenLifespan;
 
 @end
 
@@ -48,6 +52,8 @@ NSString* const MFCONF_API_VERSION      = @"default_api_version";
 NSString* const MFCONF_API_VERSIONS     = @"default_api_versions";
 NSString* const MFCONF_AUTHFAIL_CB      = @"auth_failure_callback";
 NSString* const MFCONF_SSL              = @"prefer_ssl";
+NSString* const MFCONF_ACTION_TOKEN_LIFESPAN_UPLOAD = @"action_token_lifespan_upload";
+NSString* const MFCONF_ACTION_TOKEN_LIFESPAN_IMAGE = @"action_token_lifespan_image";
 
 //------------------------------------------------------------------------------
 - (id)init {
@@ -129,6 +135,28 @@ NSString* const MFCONF_SSL              = @"prefer_ssl";
         _minTokens = 3;
     }
     
+    if (config[MFCONF_ACTION_TOKEN_LIFESPAN_IMAGE] != nil && [config[MFCONF_ACTION_TOKEN_LIFESPAN_IMAGE] isKindOfClass:[NSNumber class]]) {
+        NSUInteger lifespan = [((NSNumber*)config[MFCONF_ACTION_TOKEN_LIFESPAN_IMAGE]) unsignedIntegerValue];
+        if (lifespan > 0) {
+            self.imageActionTokenLifespan = lifespan;
+        } else {
+            self.imageActionTokenLifespan = ACTION_TOKEN_LIFESPAN_DEFAULT_IMAGE;
+        }
+    } else {
+        self.imageActionTokenLifespan = ACTION_TOKEN_LIFESPAN_DEFAULT_IMAGE;
+    }
+
+    if (config[MFCONF_ACTION_TOKEN_LIFESPAN_UPLOAD] != nil && [config[MFCONF_ACTION_TOKEN_LIFESPAN_UPLOAD] isKindOfClass:[NSNumber class]]) {
+        NSUInteger lifespan = [((NSNumber*)config[MFCONF_ACTION_TOKEN_LIFESPAN_UPLOAD]) unsignedIntegerValue];
+        if (lifespan > 0) {
+            self.uploadActionTokenLifespan = lifespan;
+        } else {
+            self.uploadActionTokenLifespan = ACTION_TOKEN_LIFESPAN_DEFAULT_UPLOAD;
+        }
+    } else {
+        self.uploadActionTokenLifespan = ACTION_TOKEN_LIFESPAN_DEFAULT_UPLOAD;
+    }
+
     if (config[MFCONF_HTTPCLIENT] != nil) {
         _defaultHttpClient = [NSURLSession sessionWithConfiguration:config[MFCONF_HTTPCLIENT]];
     }

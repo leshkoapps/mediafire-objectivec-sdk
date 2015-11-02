@@ -80,6 +80,16 @@ extern NSString* const MFCONF_AUTHFAIL_CB;
  */
 extern NSString* const MFCONF_SSL;
 
+/*
+ @brief The name of the "action token lifespan for uplaods" property.
+ */
+extern NSString* const MFCONF_ACTION_TOKEN_LIFESPAN_UPLOAD;
+
+/*
+ @brief The name of the "action token lifespan for image previews" property.
+ */
+extern NSString* const MFCONF_ACTION_TOKEN_LIFESPAN_IMAGE;
+
 
 /**
  @brief The application ID.
@@ -102,6 +112,8 @@ extern NSString* const MFCONF_SSL;
  */
 @property BOOL preferSSL;
 
+@property (readonly) NSUInteger uploadActionTokenLifespan;
+@property (readonly) NSUInteger imageActionTokenLifespan;
 
 /**
  @brief Initializes the shared instance with given configuration.
