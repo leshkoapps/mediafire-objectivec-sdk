@@ -248,15 +248,15 @@ typedef void (^StandardCallback)(NSDictionary* response);
               return;
           }
           
-          if ([self shouldInstantUpload:response]){
-              [self event:@{UEVENT : UESETUP} status:UESETUP];
-              [self instantUpload];
+          // Check to ensure user has sufficient storage space
+          if (response[@"storage_limit_exceeded"] != nil && [[response[@"storage_limit_exceeded"] lowercaseString] isEqualToString:@"yes"]) {
+              [self fail:[MFErrorMessage storageLimitExceeded]];
               return;
           }
           
-          // Check to ensure user has sufficient storage space
-          if (response[@"storage_limit_exceeded"] != nil && [response[@"storage_limit_exceeded"] isEqualToString:@"yes"]) {
-              [self fail:[MFErrorMessage storageLimitExceeded]];
+          if ([self shouldInstantUpload:response]){
+              [self event:@{UEVENT : UESETUP} status:UESETUP];
+              [self instantUpload];
               return;
           }
           
