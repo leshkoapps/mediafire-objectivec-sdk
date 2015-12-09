@@ -450,4 +450,195 @@
  */
 - (void)update:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
 
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ user/accept_tos API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/user.php#accept_tos)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)acceptTOSConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ user/fetch_tos API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/user.php#fetch_tos)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)fetchTOSConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ user/get_avatar API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/user.php#get_avatar)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getAvatarConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ user/get_info API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/user.php#get_info)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getInfoConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ user/get_limits API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/user.php#get_limits)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getLimitsConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ user/get_login_token API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/user.php#get_login_token)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getLoginTokenConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ user/get_session_token API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/user.php#get_session_token)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getSessionTokenConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ user/get_settings_conf API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/user.php#get_settings_conf)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getSettingsConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ user/link_facebook API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/user.php#link_facebook)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)linkFacebookConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ user/link_twitter API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/user.php#link_twitter)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)linkTwitterConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ user/register_user API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/user.php#register_user)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)registerUserConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ user/set_avatar API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/user.php#set_avatar)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)setAvatarConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ user/set_settings API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/user.php#set_settings)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)setSettingsConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ user/unlink_facebook API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/user.php#unlink_facebook)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)unlinkFacebookConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ user/unlink_twitter API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/user.php#unlink_twitter)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)unlinkTwitterConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ user/update API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/user.php#update)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)updateConf:(NSDictionary*)options query:(NSDictionary*)parameters;
 @end

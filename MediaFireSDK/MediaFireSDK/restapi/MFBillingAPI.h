@@ -187,4 +187,85 @@
  */
 - (void)purchasePlan:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
 
+/*
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ billing/cancel_plan API.  Access to this API is restricted. If you would like
+ to use this API, contact MediaFire support.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for
+ list of valid parameters.  
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.4/billing/#cancel_plan)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)cancelPlanConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/*
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ billing/change_plan API.  Access to this API is restricted. If you would like
+ to use this API, contact MediaFire support.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for
+ list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.4/billing/#change_plan)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)changePlanConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/*
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ billing/get_invoice API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for
+ list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.4/billing/#get_invoice)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getInvoiceConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/*
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ billing/get_plans API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for
+ list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.4/billing/#get_plans)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getPlansConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/*
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ billing/get_products API.
+
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for
+ list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.4/billing/#get_products)
+ for list of valid parameters.
+*/
+- (MFAPIURLRequestConfig*)getProductsConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/*
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ billing/purchase_plan API.  Access to this API is restricted. If you would like
+ to use this API, contact MediaFire support.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for
+ list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.4/billing/#purchase_plan)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)purchasePlanConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
 @end

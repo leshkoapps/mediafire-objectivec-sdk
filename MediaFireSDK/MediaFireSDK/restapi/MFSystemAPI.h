@@ -204,4 +204,87 @@
  */
 - (void)getVersion:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
 
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ system/get_editable_media API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/system.php#get_editable_media)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getEditableMediaConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ system/get_info API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/system.php#get_info)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getInfoConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ system/get_limits API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/system.php#get_limits)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getLimitsConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ system/get_mime_types API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/system.php#get_mime_types)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getMimeTypesConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ system/get_status API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/system.php#get_status)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getStatusConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ system/get_supported_media API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/system.php#get_supported_media)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getSupportedMediaConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ system/get_version API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/system.php#get_version)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getVersionConf:(NSDictionary*)options query:(NSDictionary*)parameters;
 @end

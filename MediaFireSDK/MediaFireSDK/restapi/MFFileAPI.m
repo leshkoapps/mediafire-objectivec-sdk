@@ -37,9 +37,7 @@
 }
 
 - (void)configureOneTimeDownload:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"configure_one_time_download.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self configureOneTimeDownloadConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -48,9 +46,7 @@
 }
 
 - (void)copy:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"copy.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self copyConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -59,9 +55,7 @@
 }
 
 - (void)create:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"create.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self createConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -70,9 +64,7 @@
 }
 
 - (void)createSnapshot:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"create_snapshot.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self createSnapshotConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -81,10 +73,7 @@
 }
 
 - (void)delete:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"delete.php"}]
-                  query:parameters
-             
-              callbacks:callbacks];
+    [self createRequest:[self deleteConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -93,9 +82,7 @@
 }
 
 - (void)getFlags:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"get_flags.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self getFlagsConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -104,9 +91,7 @@
 }
 
 - (void)getInfo:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"get_info.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self getInfoConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -115,9 +100,7 @@
 }
 
 - (void)getLinks:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"get_links.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self getLinksConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -126,9 +109,7 @@
 }
 
 - (void)getStatus:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"get_status.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self getStatusConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -137,9 +118,7 @@
 }
 
 - (void)getVersions:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"get_versions.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self getVersionsConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -148,9 +127,7 @@
 }
 
 - (void)move:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"move.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self moveConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -159,9 +136,7 @@
 }
 
 - (void)oneTimeDownload:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"one_time_download.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self oneTimeDownloadConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -170,9 +145,7 @@
 }
 
 - (void)purge:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"purge.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self purgeConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -181,9 +154,7 @@
 }
 
 - (void)recentlyModified:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"recently_modified.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self recentlyModifiedConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -192,9 +163,7 @@
 }
 
 - (void)restore:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"restore.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self restoreConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -203,9 +172,7 @@
 }
 
 - (void)setFlags:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"set_flags.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self setFlagsConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -214,9 +181,7 @@
 }
 
 - (void)update:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"update.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self updateConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -225,9 +190,7 @@
 }
 
 - (void)updateFile:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"update_file.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self updateFileConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -236,9 +199,7 @@
 }
 
 - (void)updatePassword:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"update_password.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self updatePasswordConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -247,9 +208,127 @@
 }
 
 - (void)zip:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"zip.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self zipConf:options query:parameters] callbacks:callbacks];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)configureOneTimeDownloadConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL: @"configure_one_time_download.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)copyConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL: @"copy.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)createConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL: @"create.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)createSnapshotConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL: @"create_snapshot.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)deleteConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL: @"delete.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)getFlagsConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL: @"get_flags.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)getInfoConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL: @"get_info.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)getLinksConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL: @"get_links.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)getStatusConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL: @"get_status.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)getVersionsConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL: @"get_versions.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)moveConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL: @"move.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)oneTimeDownloadConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL: @"one_time_download.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)purgeConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL: @"purge.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)recentlyModifiedConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL: @"recently_modified.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)restoreConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL: @"restore.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)setFlagsConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL: @"set_flags.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)updateConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL: @"update.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)updateFileConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL: @"update_file.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)updatePasswordConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL: @"update_password.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)zipConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL: @"zip.php"}]
+                                   query:parameters];
 }
 
 @end

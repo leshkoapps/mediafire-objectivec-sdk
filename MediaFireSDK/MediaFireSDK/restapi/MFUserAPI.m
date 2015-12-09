@@ -37,9 +37,7 @@
 }
 
 - (void)acceptTOS:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"accept_tos.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self acceptTOSConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -48,9 +46,7 @@
 }
 
 - (void)fetchTOS:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"fetch_tos.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self fetchTOSConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -59,9 +55,7 @@
 }
 
 - (void)getAvatar:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"get_avatar.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self getAvatarConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -70,9 +64,7 @@
 }
 
 - (void)getInfo:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"get_info.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self getInfoConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -81,9 +73,7 @@
 }
 
 - (void)getLimits:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"get_limits.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self getLimitsConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -92,12 +82,7 @@
 }
 
 - (void)getLoginToken:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL :@"get_login_token.php",
-                          HMETHOD : @"POST",
-                          HSECURE : @"true",
-                          HTOKEN : HTKT_NONE}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self getLoginTokenConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -107,12 +92,7 @@
 }
 
 - (void)getSessionToken:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL : @"get_session_token.php",
-                          HMETHOD : @"POST",
-                          HSECURE : @"true",
-                          HTOKEN : HTKT_NONE}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self getSessionTokenConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -121,9 +101,7 @@
 }
 
 - (void)getSettings:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"get_settings.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self getSettingsConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -132,9 +110,7 @@
 }
 
 - (void)linkFacebook:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"link_facebook.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self linkFacebookConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -143,9 +119,7 @@
 }
 
 - (void)linkTwitter:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"link_twitter.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self linkTwitterConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -154,14 +128,8 @@
 }
 
 - (void)registerUser:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL : @"register.php",
-                          HMETHOD : @"POST",
-                          HSECURE : @"true",
-                          HTOKEN : HTKT_NONE}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self registerUserConf:options query:parameters] callbacks:callbacks];
 }
-
 
 //------------------------------------------------------------------------------
 - (void)setAvatar:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
@@ -169,9 +137,7 @@
 }
 
 - (void)setAvatar:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"set_avatar.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self setAvatarConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -180,9 +146,7 @@
 }
 
 - (void)setSettings:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"set_settings.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self setSettingsConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -191,9 +155,7 @@
 }
 
 - (void)unlinkFacebook:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"unlink_facebook.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self unlinkFacebookConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -202,9 +164,7 @@
 }
 
 - (void)unlinkTwitter:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"unlink_twitter.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self unlinkTwitterConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -213,9 +173,114 @@
 }
 
 - (void)update:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL:@"update.php"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self updateConf:options query:parameters] callbacks:callbacks];
 }
+
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)acceptTOSConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"accept_tos.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)fetchTOSConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"fetch_tos.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)getAvatarConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"get_avatar.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)getInfoConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"get_info.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)getLimitsConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"get_limits.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)getLoginTokenConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL :@"get_login_token.php",
+                                                          HMETHOD : @"POST",
+                                                          HSECURE : @"true",
+                                                          HTOKEN : HTKT_NONE}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)getSessionTokenConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"get_session_token.php",
+                                                          HMETHOD : @"POST",
+                                                          HSECURE : @"true",
+                                                          HTOKEN : HTKT_NONE}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)getSettingsConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"get_settings.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)linkFacebookConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"link_facebook.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)linkTwitterConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"link_twitter.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)registerUserConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"register.php",
+                                                          HMETHOD : @"POST",
+                                                          HSECURE : @"true",
+                                                          HTOKEN : HTKT_NONE}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)setAvatarConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"set_avatar.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)setSettingsConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"set_settings.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)unlinkFacebookConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"unlink_facebook.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)unlinkTwitterConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"unlink_twitter.php"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)updateConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"update.php"}]
+                                   query:parameters];
+}
+
 
 @end

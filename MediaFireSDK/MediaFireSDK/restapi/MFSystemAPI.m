@@ -37,9 +37,7 @@
 }
 
 - (void)getEditableMedia:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL : @"get_editable_media.php", HTOKEN : HTKT_NONE}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self getEditableMediaConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -48,9 +46,7 @@
 }
 
 - (void)getInfo:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL : @"get_info.php", HTOKEN : HTKT_NONE}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self getInfoConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -59,9 +55,7 @@
 }
 
 - (void)getLimits:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL : @"get_limits.php", HTOKEN : HTKT_NONE}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self getLimitsConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -70,9 +64,7 @@
 }
 
 - (void)getMimeTypes:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL : @"get_mime_types.php", HTOKEN : HTKT_NONE}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self getMimeTypesConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -81,9 +73,7 @@
 }
 
 - (void)getStatus:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL : @"get_status.php", HTOKEN : HTKT_NONE}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self getStatusConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -92,9 +82,7 @@
 }
 
 - (void)getSupportedMedia:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL : @"get_supported_media.php", HTOKEN : HTKT_NONE}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self getSupportedMediaConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -103,9 +91,50 @@
 }
 
 - (void)getVersion:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL : @"get_version.php", HTOKEN : HTKT_NONE}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self getVersionConf:options query:parameters] callbacks:callbacks];
+}
+
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)getEditableMediaConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"get_editable_media.php", HTOKEN : HTKT_NONE}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)getInfoConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"get_info.php", HTOKEN : HTKT_NONE}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)getLimitsConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"get_limits.php", HTOKEN : HTKT_NONE}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)getMimeTypesConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"get_mime_types.php", HTOKEN : HTKT_NONE}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)getStatusConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"get_status.php", HTOKEN : HTKT_NONE}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)getSupportedMediaConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"get_supported_media.php", HTOKEN : HTKT_NONE}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)getVersionConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"get_version.php", HTOKEN : HTKT_NONE}]
+                                   query:parameters];
 }
 
 @end
