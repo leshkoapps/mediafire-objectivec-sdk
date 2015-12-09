@@ -243,6 +243,8 @@
 		65730B0418FEF1FA00E402C3 /* MFContactAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFContactAPI.m; sourceTree = "<group>"; };
 		65730B0618FEF21000E402C3 /* MFSystemAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSystemAPI.h; sourceTree = "<group>"; };
 		65730B0818FF338100E402C3 /* MFConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFConfig.h; sourceTree = "<group>"; };
+		6575324D1BF67882006DC7E9 /* MFAPISessionManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAPISessionManagerDelegate.h; sourceTree = "<group>"; };
+		6575324E1BF678E3006DC7E9 /* MFAPIURLRequestHandlerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAPIURLRequestHandlerDelegate.h; sourceTree = "<group>"; };
 		657F0E8019645AAD00931590 /* MFMediaAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFMediaAPI.h; sourceTree = "<group>"; };
 		657F0E8119645AAD00931590 /* MFMediaAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFMediaAPI.m; sourceTree = "<group>"; };
 		6599A92C1972C83F00BF23D3 /* MFAPIBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAPIBase.h; sourceTree = "<group>"; };
@@ -434,6 +436,8 @@
 				651EE4C11901780100839A44 /* MFParallelRequestManagerDelegate.h */,
 				651EE4C21901780100839A44 /* MFSerialRequestManagerDelegate.h */,
 				65AA34A01A92967F00947A82 /* MFUploadHelperDelegate.h */,
+				6575324D1BF67882006DC7E9 /* MFAPISessionManagerDelegate.h */,
+				6575324E1BF678E3006DC7E9 /* MFAPIURLRequestHandlerDelegate.h */,
 			);
 			path = protocols;
 			sourceTree = "<group>";
