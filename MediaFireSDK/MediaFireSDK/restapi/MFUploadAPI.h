@@ -79,14 +79,10 @@
  
  @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
  
- @param parameters Dictionary with API parameter parameters. See
- [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/upload.php#resumable)
- for list of valid parameters.
- 
  @param callbacks A dictionary containing an onload callback and onerror
  callback. See NSDictionary(Callbacks).
  */
-- (void)uploadFile:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
+- (void)uploadFile:(NSDictionary*)options fileInfo:(NSDictionary*)fileInfo callbacks:(NSDictionary*)callbacks;
 
 /**
  @brief Performs a unit (resumable) upload.
@@ -161,4 +157,75 @@
 + (int)getFirstEmptyBitFromWord:(int32_t)bitmap;
 
 + (int)getFirstEmptyBit:(NSDictionary*)bitmap;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ upload/check API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/upload.php#check)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)checkConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ upload/instant API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/upload.php#instant)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)instantConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ upload/resumable API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param fileInfo A file info dictionary.
+ */
+- (MFAPIURLRequestConfig*)uploadFileConf:(NSDictionary*)options fileInfo:(NSDictionary*)fileInfo;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ upload/resumable API, configured specifically for uploading a single unit.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/upload.php#resumable)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)uploadUnitConf:(NSDictionary*)options fileInfo:(NSDictionary*)fileInfo query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ upload/resumable API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/upload.php#resumable)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)uploadConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ upload/poll_upload API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/upload.php#poll_upload)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)pollUploadConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
 @end
