@@ -93,6 +93,8 @@
 		65AA349E1A92966F00947A82 /* MFUploadFileInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 65AA349B1A92966F00947A82 /* MFUploadFileInfo.m */; };
 		65AA349F1A92966F00947A82 /* MFUploadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 65AA349D1A92966F00947A82 /* MFUploadHelper.m */; };
 		65AA34A31A92969500947A82 /* NSData+BytesRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 65AA34A21A92969500947A82 /* NSData+BytesRange.m */; };
+		65CEF8021C18FFDD00DDFD89 /* MFAPISessionManagerDelegate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6575324D1BF67882006DC7E9 /* MFAPISessionManagerDelegate.h */; };
+		65CEF8031C18FFDD00DDFD89 /* MFAPIURLRequestHandlerDelegate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6575324E1BF678E3006DC7E9 /* MFAPIURLRequestHandlerDelegate.h */; };
 		65D572EC18EDCDF2000DDF1A /* MFCredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D572EB18EDCDF2000DDF1A /* MFCredentials.m */; };
 		65DB56F81B73C7CF004ED058 /* NSArray+JSONExtender.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 27438DA31ADF01F10016D14F /* NSArray+JSONExtender.h */; };
 		65F18F0918F863190054F839 /* MFDeviceAPI.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6510898E18EF1935000007A9 /* MFDeviceAPI.h */; };
@@ -110,6 +112,8 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				65CEF8021C18FFDD00DDFD89 /* MFAPISessionManagerDelegate.h in CopyFiles */,
+				65CEF8031C18FFDD00DDFD89 /* MFAPIURLRequestHandlerDelegate.h in CopyFiles */,
 				65A363491B9F899000297AFB /* MFNotificationAPI.h in CopyFiles */,
 				65A363481B9F898800297AFB /* MFBillingAPI.h in CopyFiles */,
 				65DB56F81B73C7CF004ED058 /* NSArray+JSONExtender.h in CopyFiles */,
