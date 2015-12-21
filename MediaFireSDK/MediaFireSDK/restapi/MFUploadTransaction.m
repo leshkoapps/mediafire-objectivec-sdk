@@ -173,6 +173,10 @@ typedef void (^StandardCallback)(NSDictionary* response);
     
     [helper prepareFileForUpload:[self fileInfo] withCompletionHandler:^(MFUploadFileInfo* fileInfo, NSError* err) {
         if (err != nil) {
+            if (err.code == MFUploadHelperErrFileNotFound) {
+                [self fail:[MFErrorMessage fileNotFound]];
+                return;
+            }
             [self fail:[MFErrorMessage nullField:@"filePath"]];
             return;
         }

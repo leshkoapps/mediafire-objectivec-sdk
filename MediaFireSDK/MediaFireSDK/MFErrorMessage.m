@@ -332,6 +332,11 @@ static inline NSDictionary* build_error_with_data(enum ErrorCode code, NSString*
     return build_error(ERRCODE_FILECOPY, @"Failed to copy temp file to local path.", ERRCAT_APP);
 }
 
+//------------------------------------------------------------------------------
++ (NSDictionary*)fileNotFound {
+    return build_error(ERRCODE_FILE_NOT_FOUND, @"File not found.", ERRCAT_APP);
+}
+
 
 //------------------------------------------------------------------------------
 + (NSDictionary*)log:(NSDictionary*)errorMessage in:(const char*)srcfile at:(NSUInteger)line {
