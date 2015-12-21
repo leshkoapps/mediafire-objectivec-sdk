@@ -676,24 +676,11 @@ static id instance = nil;
         callbacks.onerror(erm(nullField:@"request options"));
         return;
     }
-    NSString* baseUrl = config.location;
-    if ( baseUrl == nil ) {
+    if ( config.location == nil ) {
         callbacks.onerror(erm(nullURL));
         return;
     }
-    // use http or https?
-    NSString* secureUrl = @"";
-    if (config.secure) {
-        secureUrl = @"s";
-    }
-    // "host" can be set to a subdomain in the case of API requests.
-    NSString* overrideHost = MFREST.host;
-    if (config.host.length) {
-        overrideHost = config.host;
-    }
-    // Update url to be fully qualified
-    NSString* combinedUrl = [NSString stringWithFormat:@"http%@://%@%@", secureUrl, overrideHost, baseUrl];
-    config.url = [NSURL URLWithString:combinedUrl];
+    config.url = [config generateURL];
 
     config.queryDict = [MFREST addResponseFormat:config.queryDict];
     

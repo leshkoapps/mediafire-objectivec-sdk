@@ -356,4 +356,147 @@
  */
 - (void)unfollowResource:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
 
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ device/get_changes API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/device.php#get_changes)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getChangesConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ device/get_foreign_resources API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/device.php#get_foreign_resources)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getForeignResourcesConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ device/get_patch API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/device.php#get_patch)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getPatchConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ device/get_resource_shares API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/device.php#get_resource_shares)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getResourceSharesConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ device/get_status API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/device.php#get_status)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getStatusConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ device/get_trash API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/device.php#get_trash)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getTrashConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ device/get_updates API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/device.php#get_updates)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getUpdatesConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ device/get_user_shares API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/device.php#get_user_shares)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getUserSharesConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ device/share_resources API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/device.php#share_resources)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)shareResourcesConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ device/unshare_resources API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/device.php#unshare_resources)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)unshareResourcesConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ device/follow_resource API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/device.php#follow_resource)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)followResourceConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ device/unfollow_resource API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/device.php#unfollow_resource)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)unfollowResourceConf:(NSDictionary*)options query:(NSDictionary*)parameters;
 @end

@@ -40,8 +40,7 @@
 }
 
 - (void)check:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL : @"check.php",HMETHOD : @"POST"}]
-                  query:parameters
+    [self createRequest:[self checkConf:options query:parameters]
               callbacks:callbacks];
 }
 
@@ -51,38 +50,20 @@
 }
 
 - (void)instant:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL : @"instant.php", HTOKEN: HTKT_PARA, HPARALLEL : HPTT_UPLOAD}]
-                  query:parameters
+    [self createRequest:[self instantConf:options query:parameters]
               callbacks:callbacks];
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-parameter"
 //------------------------------------------------------------------------------
-- (void)uploadFile:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
+- (void)uploadFile:(NSDictionary*)options fileInfo:(NSDictionary*)fileInfo callbacks:(NSDictionary*)callbacks {
     NSDictionary* headers = [self getHeadersFrom:options];
     if (headers == nil) {
         callbacks.onerror([MFErrorMessage nullField]);
         return;
     }
     
-    NSMutableDictionary* reqOptions = [[NSMutableDictionary alloc] initWithDictionary:
-                                       @{HREQHEADERS    : headers, HTOKEN: HTKT_PARA, HPARALLEL : HPTT_UPLOAD}];
-    reqOptions[HCLIENT] = options[HCLIENT];
-    if (options[@"file_path"] != nil) {
-        reqOptions[@"upload"]       = @"path";
-        reqOptions[@"upload_path"]  = options[@"file_path"];
-    } else {
-        reqOptions[@"upload"]         = @"data";
-        reqOptions[@"upload_data"]  = options[@"file_data"];
-    }
-    
-    NSMutableDictionary* optionsMutable = [options mutableCopy];
-    [optionsMutable addEntriesFromDictionary:@{@"type" : @"basic"}];
-    
-    [self upload:reqOptions query:optionsMutable callbacks:callbacks];
+    [self createRequest:[self uploadFileConf:options fileInfo:fileInfo] callbacks:callbacks];
 }
-#pragma clang diagnostic pop
 
 //------------------------------------------------------------------------------
 - (void)uploadUnit:(NSDictionary*)fileInfo query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
@@ -100,22 +81,15 @@
         callbacks.onerror([MFErrorMessage nullField:@"unit_data"]);
         return;
     }
-    NSDictionary* reqOptions = [options merge:
-    @{HREQHEADERS   : headers,
-      HUPTYPE       : @"data",
-      HUPDATA       : fileInfo[@"unit_data"],
-      HTOKEN        : HTKT_PARA,
-      HPARALLEL     : HPTT_UPLOAD,
-      HHOST         : MFREST.host}];
     
-    [self upload:reqOptions query:parameters callbacks:callbacks];
+    [self createRequest:[self uploadUnitConf:options fileInfo:fileInfo query:parameters]
+              callbacks:callbacks];
+    
 }
 
 //------------------------------------------------------------------------------
 - (void)upload:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary *)callbacks {
-    [self createRequest:[options merge:@{HURL : @"resumable.php", HURLPARAMS : @"true", HMETHOD : @"POST"}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self uploadConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -124,9 +98,7 @@
 }
 
 - (void)pollUpload:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[options merge:@{HURL : @"poll_upload.php",HMETHOD : @"POST", HTOKEN : HTKT_NONE}]
-                  query:parameters
-              callbacks:callbacks];
+    [self createRequest:[self pollUploadConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -204,5 +176,71 @@
     }
     return emptyBit;
 }
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)checkConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"check.php",
+                                                          HMETHOD : @"POST"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)instantConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"instant.php",
+                                                          HTOKEN: HTKT_PARA,
+                                                          HPARALLEL : HPTT_UPLOAD}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)uploadFileConf:(NSDictionary*)options fileInfo:(NSDictionary*)fileInfo {
+    NSDictionary* headers = [self getHeadersFrom:fileInfo];
+    NSMutableDictionary* reqOptions = [[NSMutableDictionary alloc] initWithDictionary:
+                                       @{HREQHEADERS    : headers, HTOKEN: HTKT_PARA, HPARALLEL : HPTT_UPLOAD}];
+    reqOptions[HCLIENT] = options[HCLIENT];
+    if (options[@"file_path"] != nil) {
+        reqOptions[@"upload"]       = @"path";
+        reqOptions[@"upload_path"]  = options[@"file_path"];
+    } else {
+        reqOptions[@"upload"]         = @"data";
+        reqOptions[@"upload_data"]  = options[@"file_data"];
+    }
+    
+    NSMutableDictionary* optionsMutable = [options mutableCopy];
+    [optionsMutable addEntriesFromDictionary:@{@"type" : @"basic"}];
+    
+    return [self uploadConf:reqOptions query:optionsMutable];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)uploadUnitConf:(NSDictionary*)options fileInfo:(NSDictionary*)fileInfo query:(NSDictionary*)parameters {
+    NSDictionary* headers = [self getHeadersFrom:fileInfo];
+    NSDictionary* reqOptions = [options merge:
+                                @{HREQHEADERS   : headers,
+                                  HUPTYPE       : @"data",
+                                  HUPDATA       : fileInfo[@"unit_data"],
+                                  HTOKEN        : HTKT_PARA,
+                                  HPARALLEL     : HPTT_UPLOAD,
+                                  HHOST         : MFREST.host}];
+    
+    return [self uploadConf:reqOptions query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)uploadConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"resumable.php",
+                                                          HURLPARAMS : @"true",
+                                                          HMETHOD : @"POST"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)pollUploadConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"poll_upload.php",
+                                                          HMETHOD : @"POST",
+                                                          HTOKEN : HTKT_NONE}]
+                                   query:parameters];
+}
+
 
 @end

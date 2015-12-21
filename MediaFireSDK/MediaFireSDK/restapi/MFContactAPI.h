@@ -204,5 +204,88 @@
  */
 - (void)summary:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
 
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ contact/add API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/contact.php#add)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)addConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ contact/delete API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/contact.php#delete)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)deleteConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ contact/fetch API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/contact.php#fetch)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)fetchConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ contact/get_avatar API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/contact.php#get_avatar)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getAvatarConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ contact/get_sources API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/contact.php#get_sources)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)getSourcesConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ contact/set_avatar API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/contact.php#set_avatar)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)setAvatarConf:(NSDictionary*)options query:(NSDictionary*)parameters;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ contact/summary API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param parameters Dictionary with API parameter options. See
+ [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/contact.php#summary)
+ for list of valid parameters.
+ */
+- (MFAPIURLRequestConfig*)summaryConf:(NSDictionary*)options query:(NSDictionary*)parameters;
 
 @end

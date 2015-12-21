@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 MediaFire. All rights reserved.
 //
 
-#import "MFAPIBase.h"
+#import "MFAPI.h"
 
 /**
  @brief The interface for requesting session tokens.
  */
-@interface MFSessionAPI : MFAPIBase
+@interface MFSessionAPI : MFAPI
 
 /**
  @brief Returns an MFSessionAPI object initialized with a given API version number.
@@ -41,5 +41,15 @@
  callback. See NSDictionary(Callbacks).
  */
 - (void)getSessionToken:(NSDictionary*)options query:(NSDictionary*)credentials callbacks:(NSDictionary*)callbacks;
+
+/**
+ @brief Returns an MFAPIURLRequestConfig object initialized for use with the
+ user/get_session_token API.
+ 
+ @param options Dictionary with HTTP client options. See MFHTTPOptions.h for list of valid parameters.
+ 
+ @param credentials A credentials dictionary.
+ */
+- (MFAPIURLRequestConfig*)getSessionTokenConf:(NSDictionary*)options query:(NSDictionary*)credentials;
 
 @end

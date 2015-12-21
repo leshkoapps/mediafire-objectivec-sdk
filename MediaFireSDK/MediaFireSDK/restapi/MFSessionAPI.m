@@ -20,6 +20,7 @@
 #import "MFHTTP.h"
 #import "MFConfig.h"
 #import "MFHash.h"
+#import "MFHTTPOptions.h"
 
 @implementation MFSessionAPI
 
@@ -60,12 +61,7 @@
     }
     
     // construct the request
-    MFAPIURLRequestConfig* config = [[MFAPIURLRequestConfig alloc] init];
-    config.location = @"get_session_token.php";
-    
-    config.method = @"POST";
-    config.queryDict = [MFSessionAPI generateAuthenticationDictionaryFromCredentials:credentials version:@"2"];
-    config.secure = true;
+    MFAPIURLRequestConfig* config = [self getSessionTokenConf:options query:credentials];
     
     NSDictionary* customizedCallbacks = @{ONERROR:callbacks.onerror,
                                            ONLOAD:^(NSDictionary* response) {
@@ -187,5 +183,15 @@
     return params;
 }
 
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)getSessionTokenConf:(NSDictionary*)options query:(NSDictionary*)credentials {
+    NSDictionary* parameters = [MFSessionAPI generateAuthenticationDictionaryFromCredentials:credentials version:@"2"];
+    
+    return [self createConfigWithOptions:[options merge:@{HURL : @"get_session_token.php",
+                                                          HTOKEN : HTKT_NONE,
+                                                          HSECURE : @"true",
+                                                          HMETHOD : @"POST"}]
+                                   query:parameters];
+}
 
 @end

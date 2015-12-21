@@ -37,11 +37,7 @@
 }
 
 - (void)cancelPlan:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)cb {
-    [self createRequest:[options merge:@{HURL : @"cancel_plan.php",
-                                         HSECURE : @"true",
-                                         HMETHOD : @"POST"}]
-                  query:parameters
-              callbacks:cb];
+    [self createRequest:[self cancelPlanConf:options query:parameters] callbacks:cb];
 }
 
 //------------------------------------------------------------------------------
@@ -50,11 +46,7 @@
 }
 
 - (void)changePlan:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)cb {
-    [self createRequest:[options merge:@{HURL : @"change_plan.php",
-                                         HSECURE : @"true",
-                                         HMETHOD : @"POST"}]
-                  query:parameters
-              callbacks:cb];
+    [self createRequest:[self changePlanConf:options query:parameters] callbacks:cb];
 }
 
 //------------------------------------------------------------------------------
@@ -63,11 +55,7 @@
 }
 
 - (void)getInvoice:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)cb {
-    [self createRequest:[options merge:@{HURL : @"get_invoice.php",
-                                         HSECURE : @"true",
-                                         HMETHOD : @"POST"}]
-                  query:parameters
-              callbacks:cb];
+    [self createRequest:[self getInvoiceConf:options query:parameters] callbacks:cb];
 }
 
 //------------------------------------------------------------------------------
@@ -76,11 +64,7 @@
 }
 
 - (void)getPlans:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)cb {
-    [self createRequest:[options merge:@{HURL : @"get_plans.php",
-                                         HSECURE : @"true",
-                                         HMETHOD : @"POST"}]
-                  query:parameters
-              callbacks:cb];
+    [self createRequest:[self getPlansConf:options query:parameters] callbacks:cb];
 }
 
 //------------------------------------------------------------------------------
@@ -89,11 +73,7 @@
 }
 
 - (void)getProducts:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)cb {
-    [self createRequest:[options merge:@{HURL : @"get_products.php",
-                                         HSECURE : @"true",
-                                         HMETHOD : @"POST"}]
-                  query:parameters
-              callbacks:cb];
+    [self createRequest:[self getProductsConf:options query:parameters] callbacks:cb];
 }
 
 
@@ -103,11 +83,56 @@
 }
 
 - (void)purchasePlan:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)cb {
-    [self createRequest:[options merge:@{HURL : @"purchase_plan.php",
-                                         HSECURE : @"true",
-                                         HMETHOD : @"POST"}]
-                  query:parameters
-              callbacks:cb];
+    [self createRequest:[self purchasePlanConf:options query:parameters] callbacks:cb];
+}
+
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)cancelPlanConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"cancel_plan.php",
+                                                          HSECURE : @"true",
+                                                          HMETHOD : @"POST"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)changePlanConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"change_plan.php",
+                                                          HSECURE : @"true",
+                                                          HMETHOD : @"POST"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)getInvoiceConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"get_invoice.php",
+                                                          HSECURE : @"true",
+                                                          HMETHOD : @"POST"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)getPlansConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"get_plans.php",
+                                                          HSECURE : @"true",
+                                                          HMETHOD : @"POST"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)getProductsConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"get_products.php",
+                                                          HSECURE : @"true",
+                                                          HMETHOD : @"POST"}]
+                                   query:parameters];
+}
+
+//------------------------------------------------------------------------------
+- (MFAPIURLRequestConfig*)purchasePlanConf:(NSDictionary*)options query:(NSDictionary*)parameters {
+    return [self createConfigWithOptions:[options merge:@{HURL : @"purchase_plan.php",
+                                                          HSECURE : @"true",
+                                                          HMETHOD : @"POST"}]
+                                   query:parameters];
 }
 
 
