@@ -44,10 +44,13 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
 // PUBLIC
 //==============================================================================
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
 //------------------------------------------------------------------------------
 - (id)init {
     return [self initWithType:DEFAULT_TYPE];
 }
+#pragma clang diagnostic pop
 
 //------------------------------------------------------------------------------
 - (id)initWithType:(NSString*)type {
