@@ -146,6 +146,11 @@ static id instance = nil;
        erm(noCredentials);
         return;
     }
+    // Sanity check for password before attempting token request.
+    if ((![(NSString*)credentials[MFCRD_MF_PASS] length]) && ([(NSString*)credentials[@"type"] isEqualToString:MFCRD_TYPE_MF] || [(NSString*)credentials[@"type"] isEqualToString:MFCRD_TYPE_EKEY])) {
+        erm(nullField:@"Password");
+        return;
+    }
     
     // success callback
     MFCallback newTokenAvailable = ^(NSDictionary* response) {
