@@ -54,6 +54,7 @@ typedef void (^SMRestCallback)(id responseText, NSInteger status, NSDictionary* 
     SMRestCallback successCallback = ^(id response, NSInteger status, NSDictionary * downloaded) {
         if ((downloaded != nil) && (downloaded[@"blob"] != nil) && (response == nil)) {
             callbacks.onload(downloaded);
+            return;
         }
         NSString* responseString = [NSString stringWithFormat:@"request success : %@",response];
         if (responseString.length && (responseString.length > LOG_TRUNCATE_AMOUNT)) {
