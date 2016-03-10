@@ -619,7 +619,7 @@ typedef void (^StandardCallback)(NSDictionary* response);
 //------------------------------------------------------------------------------
 - (NSDictionary*)optionsForPollUpload {
     return @{};
-    }
+}
 
 //------------------------------------------------------------------------------
 - (void)event:(NSDictionary*)response status:(NSString*)status {
@@ -629,11 +629,17 @@ typedef void (^StandardCallback)(NSDictionary* response);
 //------------------------------------------------------------------------------
 - (void)success:(NSDictionary*)response {
     [self statusChange:self.opCallbacks.onload response:response status:UESUCCESS];
+    if ([self.helper respondsToSelector:@selector(uploadDidCompleteForFile:withResult:)]) {
+        [self.helper uploadDidCompleteForFile:[self fileInfo] withResult:@{USTATUS : UESUCCESS}];
+    }
 }
 
 //------------------------------------------------------------------------------
 - (void)fail:(NSDictionary*)response {
     [self statusChange:self.opCallbacks.onerror response:response status:UEFAIL];
+    if ([self.helper respondsToSelector:@selector(uploadDidCompleteForFile:withResult:)]) {
+        [self.helper uploadDidCompleteForFile:[self fileInfo] withResult:@{USTATUS : UEFAIL}];
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -647,7 +653,7 @@ typedef void (^StandardCallback)(NSDictionary* response);
         response = @{};
     }
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    callback(@{ @"fileInfo" : [self fileInfo], @"response" : response});
+        callback(@{ @"fileInfo" : [self fileInfo], @"response" : response});
     });
 }
 
