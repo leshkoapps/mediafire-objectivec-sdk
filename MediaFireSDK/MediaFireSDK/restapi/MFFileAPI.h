@@ -103,34 +103,6 @@
  */
 - (void)create:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
 
-
-/**
- @brief Creates a duplicate of a file as a new revision.
- 
- @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#create_snapshot)
- for list of valid parameters.
- 
- @param callbacks A dictionary containing an onload callback and onerror
- callback. See NSDictionary(Callbacks).
- */
-- (void)createSnapshot:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
-
-/**
- @brief Creates a duplicate of a file as a new revision.
- 
- @param options Dictionary with HTTP client options.  See MFHTTPOptions.h for list of valid parameters.
-
- @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#create_snapshot)
- for list of valid parameters.
- 
- @param callbacks A dictionary containing an onload callback and onerror
- callback. See NSDictionary(Callbacks).
- */
-- (void)createSnapshot:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
-
-
 /**
  @brief Delete a user's file. The file is moved to the Trash Can.
  
@@ -156,33 +128,6 @@
  callback. See NSDictionary(Callbacks).
  */
 - (void)delete:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
-
-/**
- @brief Returns a bitmask value of special information about a file.
- 
- @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#get_flags)
- for list of valid parameters.
- 
- @param callbacks A dictionary containing an onload callback and onerror
- callback. See NSDictionary(Callbacks).
- */
-- (void)getFlags:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
-
-/**
- @brief Returns a bitmask value of special information about a file.
- 
- @param options Dictionary with HTTP client options.  See MFHTTPOptions.h for list of valid parameters.
-
- @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#get_flags)
- for list of valid parameters.
- 
- @param callbacks A dictionary containing an onload callback and onerror
- callback. See NSDictionary(Callbacks).
- */
-- (void)getFlags:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
-
 
 /**
  @brief Returns a list of the a file's details.
@@ -426,34 +371,6 @@
  */
 - (void)restore:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
 
-
-/**
- @brief Sets the bits in the file's flags.
- 
- @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#set_flags)
- for list of valid parameters.
- 
- @param callbacks A dictionary containing an onload callback and onerror
- callback. See NSDictionary(Callbacks).
- */
-- (void)setFlags:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
-
-/**
- @brief Sets the bits in the file's flags.
- 
- @param options Dictionary with HTTP client options.  See MFHTTPOptions.h for list of valid parameters.
-
- @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#set_flags)
- for list of valid parameters.
- 
- @param callbacks A dictionary containing an onload callback and onerror
- callback. See NSDictionary(Callbacks).
- */
-- (void)setFlags:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
-
-
 /**
  @brief Update a file's information.
  
@@ -506,34 +423,6 @@
  callback. See NSDictionary(Callbacks).
  */
 - (void)updateFile:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
-
-
-/**
- @brief Update a file's password.
- 
- @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#update_password)
- for list of valid parameters.
- 
- @param callbacks A dictionary containing an onload callback and onerror
- callback. See NSDictionary(Callbacks).
- */
-- (void)updatePassword:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
-
-/**
- @brief Update a file's password.
- 
- @param options Dictionary with HTTP client options.  See MFHTTPOptions.h for list of valid parameters.
-
- @param parameters Dictionary with API parameter options. See
- [Developer Documentation](https://www.mediafire.com/developers/core_api/1.0/file.php#update_password)
- for list of valid parameters.
- 
- @param callbacks A dictionary containing an onload callback and onerror
- callback. See NSDictionary(Callbacks).
- */
-- (void)updatePassword:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks;
-
 
 /**
  @brief Bulk-download multiple files and folders into one single zip file.
