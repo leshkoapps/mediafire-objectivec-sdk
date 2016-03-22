@@ -59,30 +59,12 @@
 }
 
 //------------------------------------------------------------------------------
-- (void)createSnapshot:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createSnapshot:@{} query:parameters callbacks:callbacks];
-}
-
-- (void)createSnapshot:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[self createSnapshotConf:options query:parameters] callbacks:callbacks];
-}
-
-//------------------------------------------------------------------------------
 - (void)delete:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
     [self delete:@{} query:parameters callbacks:callbacks];
 }
 
 - (void)delete:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
     [self createRequest:[self deleteConf:options query:parameters] callbacks:callbacks];
-}
-
-//------------------------------------------------------------------------------
-- (void)getFlags:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self getFlags:@{} query:parameters callbacks:callbacks];
-}
-
-- (void)getFlags:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[self getFlagsConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -167,15 +149,6 @@
 }
 
 //------------------------------------------------------------------------------
-- (void)setFlags:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self setFlags:@{} query:parameters callbacks:callbacks];
-}
-
-- (void)setFlags:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[self setFlagsConf:options query:parameters] callbacks:callbacks];
-}
-
-//------------------------------------------------------------------------------
 - (void)update:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
     [self update:@{} query:parameters callbacks:callbacks];
 }
@@ -191,15 +164,6 @@
 
 - (void)updateFile:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
     [self createRequest:[self updateFileConf:options query:parameters] callbacks:callbacks];
-}
-
-//------------------------------------------------------------------------------
-- (void)updatePassword:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self updatePassword:@{} query:parameters callbacks:callbacks];
-}
-
-- (void)updatePassword:(NSDictionary*)options query:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {
-    [self createRequest:[self updatePasswordConf:options query:parameters] callbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
@@ -230,20 +194,8 @@
 }
 
 //------------------------------------------------------------------------------
-- (MFAPIURLRequestConfig*)createSnapshotConf:(NSDictionary*)options query:(NSDictionary*)parameters {
-    return [self createConfigWithOptions:[options merge:@{HURL: @"create_snapshot.php"}]
-                                   query:parameters];
-}
-
-//------------------------------------------------------------------------------
 - (MFAPIURLRequestConfig*)deleteConf:(NSDictionary*)options query:(NSDictionary*)parameters {
     return [self createConfigWithOptions:[options merge:@{HURL: @"delete.php"}]
-                                   query:parameters];
-}
-
-//------------------------------------------------------------------------------
-- (MFAPIURLRequestConfig*)getFlagsConf:(NSDictionary*)options query:(NSDictionary*)parameters {
-    return [self createConfigWithOptions:[options merge:@{HURL: @"get_flags.php"}]
                                    query:parameters];
 }
 
@@ -302,12 +254,6 @@
 }
 
 //------------------------------------------------------------------------------
-- (MFAPIURLRequestConfig*)setFlagsConf:(NSDictionary*)options query:(NSDictionary*)parameters {
-    return [self createConfigWithOptions:[options merge:@{HURL: @"set_flags.php"}]
-                                   query:parameters];
-}
-
-//------------------------------------------------------------------------------
 - (MFAPIURLRequestConfig*)updateConf:(NSDictionary*)options query:(NSDictionary*)parameters {
     return [self createConfigWithOptions:[options merge:@{HURL: @"update.php"}]
                                    query:parameters];
@@ -316,12 +262,6 @@
 //------------------------------------------------------------------------------
 - (MFAPIURLRequestConfig*)updateFileConf:(NSDictionary*)options query:(NSDictionary*)parameters {
     return [self createConfigWithOptions:[options merge:@{HURL: @"update_file.php"}]
-                                   query:parameters];
-}
-
-//------------------------------------------------------------------------------
-- (MFAPIURLRequestConfig*)updatePasswordConf:(NSDictionary*)options query:(NSDictionary*)parameters {
-    return [self createConfigWithOptions:[options merge:@{HURL: @"update_password.php"}]
                                    query:parameters];
 }
 
