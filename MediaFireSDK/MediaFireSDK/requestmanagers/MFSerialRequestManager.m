@@ -437,7 +437,6 @@ static id instance = nil;
 + (NSString*)getQueryStringFromOrderedParameters:(NSArray*)orderedParams {
     NSMutableString* queryString = [[NSMutableString alloc]init];
     NSDictionary* params = nil;
-    NSString* uriString = nil;
     for (int i=0; i<orderedParams.count; i++) {
         params = orderedParams[i];
         
@@ -452,12 +451,8 @@ static id instance = nil;
             paramValueString = [params[@"value"] stringValue];
         }
 
-        if (queryString.length == 0) {
-            uriString = [NSString stringWithFormat:@"%@=%@",params[@"name"],paramValueString];
-        } else {
-            uriString = [NSString stringWithFormat:@"&%@=%@",params[@"name"],paramValueString];
-        }
-        [queryString appendString:uriString];
+        NSString* delimiter = (queryString.length == 0 ? @"" : @"&");
+        [queryString appendFormat:@"%@%@=%@", delimiter, params[@"name"],paramValueString];
     }
     return queryString;
 }
@@ -514,7 +509,7 @@ static id instance = nil;
     
     NSMutableArray* orderedParams = [MFSerialRequestManager getOrderedArrayOfParameters:newParams];
     
-    signature = [NSString stringWithFormat:@"%lu%@%@?%@", (secret % 256), tokenPacket[@"time"], baseUrl, [MFSerialRequestManager getQueryStringFromOrderedParameters:orderedParams]];
+    signature = [NSString stringWithFormat:@"%lu%@%@?%@", (unsigned long)(secret % 256), tokenPacket[@"time"], baseUrl, [MFSerialRequestManager getQueryStringFromOrderedParameters:orderedParams]];
     
     NSString * sig = [MFHash md5Hex:signature];
     [MFSerialRequestManager urlEncodeOrderedParameters:orderedParams];
