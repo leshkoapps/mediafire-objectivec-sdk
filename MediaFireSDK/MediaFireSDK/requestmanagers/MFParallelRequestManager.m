@@ -46,32 +46,32 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
 
 //------------------------------------------------------------------------------
 - (id)init {
-    return [self initWithType:DEFAULT_TYPE];
-}
-
-//------------------------------------------------------------------------------
-- (id)initWithType:(NSString*)type {
-
     if ([MFConfig instance] == nil) {
         return nil;
     }
     
     self = [super init];
-    if ( self == nil ) {
-        return nil;
+    if (self) {
+        _type = DEFAULT_TYPE;
+        _requests = [[MFCircularQueue alloc] init];
+        _requestLock = [[NSLock alloc]init];
+        _tokenLock = [[NSLock alloc]init];
+        _token = @"";
+        _waiting = false;
+        _tokenFailure= false;
+        _dispatchQueue = dispatch_queue_create(MF_PARALLEL_REQUEST_DISPATCH_QUEUE, DISPATCH_QUEUE_CONCURRENT);
     }
     
-    _type = type;
-    if (_type == nil || [_type isEqualToString:@""]) {
-        _type = DEFAULT_TYPE;
+    return self;
+}
+
+//------------------------------------------------------------------------------
+- (id)initWithType:(NSString*)type {
+    self = [self init];
+    
+    if (self) {
+        _type = type;
     }
-    _requests = [[MFCircularQueue alloc] init];
-    _requestLock = [[NSLock alloc]init];
-    _tokenLock = [[NSLock alloc]init];
-    _token = @"";
-    _waiting = false;
-    _tokenFailure= false;
-    _dispatchQueue = dispatch_queue_create(MF_PARALLEL_REQUEST_DISPATCH_QUEUE, DISPATCH_QUEUE_CONCURRENT);
     return self;
 }
 
