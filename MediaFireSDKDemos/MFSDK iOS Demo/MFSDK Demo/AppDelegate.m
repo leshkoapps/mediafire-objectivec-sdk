@@ -15,11 +15,17 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Enter your MediaFire app id and api key. Visit https://www.mediafire.com/developers to create a
     // developer profile and generate your api key and app id.
-    NSString* appID = @"<your app id>";
-    NSString* apiKey = @"<your api key>"; // May be blank if "Require Secret Key" is disabled.
+    NSString* appID = @"";
+    NSString* apiKey = @""; // May be blank if "Require Secret Key" is disabled.
+    
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    config.timeoutIntervalForRequest = 30.0;
+    config.allowsCellularAccess = YES;
+    config.requestCachePolicy = NSURLRequestReloadIgnoringCacheData;
     
     [MediaFireSDK createWithConfig:@{@"app_id"  : appID,
-                                     @"api_key" : apiKey}];
+                                     @"api_key" : apiKey,
+                                     @"httpclient_config":config}];
     
     
     // Just a friendly config check

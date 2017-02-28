@@ -20,15 +20,53 @@
 
 @implementation MFContentsViewController
 
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if(self){
+        [self customInit];
+    }
+    return self;
+}
+
+- (instancetype)init{
+    self = [super init];
+    if(self){
+        [self customInit];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder{
+    self = [super initWithCoder:aDecoder];
+    if(self){
+        [self customInit];
+    }
+    return self;
+}
+
+- (void)customInit{
+    self.folderKey = @"myfiles";
+}
+
 //------------------------------------------------------------------------------
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    if(self.tableView==nil){
+        self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+        self.tableView.delegate = self;
+        self.tableView.dataSource = self;
+        self.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        [self.view addSubview:self.tableView];
+    }
     
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refreshControl];
     
     self.contentResults = [[NSMutableArray alloc] init];
+
     [self requestFolders];
     
 }
@@ -58,7 +96,7 @@
     }};
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [MediaFireSDK.FolderAPI getContent:@{@"folder_key" : @"myfiles",
+        [MediaFireSDK.FolderAPI getContent:@{@"folder_key" : self.folderKey,
                                              @"content_type" : @"folders",
                                              @"chunk" : @1}
                                  callbacks:contentCallbacks];
@@ -88,7 +126,7 @@
     }};
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [MediaFireSDK.FolderAPI getContent:@{@"folder_key" : @"myfiles",
+        [MediaFireSDK.FolderAPI getContent:@{@"folder_key" : self.folderKey,
                                              @"content_type" : @"files",
                                              @"chunk" : @1}
                                  callbacks:contentCallbacks];
@@ -162,6 +200,16 @@
 //------------------------------------------------------------------------------
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:TRUE];
+    NSDictionary *content = [self.contentResults objectAtIndex:indexPath.row];
+    
+    if (content[@"folderkey"] != nil) {
+        NSString *folderName = content[@"folderkey"];
+        MFContentsViewController *vc = [[MFContentsViewController alloc] init];
+        vc.folderKey = folderName;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    }
+
 }
 
 @end

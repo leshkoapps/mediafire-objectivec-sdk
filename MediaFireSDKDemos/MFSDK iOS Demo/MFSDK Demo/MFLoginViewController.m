@@ -66,7 +66,9 @@
     }};
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [MediaFireSDK startSession:emailField.text withPassword:passwordField.text andCallbacks:sessionCallbacks];
+        NSString *email = emailField.text;
+        NSString *password = passwordField.text;
+        [MediaFireSDK startSession:email withPassword:password andCallbacks:sessionCallbacks];
     });
 }
 
