@@ -10,12 +10,14 @@
 #import "MFConfig.h"
 #import "NSDictionary+MapObject.h"
 #import "MFHTTPOptions.h"
+#import "MFRequestManager.h"
+
 
 @implementation MFUserAPI
 
 //------------------------------------------------------------------------------
-- (id)init {
-    self = [self initWithVersion:[MFConfig defaultAPIVersionForModule:@"MFUserAPI"]];
+- (id)initWithRequestManager:(MFRequestManager *)requestManager {
+    self = [self initWithVersion:[requestManager.globalConfig defaultAPIVersionForModule:@"MFUserAPI"] requestManager:requestManager];
     if (self == nil) {
         return nil;
     }
@@ -23,8 +25,8 @@
 }
 
 //------------------------------------------------------------------------------
-- (id)initWithVersion:(NSString*)version {
-    self = [super initWithPath:@"user" version:version];
+- (id)initWithVersion:(NSString*)version requestManager:(MFRequestManager *)requestManager{
+    self = [super initWithPath:@"user" version:version requestManager:requestManager];
     if (self == nil) {
         return nil;
     }

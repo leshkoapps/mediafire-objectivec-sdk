@@ -15,25 +15,40 @@
 #import "MFErrorLog.h"
 #import "MFConfig.h"
 
+
+@interface MFHTTPClient(){
+    MFConfig *_globalConfig;
+}
+
+@end
+
 @implementation MFHTTPClient
 
 //------------------------------------------------------------------------------
 - (id)init {
-    return [self initWithConfig:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    NSParameterAssert(NO);
+    return nil;
 }
 
 //------------------------------------------------------------------------------
-- (id)initWithConfig:(NSURLSessionConfiguration*)config {
+
+- (id)initWithConfig:(NSURLSessionConfiguration*)config globalConfig:(MFConfig *)globalConfig{
+
     self = [super init];
     if (self == nil) {
         return nil;
     }
+    _globalConfig = globalConfig;
     _session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
     _appRequestData = [[NSMutableDictionary alloc] init];
     _opLock = [[NSLock alloc] init];
     _counter = 1;
     _defaultMethod = @"POST";
     return self;
+}
+
+- (MFConfig *)globalConfig{
+    return _globalConfig;
 }
 
 //------------------------------------------------------------------------------
@@ -58,11 +73,11 @@
 }
 
 //------------------------------------------------------------------------------
-- (void)beginTask:(NSURLSessionTask*)task withConfig:(MFURLRequestConfig*)config {
+- (NSURLSessionTask *)beginTask:(NSURLSessionTask*)task withConfig:(MFURLRequestConfig*)config {
     if (task == nil) {
         mflog(@"Unable to begin nil task.");
         config.httpFail(nil, 0, nil);
-        return;
+        return nil;
     }
     MFHTTPData* data = [[MFHTTPData alloc]init];
     data.task = task;
@@ -91,30 +106,31 @@
     data.localPathForDownload = config.localPathForDownload;
     data.localPathForUpload = config.localPathForUpload;
     [data.task resume];
-    [MFConfig showNetworkIndicator];
+    [self.globalConfig showNetworkIndicator];
+    return data.task;
 }
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-parameter"
 //------------------------------------------------------------------------------
-- (id)constructTaskWithRequest:(NSMutableURLRequest*)request config:(MFURLRequestConfig*)config{
+- (NSURLSessionDataTask *)constructTaskWithRequest:(NSMutableURLRequest*)request config:(MFURLRequestConfig*)config{
     return [self.session dataTaskWithRequest:request];
 }
 #pragma clang diagnostic pop
 
 //------------------------------------------------------------------------------
-- (void)addRequest:(MFURLRequestConfig*)config {
+- (NSURLSessionTask *)addRequest:(MFURLRequestConfig*)config {
     if (config == nil) {
-        return;
+        return nil;
     }
 
     NSMutableURLRequest* req = [self constructURLRequestFromConfig:config];
     if (req == nil) {
         mflog(@"request was nil");
         config.httpFail(nil, 0, nil); 
-        return;
+        return nil;
     }
-    [self beginTask:[self constructTaskWithRequest:req config:config] withConfig:config];
+    return [self beginTask:[self constructTaskWithRequest:req config:config] withConfig:config];
 }
 
 - (void)destroy {

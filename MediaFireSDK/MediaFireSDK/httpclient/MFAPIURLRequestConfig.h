@@ -49,7 +49,7 @@ typedef NS_ENUM(NSUInteger, RequestTokenType) {
  
  @param params A dictionary of the request parameters.
  */
-- (id)initWithOptions:(NSDictionary*)options query:(NSDictionary*)params;
+- (id)initWithOptions:(NSDictionary *)options query:(NSDictionary *)params config:(MFConfig *)config;
 
 /**
  @brief Returns a fully qualified url based on the configuration.

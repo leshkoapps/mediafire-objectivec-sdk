@@ -11,6 +11,7 @@
 @protocol MFNetworkIndicatorDelegate <NSObject>
 
 - (void)showNetworkIndicator;
+
 - (void)hideNetworkIndicator;
 
 @end

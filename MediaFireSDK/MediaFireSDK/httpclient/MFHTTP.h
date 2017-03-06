@@ -17,6 +17,7 @@ typedef void (^ProgressBlock)(double progress);
 typedef void (^HTTPCompletionHandler)(NSData* data, NSURLResponse* response, NSError* error);
 
 @class MFURLRequestConfig;
+@class MFConfig;
 
 /**
  @brief The endpoint for all http requests in the MediaFireSDK.
@@ -24,12 +25,16 @@ typedef void (^HTTPCompletionHandler)(NSData* data, NSURLResponse* response, NSE
 
 @interface MFHTTP : NSObject
 
+- (instancetype)initWithConfig:(MFConfig *)config;
+
+- (MFConfig *)globalConfig;
+
 /**
  @brief A single-call function for any http request. Can be used to perform http requests against any server, not just the MFAPI.  Success and Error callbacks are triggered by http status code, but no parsing is done to the response text, that is left to the supplied callbacks.  Since this is a generic http client, it makes no assumptions about hostname or protocol, so urls must be fully qualified.  Relies on the default http client provided by MFconfig.defaultHttpClient.  If a custom client id is specified in the request, that client will be attempted first, and will fall back on the default client if the requested client does not exist.
  
  @param config A request config object, which must contain a fully qualified url.
  
  */
-+ (void)execute:(MFURLRequestConfig*)config;
+- (NSURLSessionTask *)execute:(MFURLRequestConfig*)config;
 
 @end

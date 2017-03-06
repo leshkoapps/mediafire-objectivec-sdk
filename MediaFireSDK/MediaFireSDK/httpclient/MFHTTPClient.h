@@ -11,6 +11,7 @@
 
 @class MFHTTPData;
 @class MFURLRequestConfig;
+@class MFConfig;
 
 typedef void (^OperationBlock)(id response, NSInteger status, NSDictionary * downloaded);
 
@@ -50,14 +51,15 @@ typedef void (^OperationBlock)(id response, NSInteger status, NSDictionary * dow
  
  @param config The configuration for the http client.
  */
-- (id)initWithConfig:(NSURLSessionConfiguration*)config;
+- (id)initWithConfig:(NSURLSessionConfiguration*)config globalConfig:(MFConfig *)globalConfig;
 
+- (MFConfig *)globalConfig;
 /**
  @brief Adds a request to this client's queue.
  
  @param config The configuration object for the request.
  */
-- (void)addRequest:(MFURLRequestConfig*)config;
+- (NSURLSessionTask *)addRequest:(MFURLRequestConfig*)config;
 
 /**
  @brief Returns a request bundle object from appRequestData identified by a unique name.
@@ -80,7 +82,7 @@ typedef void (^OperationBlock)(id response, NSInteger status, NSDictionary * dow
  
  @param config The configuration object for the original request.
  */
-- (id)constructTaskWithRequest:(NSMutableURLRequest*)request config:(MFURLRequestConfig*)config;
+- (NSURLSessionDataTask *)constructTaskWithRequest:(NSMutableURLRequest*)request config:(MFURLRequestConfig*)config;
 
 /**
  @brief Destroys this client.

@@ -11,26 +11,29 @@
 @protocol MFCredentialsDelegate <NSObject>
 
 @required
-//------------------------------------------------------------------------------
-+ (BOOL)purgeCredentials;
 
 //------------------------------------------------------------------------------
-+ (NSDictionary*)getCredentials;
+- (BOOL)purgeCredentials;
 
 //------------------------------------------------------------------------------
-+ (BOOL)isValid;
+- (NSDictionary*)getCredentials;
 
 //------------------------------------------------------------------------------
-+ (BOOL)validate;
+- (BOOL)isValidCredentials;
 
 //------------------------------------------------------------------------------
-+ (BOOL)setMediaFire:(NSString*)email withPassword:(NSString*)password;
+- (BOOL)validate;
 
 //------------------------------------------------------------------------------
-+ (BOOL)setFacebook:(NSString*)token;
+- (BOOL)setMediaFire:(NSString*)email withPassword:(NSString*)password;
 
 //------------------------------------------------------------------------------
-+ (BOOL)setTwitter:(NSString*)token withSecret:(NSString*)secret;
+- (BOOL)setFacebook:(NSString*)token;
 
+//------------------------------------------------------------------------------
+- (BOOL)setTwitter:(NSString*)token withSecret:(NSString*)secret;
+
+//------------------------------------------------------------------------------
+- (BOOL)convertToEKey:(NSString*)ekey;
 
 @end

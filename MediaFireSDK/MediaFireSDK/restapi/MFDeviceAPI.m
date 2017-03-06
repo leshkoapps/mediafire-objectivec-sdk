@@ -10,12 +10,16 @@
 #import "MFConfig.h"
 #import "NSDictionary+MapObject.h"
 #import "MFHTTPOptions.h"
+#import "MFRequestManager.h"
+
+
 
 @implementation MFDeviceAPI
 
+
 //------------------------------------------------------------------------------
-- (id)init {
-    self = [self initWithVersion:[MFConfig defaultAPIVersionForModule:@"MFDeviceAPI"]];
+- (id)initWithRequestManager:(MFRequestManager *)requestManager {
+    self = [self initWithVersion:[requestManager.globalConfig defaultAPIVersionForModule:@"MFDeviceAPI"] requestManager:requestManager];
     if (self == nil) {
         return nil;
     }
@@ -23,14 +27,13 @@
 }
 
 //------------------------------------------------------------------------------
-- (id)initWithVersion:(NSString*)version {
-    self = [super initWithPath:@"device" version:version];
+- (id)initWithVersion:(NSString*)version requestManager:(MFRequestManager *)requestManager{
+    self = [super initWithPath:@"device" version:version requestManager:requestManager];
     if (self == nil) {
         return nil;
     }
     return self;
 }
-
 
 //------------------------------------------------------------------------------
 - (void)getChanges:(NSDictionary*)parameters callbacks:(NSDictionary*)cb {

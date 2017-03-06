@@ -12,6 +12,10 @@
 #import "MFErrorMessage.h"
 #import "NSDictionary+Callbacks.h"
 #import "MFRequestHandler.h"
+#import "MFConfig.h"
+#import "MFRequestManager.h"
+
+
 
 static NSString* const DEFAULT_METHOD = @"POST";
 
@@ -19,19 +23,31 @@ static NSString* const DEFAULT_METHOD = @"POST";
 
 @property(strong,nonatomic) NSString* path;
 @property(strong,nonatomic) NSString* version;
+@property(strong,nonatomic) MFRequestManager* requestManager;
 
 @end
 
 @implementation MFAPIBase
 
+- (instancetype)init{
+    NSParameterAssert(NO);
+    return nil;
+}
+
 //------------------------------------------------------------------------------
-- (id)initWithPath:(NSString*)path version:(NSString*)version {
+
+- (id)initWithPath:(NSString*)path version:(NSString*)version requestManager:(MFRequestManager *)requestManager{
     self = [super init];
     if (self) {
         _path = [NSString stringWithFormat:@"/api/%@/%@/",version,path];
         _version = version;
+        _requestManager = requestManager;
     }
     return self;
+}
+
+- (MFRequestManager *)requestManager{
+    return _requestManager;
 }
 
 //------------------------------------------------------------------------------
@@ -57,7 +73,7 @@ static NSString* const DEFAULT_METHOD = @"POST";
     
     [self setOverrides:config];
     
-    [MFRequestHandler createRequest:config callbacks:cb];
+    [self.requestManager.requestHandler createRequest:config callbacks:cb];
 }
 
 //------------------------------------------------------------------------------

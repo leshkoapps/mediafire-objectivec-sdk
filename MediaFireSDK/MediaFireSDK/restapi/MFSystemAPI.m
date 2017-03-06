@@ -10,12 +10,16 @@
 #import "NSDictionary+MapObject.h"
 #import "MFConfig.h"
 #import "MFHTTPOptions.h"
+#import "MFRequestManager.h"
+
 
 @implementation MFSystemAPI
 
+
+
 //------------------------------------------------------------------------------
-- (id)init {
-    self = [self initWithVersion:[MFConfig defaultAPIVersionForModule:@"MFSystemAPI"]];
+- (id)initWithRequestManager:(MFRequestManager *)requestManager {
+    self = [self initWithVersion:[requestManager.globalConfig defaultAPIVersionForModule:@"MFSystemAPI"] requestManager:requestManager];
     if (self == nil) {
         return nil;
     }
@@ -23,13 +27,14 @@
 }
 
 //------------------------------------------------------------------------------
-- (id)initWithVersion:(NSString*)version {
-    self = [super initWithPath:@"system" version:version];
+- (id)initWithVersion:(NSString*)version requestManager:(MFRequestManager *)requestManager{
+    self = [super initWithPath:@"system" version:version requestManager:requestManager];
     if (self == nil) {
         return nil;
     }
     return self;
 }
+
 
 //------------------------------------------------------------------------------
 - (void)getEditableMedia:(NSDictionary*)parameters callbacks:(NSDictionary*)callbacks {

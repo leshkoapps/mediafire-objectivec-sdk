@@ -12,13 +12,21 @@
 @class MFSessionAPI;
 
 @protocol MFSerialRequestManagerDelegate<NSObject>
+
 @property(strong,nonatomic)MFSessionAPI* sessionAPI;
-+ (void)endSession;
-+ (void)destroy;
-+ (id)getInstance;
-+ (void)login:(NSDictionary *)credentials callbacks:(NSDictionary *)callbacks;
-+ (void)releaseToken:(NSString*)token forResponse:(NSDictionary*) response;
-+ (void)createRequest:(MFAPIURLRequestConfig*)config callbacks:(NSDictionary *)callbacks;
-+ (BOOL)hasSession;
-+ (void)abandonToken:(NSString*)token;
+
+- (void)endSession;
+
+- (void)destroy;
+
+- (void)login:(NSDictionary *)credentials callbacks:(NSDictionary *)callbacks;
+
+- (void)releaseToken:(NSString*)token forResponse:(NSDictionary*) response;
+
+- (void)createRequest:(MFAPIURLRequestConfig*)config callbacks:(NSDictionary *)callbacks;
+
+- (BOOL)hasSession;
+
+- (void)abandonToken:(NSString*)token;
+
 @end

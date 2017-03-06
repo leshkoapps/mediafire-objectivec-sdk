@@ -13,10 +13,13 @@
 #import "MFParallelRequestManager.h"
 #import "MFCredentials.h"
 #import "NSDictionary+MapObject.h"
+#import "MFConfig.h"
+#import "MFRequestHandler.h"
+#import "MFHTTP.h"
 
-static id instance = nil;
-
-@interface MediaFireSDK()
+@interface MediaFireSDK(){
+    NSDictionary *_configDict;
+}
 
 @property(strong,nonatomic,getter=SessionAPI)MFSessionAPI*  session;
 @property(strong,nonatomic,getter=ActionTokenAPI)MFActionTokenAPI*  token;
@@ -28,242 +31,178 @@ static id instance = nil;
 @property(strong,nonatomic,getter=UploadAPI)MFUploadAPI*    upload;
 @property(strong,nonatomic,getter=UserAPI)MFUserAPI*        user;
 @property(strong,nonatomic,getter=MediaAPI)MFMediaAPI*      media;
+@property(strong,nonatomic,getter=RequestManager)MFRequestManager*      requestManager;
+@property(strong,nonatomic,getter=Configuration)MFConfig*    globalConfig;
 
 @end
 
 @implementation MediaFireSDK
 
 //------------------------------------------------------------------------------
-- (id) init {
-    return [self initWithConfig:nil];
+- (instancetype)init{
+    NSParameterAssert(NO);
+    return nil;
 }
 
 //------------------------------------------------------------------------------
 - (id) initWithConfig:(NSDictionary*)config {
-    // sanity check
-    if (instance != nil) {
-        return instance;
-    }
     if (config == nil) {
         return nil;
     }
     self = [super init];
-
+    if(self){
+        _configDict = config;
+    }
     return self;
 }
 
 //------------------------------------------------------------------------------
-+ (bool)createWithConfig:(NSDictionary*)config {
-    // sanity check
-    if (instance != nil) {
-        return false;
-    }
-    if (config == nil) {
-        return false;
-    }
-    bool firstRun = false;
-    @synchronized(self){
-        if (instance == nil) {
-            firstRun = true;
-            instance = [[self alloc] initWithConfig:config];
-        }
-    }
-    if (firstRun) {
-        NSMutableDictionary* defaults = [[NSMutableDictionary alloc] init];
-        if (config[MFCONF_SRM_DELEGATE] == nil) {
-            defaults[MFCONF_SRM_DELEGATE] = [MFSerialRequestManager class];
-        }
-        if (config[MFCONF_PRM_DELEGATE] == nil) {
-            defaults[MFCONF_PRM_DELEGATE] = [MFParallelRequestManager class];
-        }
-        if (config[MFCONF_CREDS_DELEGATE] == nil) {
-            defaults[MFCONF_CREDS_DELEGATE] = [MFCredentials class];
-        }
-        config = [config merge:defaults];
-        [MFConfig createWithConfig:config];
-    }
-    [MFRequestManager setSessionTokenAPI:self.SessionAPI];
-    [MFRequestManager setActionTokenAPI:self.ActionTokenAPI forType:@"image"];
-    [MFRequestManager setActionTokenAPI:self.ActionTokenAPI forType:@"upload"];
-    return firstRun;
-}
++ (instancetype)createWithConfig:(NSDictionary*)configDict {
 
-+ (instancetype) getInstance{
-    return instance;
+    if (configDict == nil) {
+        return nil;
+    }
+
+    MediaFireSDK *sdk = [[MediaFireSDK alloc] initWithConfig:configDict];
+    
+    NSMutableDictionary* defaults = [[NSMutableDictionary alloc] init];
+    
+    if (configDict[MFCONF_SRM_DELEGATE] == nil) {
+        defaults[MFCONF_SRM_DELEGATE] = [MFSerialRequestManager class];
+    }
+    if (configDict[MFCONF_PRM_DELEGATE] == nil) {
+        defaults[MFCONF_PRM_DELEGATE] = [MFParallelRequestManager class];
+    }
+    if (configDict[MFCONF_CREDS_DELEGATE] == nil) {
+        defaults[MFCONF_CREDS_DELEGATE] = [[MFCredentials alloc] init];
+    }
+    configDict = [configDict merge:defaults];
+    
+    MFConfig *globalConfig = [MFConfig createWithConfig:configDict sdk:sdk];
+    sdk.globalConfig = globalConfig;
+    
+    MFHTTP *http = [[MFHTTP alloc] initWithConfig:globalConfig];
+    MFRequestHandler *requestHandler = [[MFRequestHandler alloc] initWithHTTP:http];
+    MFRequestManager *requestManager = [[MFRequestManager alloc] initWithRequestHandler:requestHandler];
+    sdk.requestManager = requestManager;
+    
+    [requestManager setSessionTokenAPI:sdk.SessionAPI];
+    [requestManager setActionTokenAPI:sdk.ActionTokenAPI forType:@"image"];
+    [requestManager setActionTokenAPI:sdk.ActionTokenAPI forType:@"upload"];
+    
+    return sdk;
 }
 
 //------------------------------------------------------------------------------
 - (void)startSession:(NSString*)email withPassword:(NSString*)password andCallbacks:(NSDictionary*)callbacks {
-    [MediaFireSDK startSession:email withPassword:password andCallbacks:callbacks];
-}
-
-+ (void)startSession:(NSString*)email withPassword:(NSString*)password andCallbacks:(NSDictionary*)callbacks {
-    [MFRequestManager startSession:email withPassword:password andCallbacks:callbacks];
+    [self.requestManager startSession:email withPassword:password andCallbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
 - (void)startSessionWithCallbacks:(NSDictionary*)callbacks {
-    [MediaFireSDK startSessionWithCallbacks:callbacks];
-}
-
-+ (void)startSessionWithCallbacks:(NSDictionary*)callbacks {
-    [MFRequestManager startSessionWithCallbacks:callbacks];
+    [self.requestManager startSessionWithCallbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
 - (void)startFacebookSession:(NSString*)authToken withCallbacks:(NSDictionary*)callbacks {
-    [MediaFireSDK startFacebookSession:authToken withCallbacks:callbacks];
-}
-
-+ (void)startFacebookSession:(NSString*)authToken withCallbacks:(NSDictionary*)callbacks {
-    [MFRequestManager startFacebookSession:authToken withCallbacks:callbacks];
+    [self.requestManager startFacebookSession:authToken withCallbacks:callbacks];
 }
 
 //------------------------------------------------------------------------------
 - (void)endSession {
-    [MediaFireSDK endSession];
-}
-
-+ (void)endSession {
-    [MFRequestManager endSession];
+    [self.requestManager endSession];
 }
 
 //------------------------------------------------------------------------------
-+ (BOOL)hasSession {
-    return [MFRequestManager hasSession];
+- (BOOL)hasSession {
+    return [self.requestManager hasSession];
 }
 
 //------------------------------------------------------------------------------
 - (void)destroy {
-    [MediaFireSDK destroy];
-}
-
-+ (void)destroy {
-    [MFRequestManager destroy];
-    [MFConfig destroy];
-    @synchronized(self) {
-        instance = nil;
-    }
+    [self.requestManager destroy];
+    [self.globalConfig destroy];
 }
 
 //------------------------------------------------------------------------------
 - (MFSessionAPI*)SessionAPI {
     if (_session == nil) {
-        _session = [[MFSessionAPI alloc] init];
+        _session = [[MFSessionAPI alloc] initWithRequestManager:self.requestManager];
     }
     return _session;
-}
-
-+ (MFSessionAPI*)SessionAPI {
-    return [instance SessionAPI];
 }
 
 //------------------------------------------------------------------------------
 - (MFActionTokenAPI*)ActionTokenAPI {
     if (_token == nil) {
-        _token = [[MFActionTokenAPI alloc] init];
+        _token = [[MFActionTokenAPI alloc] initWithRequestManager:self.requestManager];
     }
     return _token;
-}
-
-+ (MFActionTokenAPI*)ActionTokenAPI {
-    return [instance ActionTokenAPI];
 }
 
 //------------------------------------------------------------------------------
 - (MFContactAPI*)ContactAPI {
     if (_contact == nil) {
-        _contact = [[MFContactAPI alloc] init];
+        _contact = [[MFContactAPI alloc] initWithRequestManager:self.requestManager];
     }
     return _contact;
-}
-
-+ (MFContactAPI*)ContactAPI {
-    return [instance ContactAPI];
 }
 
 //------------------------------------------------------------------------------
 - (MFDeviceAPI*)DeviceAPI {
     if (_device == nil) {
-        _device = [[MFDeviceAPI alloc] init];
+        _device = [[MFDeviceAPI alloc] initWithRequestManager:self.requestManager];
     }
     return _device;
 }
 
-+ (MFDeviceAPI*)DeviceAPI {
-    return [instance DeviceAPI];
-}
 
 //------------------------------------------------------------------------------
 - (MFFileAPI*)FileAPI {
     if (_file == nil) {
-        _file = [[MFFileAPI alloc] init];
+        _file = [[MFFileAPI alloc] initWithRequestManager:self.requestManager];
     }
     return _file;
-}
-
-+ (MFFileAPI*)FileAPI {
-    return [instance FileAPI];
 }
 
 //------------------------------------------------------------------------------
 - (MFFolderAPI*)FolderAPI {
     if (_folder == nil) {
-        _folder = [[MFFolderAPI alloc] init];
+        _folder = [[MFFolderAPI alloc] initWithRequestManager:self.requestManager];
     }
     return _folder;
-}
-
-+ (MFFolderAPI*)FolderAPI {
-    return [instance FolderAPI];
 }
 
 //------------------------------------------------------------------------------
 - (MFSystemAPI*)SystemAPI {
     if (_system == nil) {
-        _system = [[MFSystemAPI alloc] init];
+        _system = [[MFSystemAPI alloc] initWithRequestManager:self.requestManager];
     }
     return _system;
-}
-
-+ (MFSystemAPI*)SystemAPI {
-    return [instance SystemAPI];
 }
 
 //------------------------------------------------------------------------------
 - (MFUploadAPI*)UploadAPI {
     if (_upload == nil) {
-        _upload= [[MFUploadAPI alloc] init];
+        _upload= [[MFUploadAPI alloc] initWithRequestManager:self.requestManager];
     }
     return _upload;
-}
-
-+ (MFUploadAPI*)UploadAPI {
-    return [instance UploadAPI];
 }
 
 //------------------------------------------------------------------------------
 - (MFUserAPI*)UserAPI {
     if (_user == nil) {
-        _user = [[MFUserAPI alloc] init];
+        _user = [[MFUserAPI alloc] initWithRequestManager:self.requestManager];
     }
     return _user;
-}
-
-+ (MFUserAPI*)UserAPI {
-    return [instance UserAPI];
 }
 
 //------------------------------------------------------------------------------
 - (MFMediaAPI*)MediaAPI {
     if (_media == nil) {
-        _media = [[MFMediaAPI alloc] init];
+        _media = [[MFMediaAPI alloc] initWithRequestManager:self.requestManager];
     }
     return _media;
-}
-
-+ (MFMediaAPI*)MediaAPI {
-    return [instance MediaAPI];
 }
 
 @end

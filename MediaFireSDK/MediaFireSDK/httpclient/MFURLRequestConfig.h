@@ -14,6 +14,8 @@ typedef void (^OperationBlock)(id response, NSInteger status, NSDictionary * dow
 // Progress Callback prototype
 typedef void (^ProgressBlock)(double progress);
 
+@class MFConfig;
+
 /**
  @brief The HTTP URL request configuration object for all requests in the MediaFire SDK.
  */
@@ -47,4 +49,9 @@ typedef void (^ProgressBlock)(double progress);
 @property(strong,nonatomic)ProgressBlock httpProgress;
 /** @brief The http task reference callback.  Implement this if you want to be able to abort the request. */
 @property(strong,nonatomic)ReferenceCallback httpReference;
+
+- (instancetype)initWithConfig:(MFConfig *)config;
+
+- (MFConfig *)globalConfig;
+
 @end

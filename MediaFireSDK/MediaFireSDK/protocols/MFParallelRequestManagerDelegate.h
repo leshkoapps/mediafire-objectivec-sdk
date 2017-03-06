@@ -10,12 +10,18 @@
 
 @class MFAPIURLRequestConfig;
 @class MFActionTokenAPI;
+@class MFHTTP;
 
 @protocol MFParallelRequestManagerDelegate <NSObject>
+
 @property(strong,nonatomic)MFActionTokenAPI* actionAPI;
 
-- (id)initWithType:(NSString*)type;
+- (id)initWithType:(NSString*)type http:(MFHTTP *)http;
+
 - (void)createRequest:(MFAPIURLRequestConfig*)config callbacks:(NSDictionary*)callbacks;
+
 - (void)askForNewToken;
+
 - (void)endSession;
+
 @end

@@ -15,22 +15,33 @@
 #import "MFAPIURLRequestConfig.h"
 #import "MFRequestHandler.h"
 #import "MFErrorLog.h"
+#import "MFConfig.h"
+#import "MFRequestHandler.h"
+#import "MFHTTP.h"
 
-@interface MFRequestManager()
+
+
+@interface MFRequestManager(){
+    MFRequestHandler *_requestHandler;
+}
 @property(strong,nonatomic) NSArray* validParallelTypes;
 @property(strong,nonatomic) NSMutableDictionary* parallelRequests;
+@property(strong,nonatomic) id<MFSerialRequestManagerDelegate> serialRequestDelegate;
 @end
 
-static MFRequestManager* instance = nil;
 
 @implementation MFRequestManager
 
 //------------------------------------------------------------------------------
-- (id)init {
-    if (instance != nil) {
-        return nil;
-    }
-    if ([MFConfig instance] == nil){
+
+- (instancetype)init{
+    NSParameterAssert(NO);
+    return nil;
+}
+
+- (id)initWithRequestHandler:(MFRequestHandler *)requestHandler{
+   
+    if (requestHandler == nil){
         return nil;
     }
     self = [super init];
@@ -38,24 +49,30 @@ static MFRequestManager* instance = nil;
         return nil;
     }
 
+    _requestHandler = requestHandler;
     _validParallelTypes = @[@"image", @"upload"];
     _parallelRequests = [[NSMutableDictionary alloc] init];
     
     for (int i=0; i<_validParallelTypes.count ; i++) {
         NSString* type = _validParallelTypes[i];
-        _parallelRequests[type] = [[[MFConfig parallelRequestDelegate] alloc] initWithType:type];
+        _parallelRequests[type] = [[[self.globalConfig parallelRequestDelegate] alloc] initWithType:type http:self.requestHandler.HTTP];
     }
+
+    self.serialRequestDelegate =  [[[self.globalConfig serialRequestDelegate] alloc] initWithRequestHandler:self.requestHandler];
+                                   
     return self;
 }
 
-//------------------------------------------------------------------------------
-+ (MFRequestManager*)instance {
-    @synchronized(self) {
-        if (instance == nil) {
-            instance = [[MFRequestManager alloc] init];
-        }
-    }
-    return instance;
+- (MFRequestHandler *)requestHandler{
+    return _requestHandler;
+}
+
+- (MFConfig *)globalConfig{
+    return self.requestHandler.HTTP.globalConfig;
+}
+
+- (MFCredentials *)credentialsDelegate{
+    return self.globalConfig.CredentialsDelegate;
 }
 
 //------------------------------------------------------------------------------
@@ -67,11 +84,6 @@ static MFRequestManager* instance = nil;
         return false;
     }
     return true;
-}
-
-//------------------------------------------------------------------------------
-+ (void)createRequest:(MFAPIURLRequestConfig*)config callbacks:(NSDictionary*)cb {
-    [[MFRequestManager instance] createRequest:config callbacks:cb];
 }
 
 //------------------------------------------------------------------------------
@@ -90,7 +102,7 @@ static MFRequestManager* instance = nil;
     // most of the APIs support it.
     // SERIAL REQUEST
     if (config.tokenType == MFTOKEN_SERIAL) {
-        [[MFConfig serialRequestDelegate] createRequest:config callbacks:cb];
+        [self.serialRequestDelegate createRequest:config callbacks:cb];
         return;
     }
     
@@ -118,7 +130,7 @@ static MFRequestManager* instance = nil;
     
     // NOTOKEN REQUEST
     if (config.tokenType == MFTOKEN_NONE) {
-        [MFRequestHandler createRequest:config callbacks:cb];
+        [self.requestHandler createRequest:config callbacks:cb];
         return;
     }
     
@@ -133,39 +145,39 @@ static MFRequestManager* instance = nil;
 }
 
 //------------------------------------------------------------------------------
-+ (void)startSession:(NSString*)email withPassword:(NSString*)password andCallbacks:(NSDictionary*)callbacks {
+- (void)startSession:(NSString*)email withPassword:(NSString*)password andCallbacks:(NSDictionary*)callbacks {
     if ( email == nil || password == nil ) {
         if ( callbacks != nil ) {
             callbacks.onerror([MFErrorMessage noCredentials]);
         }
     } else {
-        [[MFConfig credentialsDelegate] setMediaFire:email withPassword:password];
-        [[MFConfig serialRequestDelegate] login:[[MFConfig credentialsDelegate] getCredentials] callbacks:callbacks];
+        [[self credentialsDelegate] setMediaFire:email withPassword:password];
+        [self.serialRequestDelegate login:[[self credentialsDelegate] getCredentials] callbacks:callbacks];
     }
 }
 
 //------------------------------------------------------------------------------
-+ (void)startSessionWithCallbacks:(NSDictionary*)callbacks {
+- (void)startSessionWithCallbacks:(NSDictionary*)callbacks {
     // Try to get credentials and login
-    NSDictionary* credentials = [[MFConfig credentialsDelegate] getCredentials];
-    if ( credentials == nil || ! [[MFConfig credentialsDelegate] isValid] ) {
+    NSDictionary* credentials = [[self credentialsDelegate] getCredentials];
+    if ( credentials == nil || ! [[self credentialsDelegate] isValidCredentials] ) {
         if ( callbacks != nil ) {
             callbacks.onerror([MFErrorMessage noCredentials]);
         }
     } else {
-        [[MFConfig serialRequestDelegate] login:credentials callbacks:callbacks];
+        [self.serialRequestDelegate login:credentials callbacks:callbacks];
     }
 }
 
 //------------------------------------------------------------------------------
-+ (void)startFacebookSession:(NSString*)authToken withCallbacks:(NSDictionary*)callbacks {
+- (void)startFacebookSession:(NSString*)authToken withCallbacks:(NSDictionary*)callbacks {
     if ( authToken == nil ) {
         if ( callbacks != nil ) {
             callbacks.onerror([MFErrorMessage noCredentials]);
         }
     } else {
-        [[MFConfig credentialsDelegate] setFacebook:authToken];
-        [[MFConfig serialRequestDelegate] login:[[MFConfig credentialsDelegate] getCredentials] callbacks:callbacks];
+        [[self credentialsDelegate] setFacebook:authToken];
+        [self.serialRequestDelegate login:[[self credentialsDelegate] getCredentials] callbacks:callbacks];
     }
 }
 
@@ -180,37 +192,23 @@ static MFRequestManager* instance = nil;
             [prm endSession];
         }
     }
-    [[MFConfig serialRequestDelegate] endSession];
+    [self.serialRequestDelegate endSession];
 }
 
 //------------------------------------------------------------------------------
-+ (void)endSession {
-    [[MFRequestManager instance] endSession];
+- (BOOL)hasSession {
+    return [self.serialRequestDelegate hasSession];
 }
 
 //------------------------------------------------------------------------------
-+ (BOOL)hasSession {
-    return [[MFConfig serialRequestDelegate] hasSession];
+- (void)destroy {
+    [self.serialRequestDelegate destroy];
 }
 
 //------------------------------------------------------------------------------
-+ (void)destroy {
-    [[MFConfig serialRequestDelegate] destroy];
-    @synchronized(self) {
-        instance = nil;
-    }
-}
-
-
-//------------------------------------------------------------------------------
-+ (void)setSessionTokenAPI:(MFSessionAPI*)sessionAPI {
-    id<MFSerialRequestManagerDelegate> srm = [[MFConfig serialRequestDelegate] getInstance];
+- (void)setSessionTokenAPI:(MFSessionAPI*)sessionAPI {
+    id<MFSerialRequestManagerDelegate> srm = self.serialRequestDelegate;
     srm.sessionAPI = sessionAPI;
-}
-
-//------------------------------------------------------------------------------
-+ (void)setActionTokenAPI:(MFActionTokenAPI*)tokenAPI forType:(NSString*)type {
-    [[MFRequestManager instance] setActionTokenAPI:tokenAPI forType:type];
 }
 
 //------------------------------------------------------------------------------

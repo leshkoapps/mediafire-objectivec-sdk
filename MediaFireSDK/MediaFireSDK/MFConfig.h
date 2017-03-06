@@ -9,11 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "MFCredentials.h"
 #import "NSDictionary+Callbacks.h"
+#import "MFNetworkIndicatorDelegate.h"
+
+@class MediaFireSDK;
 
 /**
  @brief The global configuration interface for the MediaFireSDK.  Initialized with an NSDictionary.  The only required keys are @"app_id", and if your app requires it,  @"api_key".  If you are using the MediaFireSDK shared instance, the dictionary you pass to it in createWithConfig: is passed directly to MFConfig for initialization.  
  */
 @interface MFConfig : NSObject
+
+@property (nonatomic,readonly,strong) id<MFCredentialsDelegate>CredentialsDelegate;
+@property (nonatomic,readonly,strong) id<MFNetworkIndicatorDelegate>NetworkIndicatorDelegate;
 
 /**
  @brief The name of the "app id" property in an MFConfig dictionary.
@@ -80,7 +86,6 @@ extern NSString* const MFCONF_AUTHFAIL_CB;
  */
 extern NSString* const MFCONF_SSL;
 
-
 /**
  @brief The application ID.
  */
@@ -102,50 +107,41 @@ extern NSString* const MFCONF_SSL;
  */
 @property BOOL preferSSL;
 
-
 /**
  @brief Initializes the shared instance with given configuration.
  
  @param config Dictionary containing app-specific configuration.
  */
-+ (void)createWithConfig:(NSDictionary*)config;
++ (instancetype)createWithConfig:(NSDictionary*)config sdk:(MediaFireSDK *)sdk;
 
-/**
- @brief Returns the MFConfig shared instance.
-*/
-+ (MFConfig*)instance;
+- (MediaFireSDK *)sdk;
 
 /**
  @brief Destroys the MFConfig shared instance.
  */
-+ (void)destroy;
-
-/**
- @brief Returns the class of the currently registered credentials delegate.
- */
-+ (Class)credentialsDelegate;
+- (void)destroy;
 
 /**
  @brief Returns the class of the currently registered Parallel Request Manager delegate.
  */
-+ (Class)parallelRequestDelegate;
+- (Class)parallelRequestDelegate;
 
 /**
  @brief Returns the class of the currently registered Serial Request Manager delegate.
  */
-+ (Class)serialRequestDelegate;
+- (Class)serialRequestDelegate;
 
 /**
  @brief Returns the default API version that this version of the SDK defaults to.
  */
-+ (NSString*)defaultAPIVersion;
+- (NSString*)defaultAPIVersion;
 
 /*
  @brief Returns the default API version for a given API module.
  
  @param className A string of the class name associated with the API module.
  */
-+ (NSString*)defaultAPIVersionForModule:(NSString*)className;
+- (NSString*)defaultAPIVersionForModule:(NSString*)className;
 
 /**
  @brief Stores a reference by name (clientId) that subsequent API requests can be directed thru using the 'options' dictionary.
@@ -154,41 +150,41 @@ extern NSString* const MFCONF_SSL;
  
  @param clientId A unique name for the supplied client that can be used in API requests to route them thru the supplied client.
  */
-+ (BOOL)registerHTTPClient:(id)client withId:(NSString*)clientId;
+- (BOOL)registerHTTPClient:(id)client withId:(NSString*)clientId;
 
 /**
  @brief Removes reference to the named client, and calls the client's 'destroy' delegate method.
  
  @param clientId The unique name of the client.
  */
-+ (BOOL)unregisterHTTPClient:(NSString*)clientId;
+- (BOOL)unregisterHTTPClient:(NSString*)clientId;
 
 /**
  @brief Resturns the client identified by the unique name in clientId.
  
  @param clientId The client's unique name.
  */
-+ (id)httpClientById:(NSString*)clientId;
+- (id)httpClientById:(NSString*)clientId;
 
 /**
  @brief Calls 'showNetworkIndicator' on the Network Indicator Delegate if one was supplied to MFConfig in createWithConfig:.
  */
-+ (void)showNetworkIndicator;
+- (void)showNetworkIndicator;
 
 /**
  @brief Calls 'hideNetworkIndicator' on the Network Indicator Delegate if one was supplied to MFConfig in createWithConfig:.
  */
-+ (void)hideNetworkIndicator;
+- (void)hideNetworkIndicator;
 
 /**
  @brief Returns the SDK's default http client.  If no http client config was supplied to MFConfig in createWithConfig: then this function will return [NSURLSession sharedSession].
  */
-+ (NSURLSession*)defaultHttpClient;
+- (NSURLSession*)defaultHttpClient;
 
 /**
  @brief Returns an MFCallback block when the Serial Request Manager delegate fails to authenticate because of a password failure.
  */
-+ (MFCallback)authenticationFailureCallback;
+- (MFCallback)authenticationFailureCallback;
 
 
 @end

@@ -14,14 +14,17 @@
 #import "MFHTTPClientDelegate.h"
 #import "MFCredentialsDelegate.h"
 #import "MFNetworkIndicatorDelegate.h"
+#import "MediaFireSDK.h"
 
 
-@interface MFConfig()
+@interface MFConfig(){
+    __weak MediaFireSDK *_sdk;
+}
 
-@property (nonatomic) Class<MFCredentialsDelegate>CredentialsDelegate;
-@property (nonatomic) Class<MFSerialRequestManagerDelegate>SerialRequestDelegate;
-@property (nonatomic) Class<MFParallelRequestManagerDelegate>ParallelRequestDelegate;
-@property (nonatomic) id<MFNetworkIndicatorDelegate>NetworkIndicatorDelegate;
+@property (nonatomic) Class<MFSerialRequestManagerDelegate>SerialRequestDelegateClass;
+@property (nonatomic) Class<MFParallelRequestManagerDelegate>ParallelRequestDelegateClass;
+@property (nonatomic,strong) id<MFCredentialsDelegate>CredentialsDelegate;
+@property (nonatomic,strong) id<MFNetworkIndicatorDelegate>NetworkIndicatorDelegate;
 @property (strong, nonatomic) NSMutableDictionary* httpClients;
 @property (strong, nonatomic) NSLock* opLock;
 @property (strong, nonatomic) NSURLSession* defaultHttpClient;
@@ -29,9 +32,8 @@
 @property (strong, nonatomic) NSDictionary* defaultAPIVersions;
 @property (strong, nonatomic) MFCallback authFailureCallback;
 
-@end
 
-MFConfig* instance = nil;
+@end
 
 @implementation MFConfig
 
@@ -49,22 +51,16 @@ NSString* const MFCONF_API_VERSIONS     = @"default_api_versions";
 NSString* const MFCONF_AUTHFAIL_CB      = @"auth_failure_callback";
 NSString* const MFCONF_SSL              = @"prefer_ssl";
 
+
+
 //------------------------------------------------------------------------------
 - (id)init {
-    return [self initWithConfig:nil];
+    NSParameterAssert(NO);
+    return nil;
 }
 
 //------------------------------------------------------------------------------
-- (id)initWithConfig:(NSDictionary*)config {
-    BOOL instanceExists = false;
-    @synchronized(self) {
-        if (instance != nil) {
-            instanceExists = true;
-        }
-    }
-    if (instanceExists) {
-        return instance;
-    }
+- (id)initWithConfig:(NSDictionary*)config sdk:(MediaFireSDK *)sdk{
     
     if (config == nil) {
         erm(nullField:@"master config");
@@ -82,6 +78,7 @@ NSString* const MFCONF_SSL              = @"prefer_ssl";
         return nil;
     }
     
+    _sdk = sdk;
     _appId = config[MFCONF_APPID];
     _apiKey = config[MFCONF_APIKEY];
 
@@ -98,13 +95,16 @@ NSString* const MFCONF_SSL              = @"prefer_ssl";
     if (config[MFCONF_CREDS_DELEGATE] != nil) {
         self.CredentialsDelegate = config[MFCONF_CREDS_DELEGATE];
     }
+    else{
+        self.CredentialsDelegate = [[MFCredentials alloc] init];
+    }
 
     if (config[MFCONF_SRM_DELEGATE] != nil) {
-        self.SerialRequestDelegate = config[MFCONF_SRM_DELEGATE];
+        self.SerialRequestDelegateClass = config[MFCONF_SRM_DELEGATE];
     }
 
     if (config[MFCONF_PRM_DELEGATE] != nil) {
-        self.ParallelRequestDelegate = config[MFCONF_PRM_DELEGATE];
+        self.ParallelRequestDelegateClass = config[MFCONF_PRM_DELEGATE];
     }
 
     if (config[MFCONF_NETIND_DELEGATE] != nil) {
@@ -143,37 +143,29 @@ NSString* const MFCONF_SSL              = @"prefer_ssl";
     
 }
 
-//------------------------------------------------------------------------------
-+ (void)createWithConfig:(NSDictionary*)config {
-    instance = [[MFConfig alloc] initWithConfig:config];
+- (MediaFireSDK *)sdk{
+    return _sdk;
 }
 
 //------------------------------------------------------------------------------
-+ (MFConfig*)instance {
++ (instancetype)createWithConfig:(NSDictionary*)config sdk:(MediaFireSDK *)sdk{
+    MFConfig *instance = [[MFConfig alloc] initWithConfig:config sdk:sdk];
     return instance;
 }
 
 //------------------------------------------------------------------------------
-+ (void)destroy {
-    [instance unregisterAllHTTPClients];
-    @synchronized(self) {
-        instance = nil;
-    }
+- (void)destroy {
+    [self unregisterAllHTTPClients];
 }
 
 //------------------------------------------------------------------------------
-+ (Class)credentialsDelegate {
-    return [self.instance CredentialsDelegate];
+- (Class)serialRequestDelegate {
+    return [self SerialRequestDelegateClass];
 }
 
 //------------------------------------------------------------------------------
-+ (Class)serialRequestDelegate {
-    return [self.instance SerialRequestDelegate];
-}
-
-//------------------------------------------------------------------------------
-+ (Class)parallelRequestDelegate {
-    return [self.instance ParallelRequestDelegate];
+- (Class)parallelRequestDelegate {
+    return [self ParallelRequestDelegateClass];
 }
 
 //------------------------------------------------------------------------------
@@ -209,11 +201,6 @@ NSString* const MFCONF_SSL              = @"prefer_ssl";
 }
 
 //------------------------------------------------------------------------------
-+ (BOOL)unregisterHTTPClient:(NSString*)clientId {
-    return [instance unregisterHTTPClient:clientId];
-}
-
-//------------------------------------------------------------------------------
 - (BOOL)registerHTTPClient:(id)client withId:(NSString*)clientId {
     if (!clientId.length) {
         erm(nullField:@"HTTP Client ID");
@@ -238,11 +225,6 @@ NSString* const MFCONF_SSL              = @"prefer_ssl";
 }
 
 //------------------------------------------------------------------------------
-+ (BOOL)registerHTTPClient:(id)client withId:(NSString*)clientId {
-    return [instance registerHTTPClient:client withId:clientId];
-}
-
-//------------------------------------------------------------------------------
 - (id)httpClientById:(NSString*)clientId {
     id client = nil;
     [self.opLock lock];
@@ -252,25 +234,15 @@ NSString* const MFCONF_SSL              = @"prefer_ssl";
 }
 
 //------------------------------------------------------------------------------
-+ (id)httpClientById:(NSString*)clientId {
-    return [instance httpClientById:clientId];
-}
-
-//------------------------------------------------------------------------------
-+ (NSString*)defaultAPIVersion {
-    return [instance defaultAPIVersion];
-}
-
-//------------------------------------------------------------------------------
-+ (NSString*)defaultAPIVersionForModule:(NSString*)className {
+- (NSString*)defaultAPIVersionForModule:(NSString*)className {
     // sanity check
     if (!className.length) {
         return [self defaultAPIVersion];
     }
-    if ((instance.defaultAPIVersions == nil) || (instance.defaultAPIVersions.count == 0)) {
+    if ((self.defaultAPIVersions == nil) || (self.defaultAPIVersions.count == 0)) {
         return [self defaultAPIVersion];
     }
-    id version = instance.defaultAPIVersions[className];
+    id version = self.defaultAPIVersions[className];
     // client may not have configured this module with a default version.
     if ((version != nil) && ([version isKindOfClass:[NSString class]]) && ([(NSString*)version length])) {
         return version;
@@ -280,23 +252,23 @@ NSString* const MFCONF_SSL              = @"prefer_ssl";
 }
 
 //------------------------------------------------------------------------------
-+ (void)showNetworkIndicator {
-    if (instance.NetworkIndicatorDelegate) {
-        [instance.NetworkIndicatorDelegate showNetworkIndicator];
+- (void)showNetworkIndicator {
+    if (self.NetworkIndicatorDelegate) {
+        [self.NetworkIndicatorDelegate showNetworkIndicator];
     }
 }
 
 //------------------------------------------------------------------------------
-+ (void)hideNetworkIndicator {
-    if (instance.NetworkIndicatorDelegate) {
-        [instance.NetworkIndicatorDelegate hideNetworkIndicator];
+- (void)hideNetworkIndicator {
+    if (self.NetworkIndicatorDelegate) {
+        [self.NetworkIndicatorDelegate hideNetworkIndicator];
     }
 }
 
 //------------------------------------------------------------------------------
-+ (NSURLSession*)defaultHttpClient {
-    if (instance.defaultHttpClient != nil) {
-        return instance.defaultHttpClient;
+- (NSURLSession*)defaultHttpClient {
+    if (self.defaultHttpClient != nil) {
+        return self.defaultHttpClient;
     } else {
         return [NSURLSession sharedSession];
     }
@@ -305,14 +277,14 @@ NSString* const MFCONF_SSL              = @"prefer_ssl";
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-parameter"
 //------------------------------------------------------------------------------
-+ (MFCallback)authenticationFailureCallback {
-    if (!instance.authFailureCallback) {
+- (MFCallback)authenticationFailureCallback {
+    if (!self.authFailureCallback) {
         return ^(NSDictionary* response) {
             mflog(@"Authentication Failure");
             return;
         };
     }
-    return instance.authFailureCallback;
+    return self.authFailureCallback;
 }
 #pragma clang diagnostic pop
 @end

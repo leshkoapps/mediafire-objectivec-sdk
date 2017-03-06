@@ -433,10 +433,10 @@
 		651EE4CD19017A4800839A44 /* requestmanagers */ = {
 			isa = PBXGroup;
 			children = (
-				651EE4CE19017A4800839A44 /* MFParallelRequestManager.h */,
-				651EE4CF19017A4800839A44 /* MFParallelRequestManager.m */,
 				65FCA22F196B0E24002911A5 /* MFRequestHandler.h */,
 				65FCA230196B0E24002911A5 /* MFRequestHandler.m */,
+				651EE4CE19017A4800839A44 /* MFParallelRequestManager.h */,
+				651EE4CF19017A4800839A44 /* MFParallelRequestManager.m */,
 				651EE4D019017A4800839A44 /* MFRequestManager.h */,
 				651EE4D119017A4800839A44 /* MFRequestManager.m */,
 				651EE4D219017A4800839A44 /* MFSerialRequestManager.h */,
@@ -631,7 +631,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES;
 				CODE_SIGN_IDENTITY = "";
 				DSTROOT = /tmp/MediaFireSDK.dst;
-				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_NS_ASSERTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MediaFireSDK/MediaFireSDK-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
@@ -642,6 +642,7 @@
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = MediaFireSDK;
 				SKIP_INSTALL = YES;
@@ -658,7 +659,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES;
 				CODE_SIGN_IDENTITY = "";
 				DSTROOT = /tmp/MediaFireSDK.dst;
-				ENABLE_NS_ASSERTIONS = YES;
+				ENABLE_NS_ASSERTIONS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MediaFireSDK/MediaFireSDK-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
@@ -669,6 +670,7 @@
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = MediaFireSDK;
 				SKIP_INSTALL = YES;

@@ -15,7 +15,9 @@ typedef void (^OperationBlock)(id response, NSInteger status, NSDictionary * dow
 @protocol MFHTTPClientDelegate <NSObject>
 
 - (void)requestNotFound:(NSString*)description;
-- (void)addRequest:(MFURLRequestConfig*)config;
+
+- (NSURLSessionTask *)addRequest:(MFURLRequestConfig*)config;
+
 - (void)destroy;
 
 @end

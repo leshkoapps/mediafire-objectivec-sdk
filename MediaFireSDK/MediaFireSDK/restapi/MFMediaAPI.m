@@ -17,8 +17,29 @@
 #import "MFAPIURLRequestConfig.h"
 #import "MFAPI.h"
 #import "MFHTTPOptions.h"
+#import "MFRequestManager.h"
+
+@interface MFMediaAPI()
+
+@property (nonatomic,strong)MFRequestManager *requestManager;
+
+@end
+
 
 @implementation MFMediaAPI
+
+- (instancetype)init{
+    NSParameterAssert(NO);
+    return nil;
+}
+
+- (id)initWithRequestManager:(MFRequestManager *)requestManager {
+    self = [super init];
+    if (self) {
+        self.requestManager = requestManager;
+    }
+    return self;
+}
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-parameter"
@@ -140,10 +161,10 @@
         cb.onerror([MFErrorMessage nullField:@"options"]);
         return;
     }
-    MFAPIURLRequestConfig* config = [[MFAPIURLRequestConfig alloc] initWithOptions:options query:params];
+    MFAPIURLRequestConfig* config = [[MFAPIURLRequestConfig alloc] initWithOptions:options query:params config:self.requestManager.globalConfig];
     config.location = options[@"url"];
     
-    [MFRequestManager createRequest:config callbacks:cb];
+    [self.requestManager createRequest:config callbacks:cb];
 }
 
 //------------------------------------------------------------------------------

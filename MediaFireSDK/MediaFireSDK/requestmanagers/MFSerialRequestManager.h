@@ -10,11 +10,21 @@
 #import "MFSerialRequestManagerDelegate.h"
 @class MFSessionAPI;
 @class MFAPIURLRequestConfig;
+@class MFHTTP;
+@class MFRequestHandler;
+@class MFConfig;
+
 
 /**
  @brief The default request manager for MFAPIURLRequest objects.  Conforms to the MFSerialRequestManagerDelegate protocol.  Maintains a cache of 1 or more session tokens (serial tokens).  Also serves as the endpoint for logins.
  */
 @interface MFSerialRequestManager : NSObject <MFSerialRequestManagerDelegate>
+
+- (id)initWithRequestHandler:(MFRequestHandler *)requestHandler;
+
+- (MFRequestHandler *)requestHandler;
+
+- (MFConfig *)globalConfig;
 
 /**
  @brief An instance of the MFSessionAPI class.  Can be overidden to provide customized behaviors.
@@ -28,12 +38,12 @@
  of the connection caused by endSession. API call requests waiting for an
  available session token will receive an error with code ERRCODE_SESSION_CLOSED.
  */
-+ (void)endSession;
+- (void)endSession;
 
 /**
  @brief Returns true if 1 or more tokens is available.
  */
-+ (BOOL)hasSession;
+- (BOOL)hasSession;
 
 /**
  @brief Establishes a session with the MediaFire API via given credentials.  Should only be called once for an inactive session, once the first session token has been acquired, the SRM will automatically retrieve additional tokens up to the value in MFConfig.maxTokens.
@@ -43,7 +53,7 @@
  @param callbacks A dictionary containing an onload callback and onerror
  callback. See NSDictionary(Callbacks).
 */
-+ (void)login:(NSDictionary *)credentials callbacks:(NSDictionary *)callbacks;
+- (void)login:(NSDictionary *)credentials callbacks:(NSDictionary *)callbacks;
 
 /**
  @brief Frees a session token up for use.  
@@ -52,7 +62,7 @@
  
  @param response The MediaFire API response.
  */
-+ (void)releaseToken:(NSString*)token forResponse:(NSDictionary*) response;
+- (void)releaseToken:(NSString*)token forResponse:(NSDictionary*) response;
 
 /**
  @brief Adds a wrapped request to the queue.
@@ -72,11 +82,11 @@
  @param callbacks A dictionary containing an onload callback and onerror
  callback. See NSDictionary(Callbacks).
  */
-+ (void)createRequest:(MFAPIURLRequestConfig*)config callbacks:(NSDictionary *)callbacks;
+- (void)createRequest:(MFAPIURLRequestConfig*)config callbacks:(NSDictionary *)callbacks;
 
 /**
  @brief Purges a session token from the pool.
  */
-+ (void)abandonToken:(NSString*)token;
+- (void)abandonToken:(NSString*)token;
 
 @end

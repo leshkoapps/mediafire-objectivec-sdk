@@ -9,11 +9,17 @@
 #import <Foundation/Foundation.h>
 
 @class MFAPIURLRequestConfig;
+@class MFHTTP;
+
 
 /**
  @brief The most basic of the request managers.  Does not maintain any queues, does not track any tokens.  Provides the most basic functionality for MediaFire API requests that expect a JSON response.
  */
 @interface MFRequestHandler : NSObject
+
+- (instancetype)initWithHTTP:(MFHTTP *)http;
+
+- (MFHTTP *)HTTP;
 
 /**
  @brief Dispatches a request immediately.
@@ -23,7 +29,7 @@
  @param callbacks A dictionary containing an onload callback and onerror
  callback. See NSDictionary(Callbacks).
  */
-+ (void)createRequest:(MFAPIURLRequestConfig*)config callbacks:(NSDictionary*)callbacks;
+- (NSURLSessionTask *)createRequest:(MFAPIURLRequestConfig*)config callbacks:(NSDictionary*)callbacks;
 
 /**
  @brief Wraps a set of request callbacks to provide JSON parsing to the API response, and add some common error handlers.
@@ -33,6 +39,6 @@
  @param callbacks A dictionary containing an onload callback and onerror
  callback. See NSDictionary(Callbacks).
  */
-+ (NSDictionary*)getCallbacksForRequest:(NSURL*)url callbacks:(NSDictionary*)callbacks;
+- (NSDictionary*)getCallbacksForRequestURL:(NSURL*)url callbacks:(NSDictionary*)callbacks;
 
 @end

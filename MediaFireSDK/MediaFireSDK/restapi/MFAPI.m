@@ -29,17 +29,16 @@
         return;
     }
     
-    MFAPIURLRequestConfig* config = [[MFAPIURLRequestConfig alloc] initWithOptions:options query:params];
+    MFAPIURLRequestConfig* config = [[MFAPIURLRequestConfig alloc] initWithOptions:options query:params config:self.requestManager.globalConfig];
     if (config == nil) {
         cb.onerror(erm(nullField:@"config"));
         return;
     }
     config.location = [self formatLocation:options[HURL]];
 
-    
     [self setOverrides:config];
 
-    [MFRequestManager createRequest:config callbacks:cb];
+    [self.requestManager createRequest:config callbacks:cb];
 }
 
 

@@ -13,11 +13,39 @@
 #import "MFURLRequestConfig.h"
 #import "MFConfig.h"
 #import "MFHTTPClientDelegate.h"
+#import "MFConfig.h"
+
+@interface MFHTTP(){
+    MFConfig *_globalConfig;
+}
+
+@end
+
+
 
 @implementation MFHTTP
 
 //------------------------------------------------------------------------------
-+ (void)execute:(MFURLRequestConfig*)config {
+- (id)init {
+    NSParameterAssert(NO);
+    return nil;
+}
+
+- (instancetype)initWithConfig:(MFConfig *)config{
+    self = [super init];
+    if (self == nil) {
+        return nil;
+    }
+    _globalConfig = config;
+    return self;
+}
+
+- (MFConfig *)globalConfig{
+    return _globalConfig;
+}
+
+//------------------------------------------------------------------------------
+- (NSURLSessionTask *)execute:(MFURLRequestConfig*)config {
     if ([config.method isEqualToString:@"POST"]) {
 #if defined(DEBUG)
         mflog(@"POST %@\n%@",[config.url absoluteString], config.query);
@@ -28,25 +56,26 @@
         if ((config.body != nil) || [config.localPathForUpload absoluteString].length) {
             // upload a file from it's path on disk.
             config.url = [self addParams:config.query toUrl:config.url];
-            [MFHTTP uploadRequest:config];
+            return [self uploadRequest:config];
         } else {
             // Normal text POST.
             config.body = [NSData dataWithBytes:[config.query cStringUsingEncoding:NSUTF8StringEncoding] length:[config.query length]];
-            [MFHTTP standardRequest:config];
+            return [self standardRequest:config];
         }
     } else {
         config.url = [self addParams:config.query toUrl:config.url];
         mflog(@"GET %@",[config.url absoluteString]);
         if ([config.localPathForDownload absoluteString].length) {
-            [MFHTTP downloadRequest:config];
+            return [self downloadRequest:config];
         } else {
-            [MFHTTP standardRequest:config];
+            return [self standardRequest:config];
         }
     }
+    return nil;
 }
 
 //------------------------------------------------------------------------------
-+ (NSMutableURLRequest*)createRequestFromConfig:(MFURLRequestConfig*)config {
+- (NSMutableURLRequest*)createRequestFromConfig:(MFURLRequestConfig*)config {
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:config.url];
     [request setHTTPMethod:config.method];
     for (NSString* headerName in config.headers) {
@@ -56,27 +85,29 @@
 }
 
 //------------------------------------------------------------------------------
-+ (BOOL)attemptRequestThruCustomClient:(MFURLRequestConfig*)config {
+- (NSURLSessionTask *)attemptRequestThruCustomClient:(MFURLRequestConfig*)config {
     if (config.httpClientId.length) {
-        id client = [MFConfig httpClientById:config.httpClientId];
+        id client = [self.globalConfig httpClientById:config.httpClientId];
         if ([client conformsToProtocol:@protocol(MFHTTPClientDelegate)]) {
-            [client addRequest:config];
-            return true;
+            return [client addRequest:config];
         }
     }
-    return false;
+    return nil;
 }
 
 //------------------------------------------------------------------------------
-+ (void)downloadRequest:(MFURLRequestConfig*)config {
-    if ([self attemptRequestThruCustomClient:config]) {
-        return;
+- (NSURLSessionTask *)downloadRequest:(MFURLRequestConfig*)config {
+    NSURLSessionTask *customTask = [self attemptRequestThruCustomClient:config];
+    if (customTask!=nil) {
+        return customTask;
     }
     
     NSURL* localUrl = config.localPathForDownload;
     NSURLRequest* request = [self createRequestFromConfig:config];
-    [[[MFConfig defaultHttpClient] downloadTaskWithRequest:request completionHandler:^(NSURL* location, NSURLResponse* response, NSError* error) {
-        [MFConfig hideNetworkIndicator];
+    
+    __weak typeof (self) weakSelf = self;
+    NSURLSessionTask *task = [[self.globalConfig defaultHttpClient] downloadTaskWithRequest:request completionHandler:^(NSURL* location, NSURLResponse* response, NSError* error) {
+        [weakSelf.globalConfig hideNetworkIndicator];
 
         NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
         // Some NSURLSession error
@@ -103,27 +134,33 @@
             erm(badHTTP:httpResponse.statusCode message:@"Unknown error.");
             config.httpFail(nil, httpResponse.statusCode, nil);
         }
-    }] resume];
-    [MFConfig showNetworkIndicator];
+    }];
+    [self.globalConfig showNetworkIndicator];
+    [task resume];
+    return task;
 }
 
 //------------------------------------------------------------------------------
-+ (void)standardRequest:(MFURLRequestConfig*)config {
-    if ([self attemptRequestThruCustomClient:config]) {
-        return;
+- (NSURLSessionTask *)standardRequest:(MFURLRequestConfig*)config {
+    NSURLSessionTask *customTask = [self attemptRequestThruCustomClient:config];
+    if (customTask!=nil) {
+        return customTask;
     }
     NSMutableURLRequest* request = [self createRequestFromConfig:config];
     if ([config.method isEqualToString:@"POST"]) {
         [request setHTTPBody:config.body];
     }
-    [[[MFConfig defaultHttpClient] dataTaskWithRequest:request completionHandler:[self getCompletionHandlerFor:config]] resume];
-    [MFConfig showNetworkIndicator];
+    NSURLSessionTask *task = [[self.globalConfig defaultHttpClient] dataTaskWithRequest:request completionHandler:[self getCompletionHandlerFor:config]];
+    [self.globalConfig showNetworkIndicator];
+    [task resume];
+    return task;
 }
 
 //------------------------------------------------------------------------------
-+ (HTTPCompletionHandler)getCompletionHandlerFor:(MFURLRequestConfig*)config {
+- (HTTPCompletionHandler)getCompletionHandlerFor:(MFURLRequestConfig*)config {
+    __weak typeof (self) weakSelf = self;
     return ^(NSData* data, NSURLResponse* response, NSError* error) {
-        [MFConfig hideNetworkIndicator];
+        [weakSelf.globalConfig hideNetworkIndicator];
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
         NSString* responseText = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if (error != nil) {
@@ -145,30 +182,34 @@
 }
 
 //------------------------------------------------------------------------------
-+ (void)uploadRequest:(MFURLRequestConfig*)config {
-    if ([self attemptRequestThruCustomClient:config]) {
-        return;
+- (NSURLSessionTask *)uploadRequest:(MFURLRequestConfig*)config {
+    NSURLSessionTask *customTask = [self attemptRequestThruCustomClient:config];
+    if (customTask!=nil) {
+        return customTask;
     }
     NSURLRequest* request = [self createRequestFromConfig:config];
     NSFileManager *fileManager = [NSFileManager defaultManager];
 
     if (config.localPathForUpload != nil && ([fileManager fileExistsAtPath:config.localPathForUpload.path])) {
-        [[[MFConfig defaultHttpClient] uploadTaskWithRequest:request fromFile:config.localPathForUpload completionHandler: [MFHTTP getCompletionHandlerFor:config]] resume];
-        [MFConfig showNetworkIndicator];
-        return;
+        NSURLSessionTask *task = [[self.globalConfig defaultHttpClient] uploadTaskWithRequest:request fromFile:config.localPathForUpload completionHandler: [self getCompletionHandlerFor:config]];
+        [self.globalConfig showNetworkIndicator];
+        [task resume];
+        return task;
     }
     mflog(@"No file found for upload.");
     if (config.body != nil) {
-        [[[MFConfig defaultHttpClient] uploadTaskWithRequest:request fromData:config.body completionHandler: [MFHTTP getCompletionHandlerFor:config]] resume];
-        [MFConfig showNetworkIndicator];
-        return;
+        NSURLSessionTask *task = [[self.globalConfig defaultHttpClient] uploadTaskWithRequest:request fromData:config.body completionHandler: [self getCompletionHandlerFor:config]];
+        [self.globalConfig showNetworkIndicator];
+        [task resume];
+        return task;
     }
     mflog(@"No data found for upload.");
     config.httpFail(nil, 0, nil);
+    return nil;
 }
 
 //------------------------------------------------------------------------------
-+ (NSURL*)addParams:(NSString*)query toUrl:(NSURL*)url {
+- (NSURL*)addParams:(NSString*)query toUrl:(NSURL*)url {
     if (!query.length) {
         return url;
     }

@@ -8,6 +8,16 @@
 
 #import "MFCredentials.h"
 
+
+@interface MFCredentials(){
+    NSDictionary* tmpCreds;
+    bool validCreds;
+}
+
+@end
+
+
+
 @implementation MFCredentials
 
 NSString* const MFCRD_MF_EMAIL    = @"email";
@@ -21,34 +31,41 @@ NSString* const MFCRD_TYPE_MF     = @"mediafire";
 NSString* const MFCRD_TYPE_TW     = @"twitter";
 NSString* const MFCRD_TYPE_EKEY   = @"mediafire_ekey";
 
-static NSDictionary* tmpCreds;
-static bool validCreds = false;
+
+- (instancetype)init{
+    self = [super init];
+    if(self){
+        tmpCreds = nil;
+        validCreds = false;
+    }
+    return self;
+}
 
 //------------------------------------------------------------------------------
-+ (BOOL)purgeCredentials {
+- (BOOL)purgeCredentials {
     validCreds = false;
     tmpCreds = nil;
     return true;
 }
 
 //------------------------------------------------------------------------------
-+ (NSDictionary*)getCredentials {
+- (NSDictionary*)getCredentials {
     return tmpCreds;
 }
 
 //------------------------------------------------------------------------------
-+ (BOOL)isValid {
+- (BOOL)isValidCredentials {
     return validCreds;
 }
 
 //------------------------------------------------------------------------------
-+ (BOOL)validate {
+- (BOOL)validate {
     validCreds = true;
     return true;
 }
 
 //------------------------------------------------------------------------------
-+ (BOOL)setMediaFire:(NSString*)email withPassword:(NSString*)password {
+- (BOOL)setMediaFire:(NSString*)email withPassword:(NSString*)password {
     // sanity check
     if ( email == nil ) {
         return false;
@@ -63,7 +80,7 @@ static bool validCreds = false;
 }
 
 //------------------------------------------------------------------------------
-+ (BOOL)convertToEKey:(NSString*)ekey {
+- (BOOL)convertToEKey:(NSString*)ekey {
     if ( ekey == nil ) {
         return false;
     }
@@ -75,7 +92,7 @@ static bool validCreds = false;
 }
 
 //------------------------------------------------------------------------------
-+ (BOOL)setFacebook:(NSString*)token {
+- (BOOL)setFacebook:(NSString*)token {
     // sanity check
     if ( token == nil ) {
         return false;
@@ -87,7 +104,7 @@ static bool validCreds = false;
 }
 
 //------------------------------------------------------------------------------
-+ (BOOL)setTwitter:(NSString*)token withSecret:(NSString*)secret {
+- (BOOL)setTwitter:(NSString*)token withSecret:(NSString*)secret {
     // sanity check
     if ((token == nil) || (secret == nil)) {
         return false;

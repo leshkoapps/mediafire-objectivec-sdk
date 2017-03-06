@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class MFAPIURLRequestConfig;
-
+@class MFRequestManager;
 
 @interface MFAPIBase : NSObject
 
@@ -17,7 +17,7 @@
 @property(strong,nonatomic) NSString* httpClientId;
 @property(strong,nonatomic) NSDictionary* headers;
 
-- (id)initWithPath:(NSString*)path version:(NSString*)version;
+- (id)initWithPath:(NSString*)path version:(NSString*)version requestManager:(MFRequestManager *)requestManager;
 
 - (void)createRequest:(MFAPIURLRequestConfig*)config callbacks:(NSDictionary*)cb;
 
@@ -25,6 +25,7 @@
 
 - (NSString*)path;
 - (NSString*)version;
+- (MFRequestManager *)requestManager;
 
 - (void)setOverrides:(MFAPIURLRequestConfig*)config;
 

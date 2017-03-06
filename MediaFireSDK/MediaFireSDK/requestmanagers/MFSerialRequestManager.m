@@ -34,11 +34,17 @@
 #import "MFAPIURLRequestConfig.h"
 #import "MFRequestHandler.h"
 #import "MFSessionAPI.h"
+#import "MediaFireSDK.h"
 
 static int LCG_SECRET = 16807;
 static int LCG_MOD = 2147483647;
 
-@interface MFSerialRequestManager()
+
+@interface MFSerialRequestManager(){
+    MFRequestHandler *_requestHandler;
+}
+
+
 @property(strong, nonatomic) NSMutableDictionary* sessions;
 @property(strong, nonatomic) MFCircularQueue* available;
 @property(strong, nonatomic) MFCircularQueue* tokenRequests;
@@ -48,42 +54,40 @@ static int LCG_MOD = 2147483647;
 @property (nonatomic) NSUInteger suggestedTokens;
 @property (nonatomic) NSUInteger maxTokens;
 @property(strong, nonatomic) NSMutableDictionary* tempCredentials;
+
+
 @end
 
-static id instance = nil;
 
 @implementation MFSerialRequestManager
 
 @synthesize sessionAPI = _sessionAPI;
 
-//------------------------------------------------------------------------------
-- (id)init {
-    if (instance != nil) {
-        return instance;
-    }
-    
+- (instancetype)init{
+    NSParameterAssert(NO);
+    return nil;
+}
+
+- (id)initWithRequestHandler:(MFRequestHandler *)requestHandler{
     self = [super init];
-    if ( self == nil ) {
-        return nil;
+    if(self){
+        _requestHandler = requestHandler;
+        _suggestedTokens = 3;
+        _maxTokens       = 10;
+        _sessions        = nil;
+        _available       = [[MFCircularQueue alloc] init];
+        _tokenRequests   = [[MFCircularQueue alloc] init];
+        _statusLock     = [[NSLock alloc] init];
+        _sessionLock     = [[NSLock alloc] init];
+        _awaitingTokens  = 0;
     }
-    
-    _suggestedTokens = 3;
-    _maxTokens       = 10;
-    _sessions        = nil;
-    _available       = [[MFCircularQueue alloc] init];
-    _tokenRequests   = [[MFCircularQueue alloc] init];
-    _statusLock     = [[NSLock alloc] init];
-    _sessionLock     = [[NSLock alloc] init];
-    _awaitingTokens  = 0;
     return self;
 }
 
 //------------------------------------------------------------------------------
-- (id)initWithTokensFrom:(NSUInteger)suggested to:(NSUInteger)max {
-    if (instance != nil) {
-        return instance;
-    }
-    if ( [self init] != nil ) {
+- (instancetype)initWithTokensFrom:(NSUInteger)suggested to:(NSUInteger)max requestHandler:(MFRequestHandler *)requestHandler{
+    self = [self initWithRequestHandler:requestHandler];
+    if ( self) {
         if ( suggested == 0 ) {
             suggested = 1;
         }
@@ -93,7 +97,6 @@ static id instance = nil;
         _suggestedTokens = suggested;
         _maxTokens = max;
     }
-
     return self;
 }
 
@@ -105,32 +108,27 @@ static id instance = nil;
 }
 
 //------------------------------------------------------------------------------
-+ (instancetype)getInstance {
-    if (instance == nil) {
-        @synchronized(self) {
-            if (instance == nil) {
-                instance =[[self alloc] initWithTokensFrom:[[MFConfig instance] minTokens] to:[[MFConfig instance] maxTokens]];
-            }
-        }
-    }
-    return instance;
+
+- (MFConfig *)globalConfig{
+    return _requestHandler.HTTP.globalConfig;
+}
+
+- (MFRequestHandler *)requestHandler{
+    return _requestHandler;
+}
+
+- (MFCredentials *)credentialsDelegate{
+    return self.globalConfig.CredentialsDelegate;
 }
 
 //------------------------------------------------------------------------------
-+ (void)endSession {
-    [instance endSession];
-}
-
-+ (BOOL)hasSession {
-    return ([[instance sessions] count] > 0);
+- (BOOL)hasSession {
+    return ([[self sessions] count] > 0);
 }
 
 //------------------------------------------------------------------------------
-+ (void)destroy {
-    [instance endSession];
-    @synchronized(self) {
-        instance = nil;
-    }
+- (void)destroy {
+    [self endSession];
 }
 
 //==============================================================================
@@ -141,35 +139,38 @@ static id instance = nil;
 
 //------------------------------------------------------------------------------
 - (void)askForAdditionalSessionTokens {
-    NSDictionary* credentials = [[MFConfig credentialsDelegate] getCredentials];
+    NSDictionary* credentials = [[self credentialsDelegate] getCredentials];
     if ( credentials == nil ) {
        erm(noCredentials);
         return;
     }
     
+    __weak typeof (self) weakSelf = self;
+    
     // success callback
     MFCallback newTokenAvailable = ^(NSDictionary* response) {
-        [self.sessionLock lock];
-        self.awaitingTokens--;
-        [self.sessionLock unlock];
-        [self processNewToken:response];
+        [weakSelf.sessionLock lock];
+        weakSelf.awaitingTokens--;
+        [weakSelf.sessionLock unlock];
+        [weakSelf processNewToken:response];
         
-        if ( [self doesNeedMoreTokens] ) {
-            [self askForAdditionalSessionTokens];
+        if ( [weakSelf doesNeedMoreTokens] ) {
+            [weakSelf askForAdditionalSessionTokens];
         }
-        [self nextRequest];
+        [weakSelf nextRequest];
     };
     
+
     // failure callback
     MFCallback failedToGetToken = ^(NSDictionary * response) {
-        [self.sessionLock lock];
-        self.awaitingTokens--;
-        [self.sessionLock unlock];
+        [weakSelf.sessionLock lock];
+        weakSelf.awaitingTokens--;
+        [weakSelf.sessionLock unlock];
         erm(obtainTokenFailure:response);
         if ([MFErrorMessage isAuthenticationError:response]) {
-            MFConfig.authenticationFailureCallback(response);
+            weakSelf.globalConfig.authenticationFailureCallback(response);
         }
-        [self nextRequest];
+        [weakSelf nextRequest];
     };
     
     [self.sessionLock lock];
@@ -213,14 +214,13 @@ static id instance = nil;
 /*  Based on presence of new_key=yes in response, token may be updated.
  In any case, it is released for re-use. */
 //------------------------------------------------------------------------------
-+ (void)releaseToken:(NSString*)token forResponse:(NSDictionary*) response {
+- (void)releaseToken:(NSString*)token forResponse:(NSDictionary*) response {
     NSString* update_token_str = response[@"new_key"];
     BOOL updateToken = ( update_token_str != nil && [update_token_str isEqualToString:@"yes"] );
-    
     if ( updateToken ) {
-        [[self getInstance] releaseToken:token updateSecret:true];
+        [self releaseToken:token updateSecret:true];
     } else {
-        [[self getInstance] releaseToken:token updateSecret:false];
+        [self releaseToken:token updateSecret:false];
     }
 }
 
@@ -229,11 +229,6 @@ static id instance = nil;
     uint64_t secret = [tokenPacket[@"secret_key"] unsignedIntegerValue];
     secret = (secret * LCG_SECRET) % LCG_MOD;
     tokenPacket[@"secret_key"] = [NSNumber numberWithUnsignedInteger:(NSUInteger)secret];
-}
-
-//------------------------------------------------------------------------------
-+ (void)abandonToken:(NSString*)token {
-    [instance abandonToken:token];
 }
 
 //------------------------------------------------------------------------------
@@ -599,59 +594,58 @@ static id instance = nil;
         cb.onerror(erm(sessionClosed));
     }
 }
-//------------------------------------------------------------------------------
-+ (void)login:(NSDictionary*)credentials callbacks:(NSDictionary *)callbacks {
-    [[self getInstance] login:credentials callbacks:callbacks];
-}
 
 //------------------------------------------------------------------------------
 - (void)login:(NSDictionary*)credentials callbacks:(NSDictionary *)callbacks {
+    
+    __weak typeof (self) weakSelf = self;
+    
     // success callback
     MFCallback tokenAvailable = ^(NSDictionary * response) {
-        [self.sessionLock lock];
-        self.awaitingTokens--;
-        [self.sessionLock unlock];
-        [self processNewToken:response];
+        [weakSelf.sessionLock lock];
+        weakSelf.awaitingTokens--;
+        [weakSelf.sessionLock unlock];
+        [weakSelf processNewToken:response];
         
         // successful login, so mark credentials as valid
-        [[MFConfig credentialsDelegate] validate];
+        [[weakSelf.globalConfig CredentialsDelegate] validate];
         if ([credentials[@"type"] isEqualToString:MFCRD_TYPE_MF]) {
             id ekey = response[@"ekey"];
             if ((ekey != nil) && [ekey isKindOfClass:[NSString class]]) {
-                [[MFConfig credentialsDelegate] convertToEKey:ekey];
+                [[weakSelf.globalConfig CredentialsDelegate] convertToEKey:ekey];
             }
         }
-        if ( [self doesNeedMoreTokens] ) {
-            [self askForAdditionalSessionTokens];
+        if ( [weakSelf doesNeedMoreTokens] ) {
+            [weakSelf askForAdditionalSessionTokens];
         }
-        [self nextRequest];
+        [weakSelf nextRequest];
         callbacks.onload(response);
     };
     
     // failure callback
     MFCallback noToken = ^(NSDictionary * response) {
-        [self.sessionLock lock];
-        self.awaitingTokens--;
-        [self.sessionLock unlock];
+        [weakSelf.sessionLock lock];
+        weakSelf.awaitingTokens--;
+        [weakSelf.sessionLock unlock];
 
         if (!response) {
             // bad response, so generate a default error message
-            [self endSession];
+            [weakSelf endSession];
             callbacks.onerror(erm(nullField:@"login response"));
         } else {
             // handle specific error codes
             NSInteger code = [response[@"error"] integerValue];
             if ( code == ERRCODE_INVALID_CREDENTIALS ) {
-                [self endSession];
+                [weakSelf endSession];
             }
         }
-        [self nextRequest];
+        [weakSelf nextRequest];
         callbacks.onerror(response);
     };
     
     // attempt login using get_session_token
     if ( self.sessions != nil ) {
-    [self endSession];
+        [self endSession];
     }
     [self.sessionLock lock];
     self.awaitingTokens++;
@@ -667,7 +661,7 @@ static id instance = nil;
 //==============================================================================
 
 //------------------------------------------------------------------------------
-+ (void)createRequest:(MFAPIURLRequestConfig*)config callbacks:(NSDictionary*)callbacks {
+- (void)createRequest:(MFAPIURLRequestConfig*)config callbacks:(NSDictionary*)callbacks {
     // sanity checks
     if ( callbacks == nil) {
         callbacks = @{};
@@ -697,6 +691,7 @@ static id instance = nil;
 
     config.queryDict = [MFREST addResponseFormat:config.queryDict];
     
+    __weak typeof (self) weakSelf = self;
     NSDictionary * handleToken =
     @{ONERROR:callbacks.onerror,
       ONLOAD: ^(NSDictionary * response) {
@@ -704,33 +699,33 @@ static id instance = nil;
               callbacks.onerror(erm(nullField:@"parameters"));
               return;
           }
-          NSDictionary* apiWrapperCallbacks = [self getCallbacksForAPIRequest:config.url token:response[@"session_token"] callbacks:callbacks];
+          NSDictionary* apiWrapperCallbacks = [weakSelf getCallbacksForAPIRequest:config.url token:response[@"session_token"] callbacks:callbacks];
           config.httpSuccess = apiWrapperCallbacks[ONLOAD];
           config.httpFail = apiWrapperCallbacks[ONERROR];
           config.httpProgress = apiWrapperCallbacks[ONPROGRESS];
           config.httpReference = apiWrapperCallbacks[@"httpTask"];
           
-          [MFHTTP execute:config];
+          [[[weakSelf requestHandler] HTTP] execute:config];
       }};
     // Add this request to the queue so it can be processed when a token becomes available.
-    [[self getInstance] addRequest:config callbacks:handleToken];
+    [self addRequest:config callbacks:handleToken];
     return;
 }
 
 //------------------------------------------------------------------------------
-+ (NSDictionary*)getCallbacksForAPIRequest:(NSURL*)url token:(NSString*)sessionToken callbacks:(NSDictionary*)callbacks {
+- (NSDictionary*)getCallbacksForAPIRequest:(NSURL*)url token:(NSString*)sessionToken callbacks:(NSDictionary*)callbacks {
     
-    Class selfClass = self;
+    __weak typeof (self) weakSelf = self;
     
-    NSDictionary* customizedCallbacks = [MFRequestHandler getCallbacksForRequest:url callbacks:
+    NSDictionary* customizedCallbacks = [self.requestHandler getCallbacksForRequestURL:url callbacks:
     @{ONLOAD:^(NSDictionary* response) {
         id newKey = response[@"new_key"];
         if (((newKey == nil) || ![newKey isKindOfClass:[NSString class]]) && (response[@"blob"] == nil)) {
-            [[self getInstance] abandonToken:sessionToken];
+            [weakSelf abandonToken:sessionToken];
             callbacks.onerror(erm(invalidField:@"new key"));
             return;
         }
-        [selfClass releaseToken:sessionToken forResponse:response];
+        [weakSelf releaseToken:sessionToken forResponse:response];
         callbacks.onload(response);
     },
       ONERROR:^(NSDictionary* response) {
@@ -743,7 +738,7 @@ static id instance = nil;
           id originalResponse = errorMessage[@"response"];
           // if we can't parse response then we don't know if the token is still usable.
           if ((originalResponse == nil) || ![originalResponse isKindOfClass:[NSDictionary class]]) {
-              [[self getInstance] abandonToken:sessionToken];
+              [weakSelf abandonToken:sessionToken];
               callbacks.onerror(errorMessage);
               return;
           }
@@ -751,19 +746,19 @@ static id instance = nil;
           NSInteger code = [MFErrorMessage code:errorMessage];
           if ((code == ERRCODE_INVALID_SIGNATURE) || (code == ERRCODE_INVALID_SESSION_TOKEN)) {
               // This was a signature error, which is not recoverable.
-              [[self getInstance] abandonToken:sessionToken];
-              [[self getInstance] askForAdditionalSessionTokens];
+              [weakSelf abandonToken:sessionToken];
+              [weakSelf askForAdditionalSessionTokens];
               callbacks.onerror(errorMessage);
               return;
           }
           
           id newKey = originalResponse[@"new_key"];
           if ((newKey == nil) || ![newKey isKindOfClass:[NSString class]]) {
-              [selfClass abandonToken:sessionToken];
+              [weakSelf abandonToken:sessionToken];
           } else {
-              [selfClass releaseToken:sessionToken forResponse:originalResponse];
+              [weakSelf releaseToken:sessionToken forResponse:originalResponse];
           }
-            callbacks.onerror(errorMessage);
+          callbacks.onerror(errorMessage);
 
             return;
       }}];
@@ -784,7 +779,7 @@ static id instance = nil;
     MFSessionAPI* api=nil;
     [self.statusLock lock];
     if (_sessionAPI == nil) {
-        _sessionAPI = [[MFSessionAPI alloc] init];
+        _sessionAPI = [[MFSessionAPI alloc] initWithRequestManager:self.requestHandler.HTTP.globalConfig.sdk.RequestManager];
     }
     api = _sessionAPI;
     [self.statusLock unlock];

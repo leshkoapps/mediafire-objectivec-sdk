@@ -25,7 +25,7 @@
 /**
  @brief Returns an MFParallelRequestManager object initilialized with a given type.  Type can be @"upload" or @"image".
  */
-- (id)initWithType:(NSString*)type;
+- (id)initWithType:(NSString*)type http:(MFHTTP *)http;
 
 /**
  @brief Puts a request into the queue for dispatching.  If an action token is not set, will first acquire an action token before allowing any requests to proceed.
@@ -52,5 +52,7 @@
  available session token will receive an error with code ERRCODE_SESSION_CLOSED.
  */
 - (void)endSession;
+
+- (NSDictionary*)getCallbacksForRequestConfig:(MFAPIURLRequestConfig*)config callbacks:(NSDictionary*)callbacks;
 
 @end

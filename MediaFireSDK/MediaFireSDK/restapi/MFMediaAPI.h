@@ -7,10 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+
+@class MFRequestManager;
+
+
 /**
  @brief The interface for requesting media.
  */
 @interface MFMediaAPI : NSObject
+
+- (id)initWithRequestManager:(MFRequestManager *)requestManager;
 
 /**
  @brief Returns a partial url formatted for conversion server requests.

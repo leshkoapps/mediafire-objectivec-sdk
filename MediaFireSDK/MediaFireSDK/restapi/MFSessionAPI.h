@@ -13,12 +13,9 @@
  */
 @interface MFSessionAPI : MFAPIBase
 
-/**
- @brief Returns an MFSessionAPI object initialized with a given API version number.
- 
- @param version The version of the MediaFire API that the instance will default to.
- */
-- (id)initWithVersion:(NSString*)version;
+- (id)initWithRequestManager:(MFRequestManager *)requestManager;
+- (id)initWithVersion:(NSString*)version requestManager:(MFRequestManager *)requestManager;
+
 
 /**
  @brief Requests an action token.

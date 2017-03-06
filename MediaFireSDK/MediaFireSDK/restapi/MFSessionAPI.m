@@ -20,12 +20,17 @@
 #import "MFHTTP.h"
 #import "MFConfig.h"
 #import "MFHash.h"
+#import "MFRequestManager.h"
+
+
 
 @implementation MFSessionAPI
 
+
+
 //------------------------------------------------------------------------------
-- (id)init {
-    self = [self initWithVersion:[MFConfig defaultAPIVersionForModule:@"MFSessionAPI"]];
+- (id)initWithRequestManager:(MFRequestManager *)requestManager {
+    self = [self initWithVersion:[requestManager.globalConfig defaultAPIVersionForModule:@"MFSessionAPI"] requestManager:requestManager];
     if (self == nil) {
         return nil;
     }
@@ -33,14 +38,13 @@
 }
 
 //------------------------------------------------------------------------------
-- (id)initWithVersion:(NSString*)version {
-    self = [super initWithPath:@"user" version:version];
+- (id)initWithVersion:(NSString*)version requestManager:(MFRequestManager *)requestManager{
+    self = [super initWithPath:@"user" version:version requestManager:requestManager];
     if (self == nil) {
         return nil;
     }
     return self;
 }
-
 
 //------------------------------------------------------------------------------
 - (void)getSessionToken:(NSDictionary*)credentials callbacks:(NSDictionary*)callbacks {
@@ -60,17 +64,20 @@
     }
     
     // construct the request
-    MFAPIURLRequestConfig* config = [[MFAPIURLRequestConfig alloc] init];
+    MFAPIURLRequestConfig* config = [[MFAPIURLRequestConfig alloc] initWithOptions:options query:credentials config:self.requestManager.globalConfig];
     config.location = @"get_session_token.php";
     
     config.method = @"POST";
-    config.queryDict = [MFSessionAPI generateAuthenticationDictionaryFromCredentials:credentials version:@"2"];
+    config.queryDict = [self generateAuthenticationDictionaryFromCredentials:credentials version:@"2"];
     config.secure = true;
+    
+    
+    __weak typeof (self) weakSelf = self;
     
     NSDictionary* customizedCallbacks = @{ONERROR:callbacks.onerror,
                                            ONLOAD:^(NSDictionary* response) {
         // sanity check
-        if (![MFSessionAPI validateTokenResponse:response withVersion:@"2"]) {
+        if (![weakSelf validateTokenResponse:response withVersion:@"2"]) {
             callbacks.onerror(erm(nullField:@"new token response"));
             return;
         }
@@ -97,7 +104,7 @@
 #pragma clang diagnostic pop
 
 //------------------------------------------------------------------------------
-+ (BOOL)validateTokenResponse:(NSDictionary*)response withVersion:(NSString*)version {
+- (BOOL)validateTokenResponse:(NSDictionary*)response withVersion:(NSString*)version {
     // sanity check
     if (!response) {
         erm(nullField:@"response");
@@ -130,12 +137,12 @@
 }
 
 //------------------------------------------------------------------------------
-+ (NSString*)generateAuthenticationQueryStringFromCredentials:(NSDictionary*)credentials version:(NSString*)version {
+- (NSString*)generateAuthenticationQueryStringFromCredentials:(NSDictionary*)credentials version:(NSString*)version {
     return [[self generateAuthenticationDictionaryFromCredentials:credentials version:version] mapToUrlString];
 }
 
 //------------------------------------------------------------------------------
-+ (NSDictionary*)generateAuthenticationDictionaryFromCredentials:(NSDictionary*)credentials version:(NSString*)version {
+- (NSDictionary*)generateAuthenticationDictionaryFromCredentials:(NSDictionary*)credentials version:(NSString*)version {
     NSString*               signatureBase   = nil;
     NSString*               authType        = credentials[@"type"];
     NSMutableDictionary*    params          = [[NSMutableDictionary alloc] initWithCapacity:4];
@@ -169,12 +176,12 @@
         erm(invalidField:@"authentication type");
         return nil;
     }
-    NSString* appId = [[MFConfig instance] appId];
+    NSString* appId = [self.requestManager.globalConfig appId];
     if (appId == nil) {
         erm(nullField:@"application id");
         return nil;
     }
-    NSString* apiKey = [[MFConfig instance] apiKey];
+    NSString* apiKey = [self.requestManager.globalConfig apiKey];
     if (apiKey == nil) {
         apiKey = @"";
     }

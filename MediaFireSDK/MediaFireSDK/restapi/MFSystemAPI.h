@@ -13,12 +13,9 @@
  */
 @interface MFSystemAPI : MFAPI
 
-/**
- @brief Returns an MFSystemAPI object initialized with a given API version number.
- 
- @param version The version of the MediaFire API that the instance will default to.
- */
-- (id)initWithVersion:(NSString*)version;
+- (id)initWithRequestManager:(MFRequestManager *)requestManager;
+- (id)initWithVersion:(NSString*)version requestManager:(MFRequestManager *)requestManager;
+
 
 /**
  @brief Returns a list of all supported documents for editing.

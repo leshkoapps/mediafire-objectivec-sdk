@@ -10,6 +10,9 @@
 @class MFAPIURLRequestConfig;
 @class MFActionTokenAPI;
 @class MFSessionAPI;
+@class MFConfig;
+@class MFRequestHandler;
+
 
 /**
  @brief The central dispatcher for all MFAPIURLRequest objects.  Requests created by MFAPI subclasses  will almost always go thru the MFRequestManager.  This is a singleton class that routes API requests to the appropriate manager.
@@ -17,10 +20,11 @@
 
 @interface MFRequestManager : NSObject
 
-/**
- @brief Returns the MFRequestManager shared instance.
- */
-+ (MFRequestManager*)instance;
+- (id)initWithRequestHandler:(MFRequestHandler *)requestHandler;
+
+- (MFRequestHandler *)requestHandler;
+
+- (MFConfig *)globalConfig;
 
 /**
  @brief Dispatches a request to an appropriate manager.
@@ -30,7 +34,7 @@
  @param cb A dictionary containing an onload callback and onerror
  callback. See NSDictionary(Callbacks).
  */
-+ (void)createRequest:(MFAPIURLRequestConfig*)options callbacks:(NSDictionary*)cb;
+- (void)createRequest:(MFAPIURLRequestConfig*)options callbacks:(NSDictionary*)cb;
 
 /**
  @brief Establishes a session with the MediaFire API via email and password combination.
@@ -42,7 +46,7 @@
  @param callbacks A dictionary containing an onload callback and onerror
  callback. See NSDictionary(Callbacks).
  */
-+ (void)startSession:(NSString*)email withPassword:(NSString*)password andCallbacks:(NSDictionary*)callbacks;
+- (void)startSession:(NSString*)email withPassword:(NSString*)password andCallbacks:(NSDictionary*)callbacks;
 
 /**
  @brief Establishes a session with the MediaFire API via stored credentials.
@@ -50,7 +54,7 @@
  @param callbacks A dictionary containing an onload callback and onerror
  callback. See NSDictionary(Callbacks).
 */
-+ (void)startSessionWithCallbacks:(NSDictionary*)callbacks;
+- (void)startSessionWithCallbacks:(NSDictionary*)callbacks;
 
 /**
  @brief Establishes a session with the MediaFire API via facebook token.
@@ -60,29 +64,29 @@
  @param callbacks A dictionary containing an onload callback and onerror
  callback. See NSDictionary(Callbacks).
 */
-+ (void)startFacebookSession:(NSString*)authToken withCallbacks:(NSDictionary*)callbacks;
+- (void)startFacebookSession:(NSString*)authToken withCallbacks:(NSDictionary*)callbacks;
 
 /**
  @brief Purges all existing session tokens, disabling any further requests.
  */
-+ (void)endSession;
+- (void)endSession;
 
 /**
  @brief Returns true if 1 or more session tokens are available.
  */
-+ (BOOL)hasSession;
+- (BOOL)hasSession;
 
 /**
  @brief Destroys the MFRequestManager shared instance.
  */
-+ (void)destroy;
+- (void)destroy;
 
 /**
  @brief Overrides the MFSessionAPI instance used by the Serial Request Manager Delegate with a given instance.
  
  @param sessionAPI A customized instance of the MFSessionAPI class.
  */
-+ (void)setSessionTokenAPI:(MFSessionAPI*)sessionAPI;
+- (void)setSessionTokenAPI:(MFSessionAPI*)sessionAPI;
 
 /**
  @brief Overrides the MFActionTokenAPI instance used by the Parallel Request Manager for a specific type with a given instance.
@@ -91,6 +95,6 @@
  
  @param type A string identifier for the Parallel Request Manager to modify.  Can be set to @"upload" or @"image".
  */
-+ (void)setActionTokenAPI:(MFActionTokenAPI*)actionAPI forType:(NSString*)type;
+- (void)setActionTokenAPI:(MFActionTokenAPI*)actionAPI forType:(NSString*)type;
 
 @end

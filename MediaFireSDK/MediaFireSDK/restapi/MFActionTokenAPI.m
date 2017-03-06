@@ -10,12 +10,26 @@
 #import "MFAPIURLRequestConfig.h"
 #import "MFConfig.h"
 #import "MFSerialRequestManagerDelegate.h"
+#import "MFRequestManager.h"
+
+
+@interface MFActionTokenAPI(){
+    id<MFSerialRequestManagerDelegate> _serialRequestDelegate;
+}
+
+@end
+
 
 @implementation MFActionTokenAPI
 
+- (instancetype)init{
+    NSParameterAssert(NO);
+    return nil;
+}
+
 //------------------------------------------------------------------------------
-- (id)init {
-    self = [self initWithVersion:[MFConfig defaultAPIVersionForModule:@"MFActionTokenAPI"]];
+- (id)initWithRequestManager:(MFRequestManager *)requestManager {
+    self = [self initWithVersion:[requestManager.globalConfig defaultAPIVersionForModule:@"MFActionTokenAPI"] requestManager:requestManager];
     if (self == nil) {
         return nil;
     }
@@ -23,11 +37,14 @@
 }
 
 //------------------------------------------------------------------------------
-- (id)initWithVersion:(NSString*)version {
-    self = [super initWithPath:@"user" version:version];
+- (id)initWithVersion:(NSString*)version requestManager:(MFRequestManager *)requestManager{
+    self = [super initWithPath:@"user" version:version requestManager:requestManager];
     if (self == nil) {
         return nil;
     }
+    
+    _serialRequestDelegate = [[[self.requestManager.globalConfig serialRequestDelegate] alloc] initWithRequestHandler:requestManager.requestHandler];
+    
     return self;
 }
 
@@ -47,7 +64,7 @@
     config.secure = true;
     config.queryDict = parameters;
     [self setOverrides:config];
-    [[MFConfig serialRequestDelegate] createRequest:config callbacks:callbacks];
+    [_serialRequestDelegate createRequest:config callbacks:callbacks];
 }
 #pragma clang diagnostic pop
 

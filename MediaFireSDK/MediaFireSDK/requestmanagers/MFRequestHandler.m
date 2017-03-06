@@ -15,14 +15,39 @@
 #import "NSDictionary+MapObject.h"
 #import "MFErrorLog.h"
 
+
+@interface MFRequestHandler(){
+    MFHTTP *_HTTP;
+}
+
+@end
+
+
 static int LOG_TRUNCATE_AMOUNT = 256;
 
 typedef void (^SMRestCallback)(id responseText, NSInteger status, NSDictionary* downloaded);
 
 @implementation MFRequestHandler
 
+- (instancetype)init{
+    NSParameterAssert(NO);
+    return nil;
+}
+
+- (instancetype)initWithHTTP:(MFHTTP *)http{
+    self = [super init];
+    if(self){
+        _HTTP = http;
+    }
+    return self;
+}
+
+- (MFHTTP *)HTTP{
+    return _HTTP;
+}
+
 //------------------------------------------------------------------------------
-+ (void)createRequest:(MFAPIURLRequestConfig*)config callbacks:(NSDictionary*)callbacks {
+- (NSURLSessionTask *)createRequest:(MFAPIURLRequestConfig*)config callbacks:(NSDictionary*)callbacks {
     if ( callbacks == nil) {
         callbacks = [[NSDictionary alloc] init];
     }
@@ -30,26 +55,25 @@ typedef void (^SMRestCallback)(id responseText, NSInteger status, NSDictionary* 
     config.url = [config generateURL];
     if (config.url == nil) {
         callbacks.onerror(erm(nullField:@"url"));
-        return;
+        return nil;
     }
     config.queryDict = [MFREST addResponseFormat:config.queryDict];
     config.queryDict = [config.queryDict urlEncode];
     config.query = [config.queryDict mapToUrlString];
     
-    NSDictionary* apiWrapperCallbacks = [MFRequestHandler getCallbacksForRequest:config.url callbacks:callbacks];
+    NSDictionary* apiWrapperCallbacks = [self getCallbacksForRequestURL:config.url callbacks:callbacks];
     config.httpSuccess = apiWrapperCallbacks[ONLOAD];
     config.httpFail = apiWrapperCallbacks[ONERROR];
     config.httpProgress = apiWrapperCallbacks[ONPROGRESS];
     config.httpReference = apiWrapperCallbacks[@"httpTask"];
     
-    [MFHTTP execute:config];
-    
+    return [self.HTTP execute:config];
 }
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-parameter"
 //------------------------------------------------------------------------------
-+ (NSDictionary*)getCallbacksForRequest:(NSURL*)url callbacks:(NSDictionary*)callbacks {
+- (NSDictionary*)getCallbacksForRequestURL:(NSURL*)url callbacks:(NSDictionary*)callbacks {
     
     SMRestCallback successCallback = ^(id response, NSInteger status, NSDictionary * downloaded) {
         if ((downloaded != nil) && (downloaded[@"blob"] != nil) && (response == nil)) {

@@ -10,12 +10,14 @@
 #import "NSDictionary+MapObject.h"
 #import "MFConfig.h"
 #import "MFHTTPOptions.h"
+#import "MFRequestManager.h"
 
 @implementation MFContactAPI
 
+
 //------------------------------------------------------------------------------
-- (id)init {
-    self = [self initWithVersion:[MFConfig defaultAPIVersionForModule:@"MFContactAPI"]];
+- (id)initWithRequestManager:(MFRequestManager *)requestManager {
+    self = [self initWithVersion:[requestManager.globalConfig defaultAPIVersionForModule:@"MFContactAPI"] requestManager:requestManager];
     if (self == nil) {
         return nil;
     }
@@ -23,14 +25,13 @@
 }
 
 //------------------------------------------------------------------------------
-- (id)initWithVersion:(NSString*)version {
-    self = [super initWithPath:@"contact" version:version];
+- (id)initWithVersion:(NSString*)version requestManager:(MFRequestManager *)requestManager{
+    self = [super initWithPath:@"contact" version:version requestManager:requestManager];
     if (self == nil) {
         return nil;
     }
     return self;
 }
-
 
 //------------------------------------------------------------------------------
 - (void)add:(NSDictionary*)parameters callbacks:(NSDictionary*)cb {

@@ -19,6 +19,7 @@
 #import "MFAPIURLRequestConfig.h"
 #import "MFRequestHandler.h"
 #import "MFActionTokenAPI.h"
+#import "MediaFireSDK.h"
 
 static NSString* DEFAULT_TYPE = @"image";
 const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel";
@@ -46,17 +47,19 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
 
 //------------------------------------------------------------------------------
 - (id)init {
-    return [self initWithType:DEFAULT_TYPE];
+    NSParameterAssert(NO);
+    return nil;
 }
 
 //------------------------------------------------------------------------------
-- (id)initWithType:(NSString*)type {
 
-    if ([MFConfig instance] == nil) {
+- (id)initWithType:(NSString*)type http:(MFHTTP *)http{
+
+    if ([http globalConfig] == nil) {
         return nil;
     }
     
-    self = [super init];
+    self = [super initWithHTTP:http];
     if ( self == nil ) {
         return nil;
     }
@@ -131,11 +134,11 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
           config.queryDict = [config.queryDict merge:@{@"session_token" : response[@"session_token"]}];
           config.queryDict = [config.queryDict urlEncode];
           config.query = [config.queryDict mapToUrlString];
-          NSDictionary* apiWrapperCallbacks = [asyncSelf getCallbacksForRequest:config callbacks:callbacks];
+          NSDictionary* apiWrapperCallbacks = [asyncSelf getCallbacksForRequestConfig:config callbacks:callbacks];
           config.httpSuccess = apiWrapperCallbacks[ONLOAD];
           config.httpFail = apiWrapperCallbacks[ONERROR];
           config.httpProgress = apiWrapperCallbacks[ONPROGRESS];
-          [MFHTTP execute:config];
+          [asyncSelf.HTTP execute:config];
       }};
     // All requests must go in the queue for processing.
     [self queueRequest:config callbacks:handleToken];
@@ -265,14 +268,14 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
             return;
         }
         
-        NSString* token= self.token;
+        NSString* token= bself.token;
         
         if ([bself queueIsEmpty]) {
             // No requests to process at this time.
             return;
         }
         
-        NSDictionary* request = [self getNextRequestFromQueue];
+        NSDictionary* request = [bself getNextRequestFromQueue];
         // sanity check.  Shouldn't be nil anyway.
         if ( request == nil ) {
             return;
@@ -304,7 +307,7 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
 }
 
 //------------------------------------------------------------------------------
-- (NSDictionary*)getCallbacksForRequest:(MFAPIURLRequestConfig*)config callbacks:(NSDictionary*)callbacks {
+- (NSDictionary*)getCallbacksForRequestConfig:(MFAPIURLRequestConfig*)config callbacks:(NSDictionary*)callbacks {
     
     __weak MFParallelRequestManager* bself = self;
     
@@ -323,7 +326,7 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
         return;
       }};
     
-    return [MFRequestHandler getCallbacksForRequest:config.url callbacks:customizedCallbacks];
+    return [super getCallbacksForRequestURL:config.url callbacks:customizedCallbacks];
 }
 
 
@@ -434,7 +437,7 @@ const char* MF_PARALLEL_REQUEST_DISPATCH_QUEUE = "com.mediafire.api.req.parallel
     MFActionTokenAPI* api=nil;
     [self.tokenLock lock];
     if (_actionAPI == nil) {
-        _actionAPI = [[MFActionTokenAPI alloc] init];
+        _actionAPI = [[MFActionTokenAPI alloc] initWithRequestManager:self.HTTP.globalConfig.sdk.RequestManager];
     }
     api = _actionAPI;
     [self.tokenLock unlock];

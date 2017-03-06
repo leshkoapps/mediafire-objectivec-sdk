@@ -64,21 +64,21 @@ typedef void (^StandardCallback)(NSDictionary* response);
 //==============================================================================
 
 //------------------------------------------------------------------------------
-- (id)init {
-    self = [super init];
-    if (self == nil) {
-        return nil;
-    }
-    return self;
+- (instancetype)init{
+    NSParameterAssert(NO);
+    return nil;
 }
+
 
 //------------------------------------------------------------------------------
 - (id)initWithUploadAPI:(MFUploadAPI*)api {
-    self = [self init];
-    if (api == nil) {
-        _api = [[MFUploadAPI alloc] init];
-    } else {
-        _api = api;
+    self = [super init];
+    if(self){
+        if (api == nil) {
+            _api = [[MFUploadAPI alloc] init];
+        } else {
+            _api = api;
+        }
     }
     return self;
 }

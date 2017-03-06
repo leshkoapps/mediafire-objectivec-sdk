@@ -13,12 +13,18 @@
 #import "NSDictionary+MapObject.h"
 #import "MFHTTPOptions.h"
 #import "MFConfig.h"
+#import "MFRequestManager.h"
 
 @implementation MFUploadAPI
 
+- (instancetype)init{
+    NSParameterAssert(NO);
+    return nil;
+}
+
 //------------------------------------------------------------------------------
-- (id)init {
-    self = [self initWithVersion:[MFConfig defaultAPIVersionForModule:@"MFUploadAPI"]];
+- (id)initWithRequestManager:(MFRequestManager *)requestManager {
+    self = [self initWithVersion:[requestManager.globalConfig defaultAPIVersionForModule:@"MFUploadAPI"] requestManager:requestManager];
     if (self == nil) {
         return nil;
     }
@@ -26,8 +32,8 @@
 }
 
 //------------------------------------------------------------------------------
-- (id)initWithVersion:(NSString*)version {
-    self = [super initWithPath:@"upload" version:version];
+- (id)initWithVersion:(NSString*)version requestManager:(MFRequestManager *)requestManager{
+    self = [super initWithPath:@"upload" version:version requestManager:requestManager];
     if (self == nil) {
         return nil;
     }
