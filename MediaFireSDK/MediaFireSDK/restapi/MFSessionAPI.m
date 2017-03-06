@@ -64,7 +64,7 @@
     }
     
     // construct the request
-    MFAPIURLRequestConfig* config = [[MFAPIURLRequestConfig alloc] initWithOptions:options query:credentials config:self.requestManager.globalConfig];
+    MFAPIURLRequestConfig* config = [[MFAPIURLRequestConfig alloc] initWithOptions:nil query:nil config:self.requestManager.globalConfig];
     config.location = @"get_session_token.php";
     
     config.method = @"POST";

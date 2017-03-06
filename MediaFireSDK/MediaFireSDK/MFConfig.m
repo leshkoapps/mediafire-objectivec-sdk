@@ -27,7 +27,7 @@
 @property (nonatomic,strong) id<MFNetworkIndicatorDelegate>NetworkIndicatorDelegate;
 @property (strong, nonatomic) NSMutableDictionary* httpClients;
 @property (strong, nonatomic) NSLock* opLock;
-@property (strong, nonatomic) NSURLSession* defaultHttpClient;
+@property (strong, nonatomic) NSURLSession* defaultHttpClientObj;
 @property (strong, nonatomic) NSString* defaultAPIVersion;
 @property (strong, nonatomic) NSDictionary* defaultAPIVersions;
 @property (strong, nonatomic) MFCallback authFailureCallback;
@@ -130,7 +130,7 @@ NSString* const MFCONF_SSL              = @"prefer_ssl";
     }
     
     if (config[MFCONF_HTTPCLIENT] != nil) {
-        _defaultHttpClient = [NSURLSession sessionWithConfiguration:config[MFCONF_HTTPCLIENT]];
+        _defaultHttpClientObj = [NSURLSession sessionWithConfiguration:config[MFCONF_HTTPCLIENT]];
     }
     
     if (config[MFCONF_AUTHFAIL_CB] != nil) {
@@ -267,8 +267,8 @@ NSString* const MFCONF_SSL              = @"prefer_ssl";
 
 //------------------------------------------------------------------------------
 - (NSURLSession*)defaultHttpClient {
-    if (self.defaultHttpClient != nil) {
-        return self.defaultHttpClient;
+    if (self.defaultHttpClientObj != nil) {
+        return self.defaultHttpClientObj;
     } else {
         return [NSURLSession sharedSession];
     }
