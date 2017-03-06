@@ -93,6 +93,10 @@
     return sdk;
 }
 
+- (void)dealloc{
+    
+}
+
 //------------------------------------------------------------------------------
 - (void)startSession:(NSString*)email withPassword:(NSString*)password andCallbacks:(NSDictionary*)callbacks {
     [self.requestManager startSession:email withPassword:password andCallbacks:callbacks];
