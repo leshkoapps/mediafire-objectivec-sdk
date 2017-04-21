@@ -134,6 +134,8 @@
  */
 - (NSDictionary*)optionsForPollUpload;
 
-
+@property (nonatomic,assign,readonly) long     unitCount;
+@property (nonatomic,assign,readonly) long     unitSize;
+@property (nonatomic,assign,readonly) int     lastUnit;
 
 @end

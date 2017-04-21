@@ -13,9 +13,7 @@
 #import "MFRequestManager.h"
 
 
-@interface MFActionTokenAPI(){
-    id<MFSerialRequestManagerDelegate> _serialRequestDelegate;
-}
+@interface MFActionTokenAPI()
 
 @end
 
@@ -42,9 +40,6 @@
     if (self == nil) {
         return nil;
     }
-    
-    _serialRequestDelegate = [[[self.requestManager.globalConfig serialRequestDelegate] alloc] initWithRequestHandler:requestManager.requestHandler];
-    
     return self;
 }
 
@@ -58,13 +53,13 @@
 //------------------------------------------------------------------------------
 - (void)getActionToken:(NSDictionary*)options query:(NSDictionary *)parameters callbacks:(NSDictionary *)callbacks {
     // put all action requests of this type on hold until we get a new token.
-    MFAPIURLRequestConfig* config = [[MFAPIURLRequestConfig alloc]init];
+    MFAPIURLRequestConfig* config = [[MFAPIURLRequestConfig alloc] initWithOptions:options query:parameters config:self.requestManager.globalConfig];
     config.location = [self formatLocation:@"get_action_token.php"];
     config.method = @"POST";
     config.secure = true;
     config.queryDict = parameters;
     [self setOverrides:config];
-    [_serialRequestDelegate createRequest:config callbacks:callbacks];
+    [self.requestManager.serialRequestDelegate createRequest:config callbacks:callbacks];
 }
 #pragma clang diagnostic pop
 

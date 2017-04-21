@@ -12,6 +12,7 @@
 @class MFSessionAPI;
 @class MFConfig;
 @class MFRequestHandler;
+@protocol MFSerialRequestManagerDelegate;
 
 
 /**
@@ -96,5 +97,9 @@
  @param type A string identifier for the Parallel Request Manager to modify.  Can be set to @"upload" or @"image".
  */
 - (void)setActionTokenAPI:(MFActionTokenAPI*)actionAPI forType:(NSString*)type;
+
+
+@property(strong,nonatomic,readonly) NSMutableDictionary* parallelRequests;
+@property(strong,nonatomic,readonly) id<MFSerialRequestManagerDelegate> serialRequestDelegate;
 
 @end
