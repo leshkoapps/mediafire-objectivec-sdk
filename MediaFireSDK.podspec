@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/MediaFire/mediafire-objectivec-sdk"
   s.license      = 'Apache-2.0'
   s.author       = { "MediaFire" => "https://www.mediafire.com/" }
-  s.source       = { :git => "https://github.com/leshkoapps/mediafire-objectivec-sdk.git", :branch => 'master' }
+  s.source       = { :git => "https://github.com/leshkoapps/mediafire-objectivec-sdk.git" }
   s.ios.deployment_target = '7.0'
   s.source_files = 'MediaFireSDK/*.{h,m}', 'MediaFireSDK/categories/*.{h,m}', 'MediaFireSDK/httpclient/*.{h,m}', 'MediaFireSDK/protocols/*.{h,m}', 'MediaFireSDK/requestmanagers/*.{h,m}', 'MediaFireSDK/restapi/*.{h,m}', 'MediaFireSDK/utils/*.{h,m}'
   s.requires_arc = true
