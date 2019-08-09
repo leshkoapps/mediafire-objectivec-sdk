@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
   s.version      = "1.0.1"
   s.summary      = "MediaFire's Objective-C SD. Leverage the MediaFire Platform to connect with millions of MediaFire users around the world and add powerful features to your iOS or Mac OSX app."
   s.homepage     = "https://github.com/MediaFire/mediafire-objectivec-sdk"
-  s.license      = 'MIT'
+  s.license      = 'Apache-2.0'
   s.author       = { "MediaFire" => "https://www.mediafire.com/" }
   s.source       = { :git => "https://github.com/leshkoapps/mediafire-objectivec-sdk.git" }
   s.ios.deployment_target = '7.0'
