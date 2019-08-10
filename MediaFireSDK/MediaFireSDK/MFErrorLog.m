@@ -10,6 +10,10 @@
 
 extern void MFCaptureLogMessage(NSString* message);
 
+void MFCaptureLogMessage(NSString* message){
+    NSLog(@"%@", message);
+}
+
 @implementation MFErrorLog
 
 //------------------------------------------------------------------------------
